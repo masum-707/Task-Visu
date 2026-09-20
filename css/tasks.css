@@ -1,0 +1,46 @@
+* {
+    margin: 5px;
+    padding: 5px;
+    font-family: sans-serif;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+.navbar button {
+    background: red;
+    color: white;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.searchbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.searchbar button {
+
+    background: green;
+    font-weight: bolder;
+    color: white;
+    cursor: pointer;
+    padding: 5px;
+}
+table{
+width: 100%;
+border-collapse: collapse;
+border: 1,solid;
+
+}
+th,td{
+border: 1px solid black;
+padding: 5px;
+text-align: center;
+}
