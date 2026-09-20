@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Visu Lite</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <div class="card">
+        <h1>Schertech</h1>
+        <h1>TaskVisu Lite</h1>
+        <form id="login-form">
+          <label for="username">Username </label>
+          <input
+            autocomplete="username"
+            type="text"
+            id="username"
+            required
+            placeholder="Enter your username"
+          />
+          <br />
+          <span class="errorText" id="username-error-message"></span>
+          <br />
+          <label for="password">Password</label>
+          <input
+            autocomplete="current-password"
+            type="password"
+            id="password"
+            required
+            placeholder="Enter your password"
+          />
+          <br />
+          <span class="errorText" id="password-error-message"></span>
+
+          <br />
+          <button type="submit" id="login-button">Log in</button>
+        </form>
+      </div>
+    </main>
+    <script type="module" src="js/config.js"></script>
+    <script type="module" src="js/login.js"></script>
+  </body>
+</html>
