@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tasks</title>
+    <link rel="stylesheet" href="css/tasks.css" />
+  </head>
+  <body>
+    <header class="navbar">
+      <p>User: <span id="currentUser">UserName</span></p>
+      <button id="log-out" type="button">Logout</button>
+    </header>
+    <main>
+      <div class="searchbar">
+        <input type="text" placeholder="Search..." /> <button>+New Task</button>
+      </div>
+      <table>
+        <thead>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Responsible</th>
+          <th>Priority</th>
+          <th>End</th>
+        </thead>
+        <tbody id="tablebody"></tbody>
+      </table>
+      <div id="form-container">
+        <h1>Task Information</h1>
+        <form id="task-Form">
+          <div>
+            <label for="Name">Name</label>
+            <input type="text" id="name" required />
+          </div>
+          <div>
+            <label for="isActive">isActive</label>
+            <input
+              type="radio"
+              id="active"
+              value="true"
+              name="ActiveStatus"
+              required
+            />true
+            <input
+              type="radio"
+              id="inActive"
+              value="false"
+              name="ActiveStatus"
+            />false
+          </div>
+
+          <div>
+            <label for="completion">completion</label>
+            <input type="number" max="100" min="0" />
+          </div>
+          <div>
+            <label for="Responsible">Responsible Id</label>
+            <input type="text" required />
+          </div>
+          <div>
+            <label for="startTime">Task Start</label>
+            <input type="time" />
+          </div>
+          <div>
+            <label for="taskEnd">Task End</label>
+            <input type="time" />
+          </div>
+          <div>
+            <label for="description">Description</label>
+            <textarea id="description"></textarea>
+          </div>
+          <div>
+            <label for="task-priority">Task Priority</label>
+            <input type="number" />
+          </div>
+          <button type="submit" id="submit">save</button>
+          <button id="cancel">cancel</button>
+        </form>
+      </div>
+    </main>
+    <script type="module" src="js/logout.js"></script>
+    <script type="module" src="js/task.form.js"></script>
+  </body>
+</html>
