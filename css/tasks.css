@@ -13,9 +13,15 @@
 
 .navbar button {
     background: red;
+}
+/* common button */
+button{
+    background-color:rgb(116, 109, 109);
+    font-weight: bolder;
     color: white;
-    padding: 5px;
     cursor: pointer;
+    padding: 8px;
+    border-radius: 5px;
 }
 
 .searchbar {
@@ -26,21 +32,39 @@
 }
 
 .searchbar button {
-
     background: green;
-    font-weight: bolder;
-    color: white;
-    cursor: pointer;
-    padding: 5px;
 }
-table{
-width: 100%;
+.table{
+position: relative;
+width: 100% ;
 border-collapse: collapse;
-border: 1,solid;
-
+border: 1px solid black;
+overflow: auto;
+overscroll-behavior-x: contain;
 }
 th,td{
 border: 1px solid black;
 padding: 5px;
 text-align: center;
+
+}
+
+.footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+
+tr{
+cursor: pointer;
+}
+tr:hover{
+background-color: bisque;
+color: black;
+}
+
+.delete-btn{
+background-color: red;
 }
