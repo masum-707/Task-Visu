@@ -1,5 +1,6 @@
 import { saveSession } from "./utils.js";
-
+import { login } from "./api.js";
+import { ApiError } from "./error.js";
 // console.log("login file connected");
 const usernameError = document.getElementById("username-error-message");
 const passwordError = document.getElementById("password-error-message");
@@ -23,15 +24,16 @@ loginForm.addEventListener("submit", async (e) => {
   loginBtn.disable = true;
   loginBtn.textContent = "Signing in....";
   try {
-    const response = await login();
+    const response = await login(userName, password);
+    console.log(response);
     if (!response.ok) {
       throw new ApiError(
         "Wrong username or password\n Please try again",
         response.status,
       );
     }
-    const result = response.json();
-    saveSession(result.token, result.username);
+    const result = await response.json();
+    saveSession(result.token, result.user.username);
     window.location.href = "tasks.html";
   } catch (e) {
     console.log(e.message, e.status);
