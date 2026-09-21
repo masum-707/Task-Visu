@@ -8,29 +8,41 @@
   </head>
   <body>
     <header class="navbar">
-      <p>User: <span id="currentUser">UserName</span></p>
+      <p>User:<span id="currentUser">UserName</span></p>
       <button id="log-out" type="button">Logout</button>
     </header>
     <main>
       <div class="searchbar">
         <input type="text" placeholder="Search..." /> <button>+New Task</button>
       </div>
-      <table>
+      <table class="table">
         <thead>
+          <th>Active</th>
           <th>ID</th>
-          <th>Name</th>
+          <th>Task Name</th>
           <th>Responsible</th>
+          <th>Creator</th>
           <th>Priority</th>
-          <th>End</th>
+          <th>End Date</th>
+          <th>Completion</th>
+          <th>Action</th>
         </thead>
         <tbody id="tablebody"></tbody>
       </table>
+      <div class="footer">
+        <p>Total tasks: <span id="total-task"></span></p>
+        <div>
+          <button id="previous-btn">Previous</button> page:
+          <span id="current-page"></span>
+          <button id="next-btn">Next</button>
+        </div>
+      </div>
       <div id="form-container">
-        <h1>Task Information</h1>
         <form id="task-Form">
+          <h1>Task Information</h1>
           <div>
-            <label for="Name">Name</label>
-            <input type="text" id="name" required />
+            <label for="TaskName">Task Name</label>
+            <input type="text" id="task-name" required />
           </div>
           <div>
             <label for="isActive">isActive</label>
@@ -55,7 +67,7 @@
           </div>
           <div>
             <label for="Responsible">Responsible Id</label>
-            <input type="text" required />
+            <input type="text" name="Responsible" required />
           </div>
           <div>
             <label for="startTime">Task Start</label>
@@ -80,5 +92,7 @@
     </main>
     <script type="module" src="js/logout.js"></script>
     <script type="module" src="js/task.form.js"></script>
+    <script type="module" src="js/task.list.js"></script>
+    <script type="module" src="js/api.js"></script>
   </body>
 </html>
