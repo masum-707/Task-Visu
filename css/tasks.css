@@ -16,7 +16,7 @@
 }
 /* common button */
 button{
-    background-color:rgb(116, 109, 109);
+    background-color:rgb(111, 65, 209);
     font-weight: bolder;
     color: white;
     cursor: pointer;
@@ -67,4 +67,17 @@ color: black;
 
 .delete-btn{
 background-color: red;
+}
+
+.no-Task{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bolder;
+    font-size: 50px;
+}
+ button:disabled{
+background-color: rgb(105, 80, 80);
+cursor:not-allowed;
+opacity: .5;
 }

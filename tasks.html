@@ -13,28 +13,34 @@
     </header>
     <main>
       <div class="searchbar">
-        <input type="text" placeholder="Search..." /> <button>+New Task</button>
+        <input id="searchbar" type="search" placeholder="Search..." />
+        <button>+New Task</button>
       </div>
-      <table class="table">
-        <thead>
-          <th>Active</th>
-          <th>ID</th>
-          <th>Task Name</th>
-          <th>Responsible</th>
-          <th>Creator</th>
-          <th>Priority</th>
-          <th>End Date</th>
-          <th>Completion</th>
-          <th>Action</th>
-        </thead>
-        <tbody id="tablebody"></tbody>
-      </table>
-      <div class="footer">
-        <p>Total tasks: <span id="total-task"></span></p>
-        <div>
-          <button id="previous-btn">Previous</button> page:
-          <span id="current-page"></span>
-          <button id="next-btn">Next</button>
+      <h1 style="display: none" class="no-Task">No Task Available</h1>
+      <div id="table-container">
+        <table class="table">
+          <thead>
+            <th>Active</th>
+            <th>ID</th>
+            <th>Task Name</th>
+            <th>Description</th>
+            <th>Responsible</th>
+            <th>Creator</th>
+            <th>Priority</th>
+            <th>End Date</th>
+            <th>Completion</th>
+            <th>OverDue</th>
+            <th>Action</th>
+          </thead>
+          <tbody id="tablebody"></tbody>
+        </table>
+        <div class="footer">
+          <p>Total tasks: <span id="total-task"></span></p>
+          <div>
+            <button id="previous-btn">Previous</button> page:
+            <span id="current-page"></span>
+            <button id="next-btn">Next</button>
+          </div>
         </div>
       </div>
       <div id="form-container">
