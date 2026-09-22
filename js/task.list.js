@@ -1,11 +1,18 @@
 import { getToken, getUser } from "./utils.js";
-import { getTask } from "./api.js";
+import { deleteTask, getTask } from "./api.js";
 import { ApiError } from "./error.js";
+import { Task } from "./task.model.js";
+import { config } from "./config.js";
+import { debounce } from "./utils.js";
 
 if (!getToken() && !getUser()) {
   window.location.href = "index.html";
 }
 // console.log("task list connected");
+const tablebody = document.getElementById("tablebody");
+const searchbar = document.getElementById("searchbar");
+
+const taskContainer = document.getElementById("table-container");
 const user = document.getElementById("currentUser");
 user.textContent = getUser();
 
@@ -15,6 +22,61 @@ const currentPage = document.getElementById("current-page");
 
 const totalTask = document.getElementById("total-task");
 
+function renderRow(task) {
+  const active = document.createElement("td");
+  const customId = document.createElement("td");
+  const taskName = document.createElement("td");
+  const description = document.createElement("td");
+  const responsibleName = document.createElement("td");
+  const creatorName = document.createElement("td");
+  const taskPriority = document.createElement("td");
+  const endDate = document.createElement("td");
+  const completion = document.createElement("td");
+  const overDue = document.createElement("td");
+  const action = document.createElement("td");
+  const deletebtn = document.createElement("button");
+  deletebtn.classList.add("delete-btn");
+  deletebtn.textContent = "Delete";
+  action.append(deletebtn);
+  const tr = document.createElement("tr");
+
+  active.textContent = task.is_active ? "✓" : "✗";
+
+  customId.textContent = task?.custom_id ?? "-";
+
+  taskName.textContent = task?.name ?? "-";
+
+  description.textContent = task?.project?.description ?? "-";
+
+  responsibleName.textContent = task?.responsible?.name ?? "-";
+
+  creatorName.textContent = task?.creator?.name ?? "-";
+
+  taskPriority.textContent = task?.task_priority?.custom_id ?? "-";
+
+  endDate.textContent = task.displayEnd;
+
+  completion.textContent = task.progressLabel ?? "-";
+  overDue.textContent = task.isOverdue ? "YES" : "NO";
+
+  tr.append(
+    active,
+    customId,
+    taskName,
+    description,
+    responsibleName,
+    creatorName,
+    taskPriority,
+    endDate,
+    completion,
+    overDue,
+    action,
+  );
+
+  tr.dataset.id = task.id;
+  return tr;
+}
+
 let page = 1;
 
 async function tasks(page) {
@@ -23,73 +85,89 @@ async function tasks(page) {
     if (!res.ok) {
       throw ApiError("Failed to get tasks", res.status);
     }
-    const data = await res.json();
-    // console.log(data.data);
-    viewTask(data.data);
 
-    nextBtn.disabled = page == data.total;
+    // console.log(res);
+    const result = await res.json();
+    // console.log(result);
+    const taskList = result.data.map((data) => new Task(data));
+    // console.log(taskList);
+    viewTask(taskList);
+
+    nextBtn.disabled = page >= result.total / config.pageSize;
     prevBtn.disabled = page == 1;
-    totalTask.textContent = data.total;
+    totalTask.textContent = result.total;
     currentPage.textContent = page;
+    return result.total;
   } catch (e) {
     console.log(e.message, e.status);
   }
 }
 
-function viewTask(tasks) {
-  const tableData = document.getElementById("tablebody");
-  tableData.innerHTML = "";
+function viewTask(taskList) {
+  tablebody.innerHTML = "";
 
-  for (const task of tasks) {
-    const active = document.createElement("td");
-    const customId = document.createElement("td");
-    const taskName = document.createElement("td");
-    const responsibleName = document.createElement("td");
-    const creatorName = document.createElement("td");
-    const taskPriority = document.createElement("td");
-    const endDate = document.createElement("td");
-    const completion = document.createElement("td");
-    const action = document.createElement("td");
-    const deletebtn = document.createElement("button");
-    deletebtn.classList.add("delete-btn");
-    deletebtn.textContent = "Delete";
-    action.append(deletebtn);
-    const tr = document.createElement("tr");
-
-    active.textContent = task.is_active ? "✓" : "✗";
-
-    customId.textContent = task?.custom_id ?? "-";
-
-    taskName.textContent = task?.name ?? "-";
-
-    responsibleName.textContent = task?.responsible?.name ?? "-";
-
-    creatorName.textContent = task?.creator?.name ?? "-";
-
-    taskPriority.textContent = task?.task_priority?.custom_id ?? "-";
-
-    endDate.textContent = task?.end ?? "-";
-
-    completion.textContent = task?.completion ?? "-";
-
-    tr.appendChild(active);
-    tr.appendChild(customId);
-    tr.appendChild(taskName);
-    tr.appendChild(responsibleName);
-    tr.appendChild(creatorName);
-    tr.appendChild(taskPriority);
-    tr.appendChild(endDate);
-    tr.appendChild(completion);
-    tr.appendChild(action);
-    tr.addEventListener("dblclick", (e) => {
-      e.preventDefault();
-      if (e.target.closest("delete-btn")) return;
-
-      console.log("open task form");
-    });
-
-    tableData.appendChild(tr);
+  for (const task of taskList) {
+    const row = renderRow(task);
+    tablebody.append(row);
   }
 }
 
-tasks(1);
+const totalTasks = await tasks(page);
+if (!totalTasks) {
+  taskContainer.innerHTML = "";
+  const notask = document.querySelector(".no-Task");
+  notask.style.display = "flex";
+  searchbar.disabled = "true";
+}
+
+nextBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  page++;
+  tasks(page);
+});
+prevBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  page--;
+  tasks(page);
+});
+
+tablebody.addEventListener("click", async (e) => {
+  e.preventDefault();
+  // console.log(e.target);
+  const deleteBtn = e.target.classList.contains("delete-btn");
+  // console.log(deleteBtn);
+  if (deleteBtn) {
+    if (!confirm("Are you sure you want\nto Delete this task")) {
+      return;
+    }
+    try {
+      const row = e.target.closest("tr");
+      // console.log(row);
+      const id = row.dataset.id;
+      const deleteResponse = await deleteTask(id);
+      if (!deleteResponse.ok) {
+        throw ApiError("failed to deleted task", e.status);
+      }
+      row.remove();
+      // console.log(id);
+    } catch (e) {
+      console.log(
+        e.message,
+        e.status ?? "No status code available(Cors error)",
+      );
+      return;
+    }
+  }
+
+  console.log("open task form");
+});
+
+//search field
+
+searchbar.addEventListener(
+  "input",
+  debounce((e) => {
+    const text = e.target.value.trim();
+    console.log(text);
+  }, 3000),
+);
