@@ -25,7 +25,7 @@ loginForm.addEventListener("submit", async (e) => {
   loginBtn.textContent = "Signing in....";
   try {
     const response = await login(userName, password);
-    console.log(response);
+    // console.log(response);
     if (!response.ok) {
       throw new ApiError(
         "Wrong username or password\n Please try again",

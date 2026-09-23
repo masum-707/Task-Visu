@@ -1,5 +1,5 @@
 import { getToken, getUser } from "./utils.js";
-import { deleteTask, getTask } from "./api.js";
+import { deleteTask, getTask, ExistingUser } from "./api.js";
 import { ApiError } from "./error.js";
 import { Task } from "./task.model.js";
 import { config } from "./config.js";
@@ -8,6 +8,22 @@ import { debounce } from "./utils.js";
 if (!getToken() && !getUser()) {
   window.location.href = "index.html";
 }
+
+async function getExistingUsersAndPriority() {
+  try {
+    const response = await ExistingUser();
+    if (!response.ok) {
+      throw new ApiError("failed to get existing users and task priority ");
+    }
+    const data = await response.json();
+    // console.log(data);
+    return data;
+  } catch (e) {
+    console.log(e.message);
+  }
+}
+export const existingUserPriority = await getExistingUsersAndPriority();
+// console.log(existingUserPriority.users);
 // console.log("task list connected");
 const tablebody = document.getElementById("tablebody");
 const searchbar = document.getElementById("searchbar");

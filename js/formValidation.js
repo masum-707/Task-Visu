@@ -72,8 +72,8 @@ export function newTask() {
     user_id_responsible: Number(responsible.value),
 
     start: convertTimeToUtc(startTime.value),
-    end: convertTimeToUtc(endTime.value),
-    description_plain: description.value,
+    // end: convertTimeToUtc(endTime.value),  //need to handle again
+    // description_plain: description.value,
     task_priority: priorityMap.get(Number(taskPriority.value)),
   };
   return newTask;
