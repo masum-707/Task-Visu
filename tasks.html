@@ -14,7 +14,7 @@
     <main>
       <div class="searchbar">
         <input id="searchbar" type="search" placeholder="Search..." />
-        <button>+New Task</button>
+        <button id="create-task">+New Task</button>
       </div>
       <h1 style="display: none" class="no-Task">No Task Available</h1>
       <div id="table-container">
@@ -43,53 +43,67 @@
           </div>
         </div>
       </div>
-      <div id="form-container">
+      <div id="form-container" style="display: none" class="formContainer">
+        <h1>Task Information</h1>
         <form id="task-Form">
-          <h1>Task Information</h1>
           <div>
-            <label for="TaskName">Task Name</label>
+            <label for="task-name">Task Name</label>
             <input type="text" id="task-name" required />
+            <br />
+            <span id="tasknameErro"></span>
           </div>
           <div>
-            <label for="isActive">isActive</label>
-            <input
-              type="radio"
-              id="active"
-              value="true"
-              name="ActiveStatus"
-              required
-            />true
-            <input
-              type="radio"
-              id="inActive"
-              value="false"
-              name="ActiveStatus"
-            />false
+            <label for="ActiveStatus">isActive</label>
+            <select id="ActiveStatus" required>
+              <option value="true">TRUE</option>
+              <option value="false">FALSE</option>
+            </select>
+            <span id="statusError"></span>
           </div>
 
           <div>
             <label for="completion">completion</label>
-            <input type="number" max="100" min="0" />
+            <input
+              id="completion"
+              type="number"
+              max="100"
+              min="0"
+              step="1"
+              required
+            />
+            <br />
+            <span id="completionError"></span>
           </div>
           <div>
-            <label for="Responsible">Responsible Id</label>
-            <input type="text" name="Responsible" required />
+            <label for="responsible">Responsible</label>
+            <select id="responsible">
+              <option value="">Select user</option>
+            </select>
+
+            <br />
+            <span id="responsibleError"></span>
           </div>
           <div>
             <label for="startTime">Task Start</label>
-            <input type="time" />
+            <input id="startTime" type="datetime-local" />
           </div>
           <div>
-            <label for="taskEnd">Task End</label>
-            <input type="time" />
+            <label for="endTime">Task End</label>
+            <input id="endTime" type="datetime-local" />
           </div>
           <div>
             <label for="description">Description</label>
             <textarea id="description"></textarea>
           </div>
           <div>
-            <label for="task-priority">Task Priority</label>
-            <input type="number" />
+            <label for="Task-Priority">Task Priority</label>
+            <select id="Task-Priority">
+              <option value="">Select Priority</option>
+              <!-- <option value="2">LOW</option>
+              <option value="3">MEDIUM</option>
+              <option value="4">HIGH</option>
+              <option value="5">URGENT</option> -->
+            </select>
           </div>
           <button type="submit" id="submit">save</button>
           <button id="cancel">cancel</button>
@@ -100,5 +114,7 @@
     <script type="module" src="js/task.form.js"></script>
     <script type="module" src="js/task.list.js"></script>
     <script type="module" src="js/api.js"></script>
+    <script type="module" src="js/task.service.js"></script>
+    <script type="module" src="js/formValidation.js"></script>
   </body>
 </html>
