@@ -1,5 +1,5 @@
 import { getToken, getUser } from "./utils.js";
-import { deleteTask, getTask, ExistingUser } from "./api.js";
+import { getTask, ExistingUser } from "./api.js";
 import { ApiError } from "./error.js";
 import { Task } from "./task.model.js";
 import { config } from "./config.js";
@@ -30,7 +30,7 @@ const searchbar = document.getElementById("searchbar");
 
 const taskContainer = document.getElementById("table-container");
 const user = document.getElementById("currentUser");
-user.textContent = getUser();
+user.textContent = getUser() + " Bhai";
 
 const nextBtn = document.getElementById("next-btn");
 const prevBtn = document.getElementById("previous-btn");
@@ -121,7 +121,7 @@ async function tasks(page) {
   }
 }
 
-function viewTask(taskList) {
+export function viewTask(taskList) {
   tablebody.innerHTML = "";
 
   for (const task of taskList) {
@@ -149,36 +149,36 @@ prevBtn.addEventListener("click", (e) => {
   tasks(page);
 });
 
-tablebody.addEventListener("click", async (e) => {
-  e.preventDefault();
-  // console.log(e.target);
-  const deleteBtn = e.target.classList.contains("delete-btn");
-  // console.log(deleteBtn);
-  if (deleteBtn) {
-    if (!confirm("Are you sure you want\nto Delete this task")) {
-      return;
-    }
-    try {
-      const row = e.target.closest("tr");
-      // console.log(row);
-      const id = row.dataset.id;
-      const deleteResponse = await deleteTask(id);
-      if (!deleteResponse.ok) {
-        throw ApiError("failed to deleted task", e.status);
-      }
-      row.remove();
-      // console.log(id);
-    } catch (e) {
-      console.log(
-        e.message,
-        e.status ?? "No status code available(Cors error)",
-      );
-      return;
-    }
-  }
+// tablebody.addEventListener("click", async (e) => {
+//   e.preventDefault();
+//   // console.log(e.target);
+//   const deleteBtn = e.target.classList.contains("delete-btn");
+//   // console.log(deleteBtn);
+//   if (deleteBtn) {
+//     if (!confirm("Are you sure you want\nto Delete this task")) {
+//       return;
+//     }
+//     try {
+//       const row = e.target.closest("tr");
+//       // console.log(row);
+//       const id = row.dataset.id;
+//       const deleteResponse = await deleteTask(id);
+//       if (!deleteResponse.ok) {
+//         throw ApiError("failed to deleted task", e.status);
+//       }
+//       row.remove();
+//       // console.log(id);
+//     } catch (e) {
+//       console.log(
+//         e.message,
+//         e.status ?? "No status code available(Cors error)",
+//       );
+//       return;
+//     }
+//   }
 
-  console.log("open task form");
-});
+//   // console.log("open task form");
+// });
 
 //search field
 
