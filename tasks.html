@@ -50,7 +50,7 @@
             <label for="task-name">Task Name</label>
             <input type="text" id="task-name" required />
             <br />
-            <span id="tasknameErro"></span>
+            <span id="tasknameErro" class="errorText"></span>
           </div>
           <div>
             <label for="ActiveStatus">isActive</label>
@@ -58,7 +58,7 @@
               <option value="true">TRUE</option>
               <option value="false">FALSE</option>
             </select>
-            <span id="statusError"></span>
+            <span id="statusError" class="errorText"></span>
           </div>
 
           <div>
@@ -72,7 +72,7 @@
               required
             />
             <br />
-            <span id="completionError"></span>
+            <span id="completionError" class="errorText"></span>
           </div>
           <div>
             <label for="responsible">Responsible</label>
@@ -81,19 +81,23 @@
             </select>
 
             <br />
-            <span id="responsibleError"></span>
+            <span id="responsibleError" class="errorText"></span>
           </div>
           <div>
             <label for="startTime">Task Start</label>
-            <input id="startTime" type="datetime-local" />
+            <input id="startTime" type="date" />
+            <br />
+            <span id="starttime-error" class="errorText"></span>
           </div>
           <div>
             <label for="endTime">Task End</label>
-            <input id="endTime" type="datetime-local" />
+            <input id="endTime" type="date" />
+            <br />
+            <span id="endTime-error" class="errorText"></span>
           </div>
           <div>
-            <label for="description">Description</label>
-            <textarea id="description"></textarea>
+            <label for="description_plain">Description</label>
+            <input type="text" id="description_plain" />
           </div>
           <div>
             <label for="Task-Priority">Task Priority</label>
@@ -109,6 +113,7 @@
           <button id="cancel">cancel</button>
         </form>
       </div>
+      <span id="Task-create" class="successful"></span>
     </main>
     <script type="module" src="js/logout.js"></script>
     <script type="module" src="js/task.form.js"></script>

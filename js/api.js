@@ -93,3 +93,20 @@ export async function ExistingUser() {
   // console.log(result);
 }
 // ExistingUser();
+
+//Updating task
+
+export async function UpdateTask(id) {
+  const response = await fetch(`${config.baseURL}task-visu/tasks/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+  if (response.status == 401) {
+    clearSession();
+    window.location.href = "index.html";
+  }
+  return response;
+}

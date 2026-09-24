@@ -9,18 +9,22 @@ export class Task {
     this.task_priority = data.task_priority;
     this.end = data.end;
     this.completion = data.completion;
-    this.description = data.project.description;
+    this.description_plain = data.description_plain;
   }
-  get displayEnd() {
-    if (!this.end) return "-";
-    return new Date(this.end).toLocaleDateString();
-  }
+
   get isOverdue() {
-    if (this.end && this.completion < 100) {
+    if (!this.end) return false;
+    if (new Date(this.end) < Date.now() && this.completion < 100) {
       return true;
     }
     return false;
   }
+
+  get displayEnd() {
+    if (!this.end) return "-";
+    return new Date(this.end).toLocaleDateString();
+  }
+
   get progressLabel() {
     return this.completion;
   }

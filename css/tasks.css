@@ -37,7 +37,7 @@ button {
 }
 
 .table {
-    position: relative;
+    
     width: 100%;
     border-collapse: collapse;
     border: 1px solid black;
@@ -90,11 +90,36 @@ button:disabled {
 
 .formContainer {
     margin: 8% auto;
-    min-height: 60%;
-    width: 50%;
+    min-height: 70%;
+    width: 450px;
     box-shadow: 0 2px 16px rgba(0, 0, 0, 0.6);
     background: white;
-    padding: 15px 0px 5px 15px;
+    padding: 15px 0px 15px 15px;
     box-sizing: border-box;
     border-radius: 8px;
+
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  left: 15px;
+  top: 50px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+
+}
+.errorText{
+color: red;
+font-size: small;
+position: relative;
+}
+.successful{
+display: flex;
+color: rgb(19, 198, 19);
+font-weight: bolder;
+justify-content: center;
+}
+
+.restrict{
+cursor: not-allowed;
+opacity: .5;
 }

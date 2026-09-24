@@ -62,7 +62,9 @@ function renderRow(task) {
 
   taskName.textContent = task?.name ?? "-";
 
-  description.textContent = task?.project?.description ?? "-";
+  description.textContent = task?.description_plain
+    ? task.description_plain
+    : "-";
 
   responsibleName.textContent = task?.responsible?.name ?? "-";
 
@@ -72,7 +74,7 @@ function renderRow(task) {
 
   endDate.textContent = task.displayEnd;
 
-  completion.textContent = task.progressLabel ?? "-";
+  completion.textContent = task.progressLabel ? task.progressLabel + "%" : "0%";
   overDue.textContent = task.isOverdue ? "YES" : "NO";
 
   tr.append(
