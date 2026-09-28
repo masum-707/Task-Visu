@@ -142,3 +142,20 @@ export async function updateExistingTask(updateTask, id) {
   // console.log(response);
   return response;
 }
+
+export async function sorting(sorttype, sortby) {
+  let url = `task-visu/tasks?responsible_id[]=74&is_active=true&completion_lt=100&sort_order=${sorttype}&sort_by=${sortby}&top=40&skip=0&permission=TASKVISU_SUPERADMIN`;
+  const response = await fetch(`${config.baseURL}` + url, {
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+  if (response.status == 401) {
+    clearSession();
+    window.location.href = "index.html";
+  }
+  // console.log(await response.json());
+  return response;
+}
+// sorting("asc", "name");

@@ -29,12 +29,14 @@ twice.
 19. Clicking a row opens the same form filled with that task, loaded from GET /tasks/{id}.
 20. Search box, filtered by the server through search=, wired through your own debounce of about 300
 ms.
+21. Clicking a column header sorts by it;
+22. Save creates (POST) or updates (PATCH)
+
 
 ??What remaining ....
 
-2. Clicking a column header sorts by it; clicking again flips the direction. The active column shows
+1.  clicking again flips the direction. The active column shows
 an arrow.
-3. The last search text and sort are remembered in localStorage and restored after a page reload.
+2. The last search text and sort are remembered in localStorage and restored after a page reload.
 
-5. Save creates (POST) or updates (PATCH) and then refreshes the list without a full page reload.
-6. Server validation errors (422) are shown on the matching fields.
+3. Save creates (POST) or updates (PATCH) and then refreshes the list without a full page reload.

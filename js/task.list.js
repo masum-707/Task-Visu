@@ -1,5 +1,5 @@
 import { getToken, getUser, requiredLogin } from "./utils.js";
-import { getTask, ExistingUser } from "./api.js";
+import { getTask, ExistingUser, sorting } from "./api.js";
 import { ApiError } from "./error.js";
 import { Task } from "./task.model.js";
 import { config } from "./config.js";
@@ -164,3 +164,63 @@ searchbar.addEventListener(
     await tasks(page, currentSearchText);
   }, 300),
 );
+
+//sorting
+async function getSortedData(sorttype, sortfield) {
+  try {
+    const res = await sorting(sorttype, sortfield);
+    if (!res.ok) {
+      throw new ApiError("failed to sorted", res.status);
+    }
+    const result = await res.json();
+    const sortedtask = result.data.map((data) => new Task(data));
+    viewTask(sortedtask);
+  } catch (e) {
+    console.log(e.message, e.status);
+  }
+}
+
+const tableHead = document.getElementById("table-head");
+document.getElementById("task-id").dataset.id = "custom_id";
+document.getElementById("task-name").dataset.id = "name";
+document.getElementById("completion").dataset.id = "completion";
+document.getElementById("end-date").dataset.id = "end";
+const ascbtn = document.getElementById("asc");
+ascbtn.dataset.id = "asc";
+const dscbtn = document.getElementById("dsc");
+dscbtn.dataset.id = "dsc";
+const sortDiv = document.getElementById("sorttype");
+
+let id = null;
+
+tableHead.addEventListener("click", async (e) => {
+  e.preventDefault();
+  id = e.target.dataset.id;
+  if (!e.target.closest(".sortField")) {
+    sortDiv.style.display = "none";
+    // console.log("return form tablehead eventlistener");
+    return;
+  }
+  // console.log("table head clicked");
+
+  const x = e.pageX;
+  const y = e.pageY;
+  sortDiv.style.left = `${x + 5}px`;
+  sortDiv.style.top = `${y - 100}px`;
+
+  sortDiv.style.display = "block";
+  // getSortedData("dsc", id);
+});
+
+ascbtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  const sorttype = ascbtn.dataset.id;
+  getSortedData(sorttype, id);
+  sortDiv.style.display = "none";
+});
+dscbtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  const sorttype = dscbtn.dataset.id;
+  getSortedData(sorttype, id);
+  sortDiv.style.display = "none";
+});

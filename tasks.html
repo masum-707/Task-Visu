@@ -18,17 +18,22 @@
       </div>
       <h1 style="display: none" class="no-Task">No Task Available</h1>
       <div id="table-container">
+        <div id="sorttype" class="sorttype">
+          <button id="asc">Sortby Ascending</button>
+          <br />
+          <button id="dsc">Sortby Descending</button>
+        </div>
         <table class="table">
-          <thead>
+          <thead id="table-head">
             <th>Active</th>
-            <th>ID</th>
-            <th>Task Name</th>
+            <th id="task-id" class="sortField">ID</th>
+            <th id="task-name" class="sortField">Task Name</th>
             <th>Description</th>
             <th>Responsible</th>
             <th>Creator</th>
             <th>Priority</th>
-            <th>End Date</th>
-            <th>Completion</th>
+            <th id="end-date" class="sortField">End Date</th>
+            <th id="completion" class="sortField">Completion</th>
             <th>OverDue</th>
             <th>Action</th>
           </thead>
@@ -118,7 +123,7 @@
     <script type="module" src="js/task.list.js"></script>
     <script type="module" src="js/logout.js"></script>
     <script type="module" src="js/task.form.js"></script>
-
+    <script type="module" src="js/utils.js"></script>
     <script type="module" src="js/api.js"></script>
     <script type="module" src="js/task.service.js"></script>
     <script type="module" src="js/formValidation.js"></script>
