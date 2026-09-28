@@ -27,11 +27,11 @@ between 0 and 100; End cannot be before Start. Each error is shown next to its o
 18. While saving or deleting, the buttons are disabled so a double click cannot send the request
 twice.
 19. Clicking a row opens the same form filled with that task, loaded from GET /tasks/{id}.
-
+20. Search box, filtered by the server through search=, wired through your own debounce of about 300
+ms.
 
 ??What remaining ....
-1. Search box, filtered by the server through search=, wired through your own debounce of about 300
-ms.
+
 2. Clicking a column header sorts by it; clicking again flips the direction. The active column shows
 an arrow.
 3. The last search text and sort are remembered in localStorage and restored after a page reload.

@@ -11,17 +11,30 @@ export async function login(username, password) {
   return response;
 }
 
-export async function getTask(token, page) {
+export async function getTask(page, text = "") {
   let skip = (page - 1) * config.pageSize;
-  const res = await fetch(
-    `${config.baseURL}task-visu/tasks?responsible_id[]=74&is_active=true&completion_lt=100&top=${config.pageSize}&skip=${skip}&permission=TASKVISU_SUPERADMIN`,
-    {
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`,
+  let res;
+  if (!text) {
+    res = await fetch(
+      `${config.baseURL}task-visu/tasks?responsible_id[]=74&is_active=true&completion_lt=100&top=${config.pageSize}&skip=${skip}&permission=TASKVISU_SUPERADMIN`,
+      {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${getToken()}`,
+        },
       },
-    },
-  );
+    );
+  } else {
+    res = await fetch(
+      `${config.baseURL}task-visu/tasks?responsible_id[]=74&is_active=true&completion_lt=100&search=${text}&top=${config.pageSize}&skip=${skip}&permission=TASKVISU_SUPERADMIN`,
+      {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${getToken()}`,
+        },
+      },
+    );
+  }
   if (res.status === 401) {
     // console.log("token expire ,login again");
     clearSession();

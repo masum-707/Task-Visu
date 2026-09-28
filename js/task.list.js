@@ -94,26 +94,41 @@ function renderRow(task) {
 }
 
 let page = 1;
+let currentSearchText = "";
 
-async function tasks(page) {
+async function tasks(pageNumber, searchText = "") {
   try {
-    const res = await getTask(getToken(), page);
+    const res = await getTask(pageNumber, searchText);
     if (!res.ok) {
       throw ApiError("Failed to get tasks", res.status);
     }
-
-    // console.log(res);
     const result = await res.json();
-    // console.log(result);
-    const taskList = result.data.map((data) => new Task(data));
-    // console.log(taskList);
+
+    const rawData = result.data || [];
+    const taskList = rawData.map((data) => new Task(data));
+
     viewTask(taskList);
 
-    nextBtn.disabled = page >= result.total / config.pageSize;
-    prevBtn.disabled = page == 1;
-    totalTask.textContent = result.total;
-    currentPage.textContent = page;
-    return result.total;
+    const totalCount = result.total || 0;
+    const maxPages = Math.ceil(totalCount / config.pageSize);
+
+    nextBtn.disabled = pageNumber >= maxPages || maxPages <= 1;
+    prevBtn.disabled = pageNumber <= 1;
+
+    totalTask.textContent = totalCount;
+    currentPage.textContent = pageNumber;
+
+    const notask = document.querySelector(".no-Task");
+    if (totalCount === 0) {
+      taskContainer.innerHTML = "";
+      if (notask) notask.style.display = "flex";
+
+      if (!searchText) searchbar.disabled = true;
+    } else {
+      if (notask) notask.style.display = "none";
+    }
+
+    return totalCount;
   } catch (e) {
     console.log(e.message, e.status);
   }
@@ -121,69 +136,31 @@ async function tasks(page) {
 
 export function viewTask(taskList) {
   tablebody.innerHTML = "";
-
   for (const task of taskList) {
     const row = renderRow(task);
     tablebody.append(row);
   }
 }
 
-const totalTasks = await tasks(page);
-if (!totalTasks) {
-  taskContainer.innerHTML = "";
-  const notask = document.querySelector(".no-Task");
-  notask.style.display = "flex";
-  searchbar.disabled = "true";
-}
+await tasks(page, currentSearchText);
 
 nextBtn.addEventListener("click", (e) => {
   e.preventDefault();
   page++;
-  tasks(page);
+  tasks(page, currentSearchText);
 });
+
 prevBtn.addEventListener("click", (e) => {
   e.preventDefault();
   page--;
-  tasks(page);
+  tasks(page, currentSearchText);
 });
-
-// tablebody.addEventListener("click", async (e) => {
-//   e.preventDefault();
-//   // console.log(e.target);
-//   const deleteBtn = e.target.classList.contains("delete-btn");
-//   // console.log(deleteBtn);
-//   if (deleteBtn) {
-//     if (!confirm("Are you sure you want\nto Delete this task")) {
-//       return;
-//     }
-//     try {
-//       const row = e.target.closest("tr");
-//       // console.log(row);
-//       const id = row.dataset.id;
-//       const deleteResponse = await deleteTask(id);
-//       if (!deleteResponse.ok) {
-//         throw ApiError("failed to deleted task", e.status);
-//       }
-//       row.remove();
-//       // console.log(id);
-//     } catch (e) {
-//       console.log(
-//         e.message,
-//         e.status ?? "No status code available(Cors error)",
-//       );
-//       return;
-//     }
-//   }
-
-//   // console.log("open task form");
-// });
-
-//search field
 
 searchbar.addEventListener(
   "input",
-  debounce((e) => {
-    const text = e.target.value.trim();
-    console.log(text);
-  }, 3000),
+  debounce(async (e) => {
+    currentSearchText = e.target.value.trim();
+    page = 1;
+    await tasks(page, currentSearchText);
+  }, 300),
 );
