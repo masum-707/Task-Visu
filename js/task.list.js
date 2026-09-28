@@ -1,13 +1,11 @@
-import { getToken, getUser } from "./utils.js";
+import { getToken, getUser, requiredLogin } from "./utils.js";
 import { getTask, ExistingUser } from "./api.js";
 import { ApiError } from "./error.js";
 import { Task } from "./task.model.js";
 import { config } from "./config.js";
 import { debounce } from "./utils.js";
 
-if (!getToken() && !getUser()) {
-  window.location.href = "index.html";
-}
+requiredLogin();
 
 async function getExistingUsersAndPriority() {
   try {

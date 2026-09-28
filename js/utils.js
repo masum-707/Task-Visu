@@ -24,3 +24,10 @@ export function debounce(fn, delay) {
     }, delay);
   };
 }
+
+export function requiredLogin() {
+  if (!getToken() && !getUser()) {
+    clearSession();
+    window.location.href = "index.html";
+  }
+}

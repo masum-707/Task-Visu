@@ -1,5 +1,9 @@
 import { existingUserPriority } from "./task.list.js";
+import { requiredLogin } from "./utils.js";
 
+requiredLogin();
+
+const errortext = document.querySelectorAll(".errorText");
 const taskName = document.getElementById("task-name");
 const taskStatus = document.getElementById("ActiveStatus");
 
@@ -44,12 +48,19 @@ export function fillUpForm(task) {
   taskName.value = task.name;
   taskStatus.value = task.is_active;
   completion.value = task.completion;
+  startTime.value = task.start;
   endTime.value = task.end;
+  taskPriority.value = task.task_priority_id;
+  description_plain.value = task.description_plain;
+  responsible.value = task.user_id_responsible;
 }
 
 // console.log(priorityMap);
 
-function verified() {
+export async function verified() {
+  setTimeout(() => {
+    errortext.forEach((e) => (e.textContent = ""));
+  }, 5000);
   if (!taskName.value.trim()) {
     const nameError = document.getElementById("tasknameError");
     nameError.textContent = "Task name required";
@@ -75,25 +86,27 @@ function verified() {
   const currentDate = new Date();
   currentDate.setHours(0, 0, 0, 0);
 
-  if (inputDate < currentDate) {
-    const startdateError = document.getElementById("starttime-error");
-    startdateError.textContent =
-      "Task start date can not less then current date";
-    return false;
-  }
+  // if (inputDate < currentDate) {
+  //   const startdateError = document.getElementById("starttime-error");
+  //   startdateError.textContent =
+  //     "Task start date can not less then current date";
+  //   return false;
+  // }
+
   if (new Date(endTime.value) < new Date(startTime.value)) {
     const enddateError = document.getElementById("endTime-error");
-    enddateError.textContent = "End date can not be less then start date";
+    enddateError.textContent = "Task should not be  end before start";
     return false;
   }
   return true;
 }
 export function newTask() {
-  if (!verified()) return false;
-
+  if (!verified()) {
+    return false;
+  }
   const newTask = {
     name: taskName.value,
-    is_active: taskStatus.value === "true" ? true : false,
+    is_active: Number(taskStatus.value),
     completion: Number(completion.value),
     user_id_responsible: Number(responsible.value),
     //valid format: 2026-10-11
@@ -104,4 +117,43 @@ export function newTask() {
     task_priority: priorityMap.get(Number(taskPriority.value)) || null,
   };
   return newTask;
+}
+
+export function updateTaskData(originalTask) {
+  const updatedFields = {};
+
+  const name = taskName.value.trim();
+  const isActive = Number(taskStatus.value);
+  const completionValue = Number(completion.value);
+  const responsibleId = Number(responsible.value);
+  const end = endTime.value;
+  const start = startTime.value;
+  const description = description_plain.value;
+  const priority = Number(taskPriority.value);
+
+  if (name !== originalTask.name) {
+    updatedFields.name = name;
+  }
+  if (isActive !== originalTask.is_active) {
+    updatedFields.is_active = isActive;
+  }
+  if (completionValue !== originalTask.completion) {
+    updatedFields.completion = completionValue;
+  }
+  if (responsibleId !== originalTask.user_id_responsible) {
+    updatedFields.user_id_responsible = responsibleId;
+  }
+  if (start !== originalTask.start) {
+    updatedFields.start = start;
+  }
+  if (end !== originalTask.end) {
+    updatedFields.end = end;
+  }
+  if (description !== originalTask.description_plain) {
+    updatedFields.description = description;
+  }
+  if (priority !== originalTask.task_priority_id) {
+    updatedFields.task_priority_id = priority;
+  }
+  return updatedFields;
 }

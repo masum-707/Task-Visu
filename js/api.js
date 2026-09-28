@@ -63,12 +63,12 @@ export async function createTask(task) {
   return response;
 }
 
-const newTask = {
-  name: "create test new test",
-  is_active: true,
-  completion: 0,
-  user_id_responsible: 7,
-};
+// const newTask = {
+//   name: "create test new test",
+//   is_active: true,
+//   completion: 0,
+//   user_id_responsible: 7,
+// };
 // createTask(newTask);
 // deleteTask("3200");
 
@@ -96,7 +96,7 @@ export async function ExistingUser() {
 
 //Updating task
 
-export async function UpdateTask(id) {
+export async function existingTask(id) {
   const response = await fetch(`${config.baseURL}task-visu/tasks/${id}`, {
     method: "GET",
     headers: {
@@ -108,5 +108,24 @@ export async function UpdateTask(id) {
     clearSession();
     window.location.href = "index.html";
   }
+  return response;
+}
+
+export async function updateExistingTask(updateTask, id) {
+  // console.log(updateTask);
+
+  const response = await fetch(`${config.baseURL}task-visu/tasks/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${getToken()}`,
+    },
+    body: JSON.stringify(updateTask),
+  });
+  if (response.status == 401) {
+    clearSession();
+    window.location.href = "index.html";
+  }
+  // console.log(response);
   return response;
 }
