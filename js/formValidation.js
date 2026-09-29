@@ -4,10 +4,10 @@ import { requiredLogin } from "./utils.js";
 requiredLogin();
 
 const errortext = document.querySelectorAll(".errorText");
-const taskName = document.getElementById("task-name");
+const taskName = document.getElementById("taskname");
 const taskStatus = document.getElementById("ActiveStatus");
 
-const completion = document.getElementById("completion");
+const completion = document.getElementById("completionfield");
 
 const responsible = document.getElementById("responsible");
 
@@ -82,7 +82,7 @@ export async function verified() {
     return false;
   }
 
-  const inputDate = new Date(startTime.value);
+  // const inputDate = new Date(startTime.value);
   const currentDate = new Date();
   currentDate.setHours(0, 0, 0, 0);
 

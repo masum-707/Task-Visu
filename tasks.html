@@ -23,6 +23,7 @@
           <br />
           <button id="dsc">Sortby Descending</button>
         </div>
+        <button id="refresh" class="refresh">Refresh🗘</button>
         <table class="table">
           <thead id="table-head">
             <th>Active</th>
@@ -52,8 +53,8 @@
         <h1>Task Information</h1>
         <form id="task-Form">
           <div>
-            <label for="task-name">Task Name</label>
-            <input type="text" id="task-name" required />
+            <label for="taskname">Task Name</label>
+            <input type="text" id="taskname" required />
             <br />
             <span id="tasknameErro" class="errorText"></span>
           </div>
@@ -67,9 +68,9 @@
           </div>
 
           <div>
-            <label for="completion">completion</label>
+            <label for="completionfield">completion</label>
             <input
-              id="completion"
+              id="completionfield"
               type="number"
               max="100"
               min="0"

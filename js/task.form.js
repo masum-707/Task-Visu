@@ -9,16 +9,22 @@ const tableContainer = document.getElementById("table-container");
 const formContainer = document.getElementById("form-container");
 const taskForm = document.getElementById("task-Form");
 const cancel = document.getElementById("cancel");
-cancel.addEventListener("click", (e) => {
-  e.preventDefault();
 
-  if (confirm("Are you sure you want to cancel")) {
+function formCancelHandler(e) {
+  if (e.type === "click") {
+    e.preventDefault();
+  }
+  if (e.type === "click" || e.key === "Escape") {
+    if (!confirm("Are you sure you want to cancel?")) return;
+
     taskForm.reset();
     tableContainer.classList.remove("restrict");
     formContainer.style.display = "none";
   }
-  return;
-});
+}
+
+cancel.addEventListener("click", formCancelHandler);
+document.addEventListener("keydown", formCancelHandler);
 
 // taskForm.addEventListener("submit", async (e) => {
 //   e.preventDefault();

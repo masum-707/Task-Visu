@@ -26,6 +26,7 @@ async function getExistingUsersAndPriority() {
     console.log(e.message);
   }
 }
+const refresh = document.getElementById("refresh");
 export const existingUserPriority = await getExistingUsersAndPriority();
 // console.log(existingUserPriority.users);
 // console.log("task list connected");
@@ -152,6 +153,9 @@ export function viewTask(taskList) {
   tablebody.innerHTML = "";
   for (const task of taskList) {
     const row = renderRow(task);
+    if (task.isOverdue) {
+      row.classList.add("overDue");
+    }
     tablebody.append(row);
   }
 }
@@ -254,4 +258,8 @@ dscbtn.addEventListener("click", (e) => {
   currentSortHighLight[currentSortHighLight.length - 1].classList.add("active");
 
   sortDiv.style.display = "none";
+});
+refresh.addEventListener("click", async (e) => {
+  e.preventDefault();
+  await tasks(page, currentSearchText, currentSorttype, currentSortby);
 });

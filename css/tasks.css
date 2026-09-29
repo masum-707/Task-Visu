@@ -37,7 +37,7 @@ button {
 }
 
 .table {
-
+    
     width: 100%;
     border-collapse: collapse;
     border: 1px solid black;
@@ -47,6 +47,7 @@ button {
 
 th,
 td {
+    position: static;
     border: 1px solid black;
     padding: 5px;
     text-align: center;
@@ -63,6 +64,7 @@ td {
 
 tr {
     cursor: pointer;
+    font-weight: 500;
 }
 
 tr:hover {
@@ -143,4 +145,14 @@ font-weight:700;
 
 .active{
 background-color: aqua;
+}
+.overDue:hover{
+background-color:coral;
+font-weight: 520;
+
+}
+.refresh{
+background-color:aqua;
+color: black;
+
 }

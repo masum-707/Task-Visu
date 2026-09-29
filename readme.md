@@ -32,9 +32,11 @@ ms.
 21. Clicking a column header sorts by it;
 22. Save creates (POST) or updates (PATCH)
 23. The last search text and sort are remembered in localStorage and restored after a page reload.
-24.HighLight sorted head
+24. HighLight sorted head and overDue (in mouse hover)
+25. Keyboard support: Esc closes the form,
+26. Added refresh button
+
 ??What remaining ....
-
-
-
-3. Save creates (POST) or updates (PATCH) and then refreshes the list without a full page reload.
+1. package.json with ESLint + Prettier and an npm run lint script.
+2. Three or four Jest tests for your pure helpers (debounce, date formatting, the validation function).
+3. Keyboard support:  Enter submits it.
