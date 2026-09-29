@@ -32,14 +32,21 @@ loginForm.addEventListener("submit", async (e) => {
         response.status,
       );
     }
+    // console.log(response);
     const result = await response.json();
     saveSession(result.token, result.user.username);
     window.location.href = "tasks.html";
   } catch (e) {
-    console.log(e.message, e.status);
+    // console.log(e.message, e.status);
+    // console.log(e.message, typeof e.message);
 
     const warning = document.getElementById("wrong-user");
-    warning.textContent = e.message;
+    if (!navigator.onLine) {
+      warning.textContent = "No Internet Connection";
+    } else {
+      warning.textContent = e.message;
+    }
+
     setTimeout(() => {
       warning.textContent = "";
     }, 5000);

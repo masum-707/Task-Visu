@@ -108,7 +108,7 @@ async function tasks(pageNumber, searchText = "", sorttype = "", sortby = "") {
   try {
     const res = await getTask(pageNumber, searchText, sorttype, sortby);
     if (!res.ok) {
-      throw ApiError("Failed to get tasks", res.status);
+      throw new ApiError("Failed to get tasks", res.status);
     }
     const result = await res.json();
 
@@ -133,7 +133,7 @@ async function tasks(pageNumber, searchText = "", sorttype = "", sortby = "") {
 
     const notask = document.querySelector(".no-Task");
     if (totalCount === 0) {
-      taskContainer.innerHTML = "";
+      taskContainer.style.display = "none";
       if (notask) notask.style.display = "flex";
 
       if (!searchText) searchbar.disabled = true;
@@ -148,6 +148,7 @@ async function tasks(pageNumber, searchText = "", sorttype = "", sortby = "") {
 }
 
 export function viewTask(taskList) {
+  taskContainer.style.display = "block";
   tablebody.innerHTML = "";
   for (const task of taskList) {
     const row = renderRow(task);

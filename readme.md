@@ -31,12 +31,10 @@ twice.
 ms.
 21. Clicking a column header sorts by it;
 22. Save creates (POST) or updates (PATCH)
-
-
+23. The last search text and sort are remembered in localStorage and restored after a page reload.
+24.HighLight sorted head
 ??What remaining ....
 
-1.  clicking again flips the direction. The active column shows
-an arrow.
-2. The last search text and sort are remembered in localStorage and restored after a page reload.
+
 
 3. Save creates (POST) or updates (PATCH) and then refreshes the list without a full page reload.
