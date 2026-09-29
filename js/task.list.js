@@ -1,4 +1,10 @@
-import { getToken, getUser, requiredLogin } from "./utils.js";
+import {
+  getLatestSearch,
+  getToken,
+  getUser,
+  requiredLogin,
+  saveSession,
+} from "./utils.js";
 import { getTask, ExistingUser } from "./api.js";
 import { ApiError } from "./error.js";
 import { Task } from "./task.model.js";
@@ -98,7 +104,7 @@ let currentSearchText = "";
 let currentSorttype = "";
 let currentSortby = "";
 
-async function tasks(pageNumber, searchText = "", sorttype = "", sortby) {
+async function tasks(pageNumber, searchText = "", sorttype = "", sortby = "") {
   try {
     const res = await getTask(pageNumber, searchText, sorttype, sortby);
     if (!res.ok) {
@@ -108,6 +114,11 @@ async function tasks(pageNumber, searchText = "", sorttype = "", sortby) {
 
     const rawData = result.data || [];
     const taskList = rawData.map((data) => new Task(data));
+    saveSession(getToken(), getUser(), {
+      currentSearchText: searchText,
+      currentSorttype: sorttype,
+      currentSortby: sortby,
+    });
 
     viewTask(taskList);
 
@@ -143,8 +154,13 @@ export function viewTask(taskList) {
     tablebody.append(row);
   }
 }
-
-await tasks(page, currentSearchText);
+const latestData = getLatestSearch();
+await tasks(
+  page,
+  latestData?.currentSearchText ?? "",
+  latestData?.currentSorttype ?? "",
+  latestData?.currentSortby ?? "",
+);
 
 nextBtn.addEventListener("click", (e) => {
   e.preventDefault();
@@ -193,6 +209,7 @@ const dscbtn = document.getElementById("dsc");
 dscbtn.dataset.id = "dsc";
 const sortDiv = document.getElementById("sorttype");
 
+const currentSortHighLight = [];
 tableHead.addEventListener("click", async (e) => {
   e.preventDefault();
   currentSortby = e.target.dataset.id;
@@ -202,7 +219,8 @@ tableHead.addEventListener("click", async (e) => {
     return;
   }
   // console.log("table head clicked");
-
+  // e.target.classList.add("active");
+  currentSortHighLight.push(e.target);
   const x = e.pageX;
   const y = e.pageY;
   sortDiv.style.left = `${x + 5}px`;
@@ -216,12 +234,23 @@ ascbtn.addEventListener("click", (e) => {
   currentSorttype = ascbtn.dataset.id;
   tasks(page, currentSearchText, currentSorttype, currentSortby);
 
+  currentSortHighLight.forEach((Highlight) =>
+    Highlight.classList.remove("active"),
+  );
+
+  currentSortHighLight[currentSortHighLight.length - 1].classList.add("active");
+
   sortDiv.style.display = "none";
 });
 dscbtn.addEventListener("click", (e) => {
   e.preventDefault();
   currentSorttype = dscbtn.dataset.id;
   tasks(page, currentSearchText, currentSorttype, currentSortby);
+  currentSortHighLight.forEach((Highlight) =>
+    Highlight.classList.remove("active"),
+  );
+
+  currentSortHighLight[currentSortHighLight.length - 1].classList.add("active");
 
   sortDiv.style.display = "none";
 });

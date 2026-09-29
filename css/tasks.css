@@ -136,7 +136,11 @@ button:disabled {
 }
 .sorttype button{
 font-size: xx-small;
-background-color: rgb(110, 222, 231);
-color: rgb(19, 19, 19);
-font-weight: bolder;
+background-color:aqua;
+color: black;
+font-weight:700;
+}
+
+.active{
+background-color: aqua;
 }
