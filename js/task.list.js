@@ -1,5 +1,5 @@
 import { getToken, getUser, requiredLogin } from "./utils.js";
-import { getTask, ExistingUser, sorting } from "./api.js";
+import { getTask, ExistingUser } from "./api.js";
 import { ApiError } from "./error.js";
 import { Task } from "./task.model.js";
 import { config } from "./config.js";
@@ -95,10 +95,12 @@ function renderRow(task) {
 
 let page = 1;
 let currentSearchText = "";
+let currentSorttype = "";
+let currentSortby = "";
 
-async function tasks(pageNumber, searchText = "") {
+async function tasks(pageNumber, searchText = "", sorttype = "", sortby) {
   try {
-    const res = await getTask(pageNumber, searchText);
+    const res = await getTask(pageNumber, searchText, sorttype, sortby);
     if (!res.ok) {
       throw ApiError("Failed to get tasks", res.status);
     }
@@ -147,13 +149,13 @@ await tasks(page, currentSearchText);
 nextBtn.addEventListener("click", (e) => {
   e.preventDefault();
   page++;
-  tasks(page, currentSearchText);
+  tasks(page, currentSearchText, currentSorttype, currentSortby);
 });
 
 prevBtn.addEventListener("click", (e) => {
   e.preventDefault();
   page--;
-  tasks(page, currentSearchText);
+  tasks(page, currentSearchText, currentSorttype, currentSortby);
 });
 
 searchbar.addEventListener(
@@ -161,24 +163,24 @@ searchbar.addEventListener(
   debounce(async (e) => {
     currentSearchText = e.target.value.trim();
     page = 1;
-    await tasks(page, currentSearchText);
+    await tasks(page, currentSearchText, currentSorttype, currentSortby);
   }, 300),
 );
 
 //sorting
-async function getSortedData(sorttype, sortfield) {
-  try {
-    const res = await sorting(sorttype, sortfield);
-    if (!res.ok) {
-      throw new ApiError("failed to sorted", res.status);
-    }
-    const result = await res.json();
-    const sortedtask = result.data.map((data) => new Task(data));
-    viewTask(sortedtask);
-  } catch (e) {
-    console.log(e.message, e.status);
-  }
-}
+// async function getSortedData(sorttype, sortfield) {
+//   try {
+//     const res = await sorting(sorttype, sortfield);
+//     if (!res.ok) {
+//       throw new ApiError("failed to sorted", res.status);
+//     }
+//     const result = await res.json();
+//     const sortedtask = result.data.map((data) => new Task(data));
+//     viewTask(sortedtask);
+//   } catch (e) {
+//     console.log(e.message, e.status);
+//   }
+// }
 
 const tableHead = document.getElementById("table-head");
 document.getElementById("task-id").dataset.id = "custom_id";
@@ -191,11 +193,9 @@ const dscbtn = document.getElementById("dsc");
 dscbtn.dataset.id = "dsc";
 const sortDiv = document.getElementById("sorttype");
 
-let id = null;
-
 tableHead.addEventListener("click", async (e) => {
   e.preventDefault();
-  id = e.target.dataset.id;
+  currentSortby = e.target.dataset.id;
   if (!e.target.closest(".sortField")) {
     sortDiv.style.display = "none";
     // console.log("return form tablehead eventlistener");
@@ -209,18 +209,19 @@ tableHead.addEventListener("click", async (e) => {
   sortDiv.style.top = `${y - 100}px`;
 
   sortDiv.style.display = "block";
-  // getSortedData("dsc", id);
 });
 
 ascbtn.addEventListener("click", (e) => {
   e.preventDefault();
-  const sorttype = ascbtn.dataset.id;
-  getSortedData(sorttype, id);
+  currentSorttype = ascbtn.dataset.id;
+  tasks(page, currentSearchText, currentSorttype, currentSortby);
+
   sortDiv.style.display = "none";
 });
 dscbtn.addEventListener("click", (e) => {
   e.preventDefault();
-  const sorttype = dscbtn.dataset.id;
-  getSortedData(sorttype, id);
+  currentSorttype = dscbtn.dataset.id;
+  tasks(page, currentSearchText, currentSorttype, currentSortby);
+
   sortDiv.style.display = "none";
 });

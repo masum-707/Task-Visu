@@ -11,30 +11,19 @@ export async function login(username, password) {
   return response;
 }
 
-export async function getTask(page, text = "") {
+export async function getTask(page, text = "", sorttype = "", sortby = "") {
   let skip = (page - 1) * config.pageSize;
-  let res;
-  if (!text) {
-    res = await fetch(
-      `${config.baseURL}task-visu/tasks?responsible_id[]=74&is_active=true&completion_lt=100&top=${config.pageSize}&skip=${skip}&permission=TASKVISU_SUPERADMIN`,
-      {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${getToken()}`,
-        },
-      },
-    );
-  } else {
-    res = await fetch(
-      `${config.baseURL}task-visu/tasks?responsible_id[]=74&is_active=true&completion_lt=100&search=${text}&top=${config.pageSize}&skip=${skip}&permission=TASKVISU_SUPERADMIN`,
-      {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${getToken()}`,
-        },
-      },
-    );
-  }
+  let url = `${config.baseURL}task-visu/tasks?responsible_id[]=74&is_active=true&completion_lt=100&top=${config.pageSize}&skip=${skip}&`;
+  if (text) url += `search=${text}&`;
+  if (sorttype && sortby) url += `sort_order=${sorttype}&sort_by=${sortby}&`;
+
+  const res = await fetch(`${url}permission=TASKVISU_SUPERADMIN`, {
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+
   if (res.status === 401) {
     // console.log("token expire ,login again");
     clearSession();
@@ -143,19 +132,19 @@ export async function updateExistingTask(updateTask, id) {
   return response;
 }
 
-export async function sorting(sorttype, sortby) {
-  let url = `task-visu/tasks?responsible_id[]=74&is_active=true&completion_lt=100&sort_order=${sorttype}&sort_by=${sortby}&top=40&skip=0&permission=TASKVISU_SUPERADMIN`;
-  const response = await fetch(`${config.baseURL}` + url, {
-    headers: {
-      Accept: "application/json",
-      Authorization: `Bearer ${getToken()}`,
-    },
-  });
-  if (response.status == 401) {
-    clearSession();
-    window.location.href = "index.html";
-  }
-  // console.log(await response.json());
-  return response;
-}
+// export async function sorting(sorttype, sortby) {
+//   let url = `task-visu/tasks?responsible_id[]=74&is_active=true&completion_lt=100&sort_order=${sorttype}&sort_by=${sortby}&top=40&skip=0&permission=TASKVISU_SUPERADMIN`;
+//   const response = await fetch(`${config.baseURL}` + url, {
+//     headers: {
+//       Accept: "application/json",
+//       Authorization: `Bearer ${getToken()}`,
+//     },
+//   });
+//   if (response.status == 401) {
+//     clearSession();
+//     window.location.href = "index.html";
+//   }
+//   // console.log(await response.json());
+//   return response;
+// }
 // sorting("asc", "name");
