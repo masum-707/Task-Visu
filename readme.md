@@ -23,19 +23,16 @@ Progress %, Active.
 17. Validation before sending: Name is required; Responsible is required; Progress is a whole number
 between 0 and 100; End cannot be before Start. Each error is shown next to its own input.
 
-17. Delete asks "Are you sure?" first, then calls DELETE and removes the row.
-18. While saving or deleting, the buttons are disabled so a double click cannot send the request
+18. Delete asks "Are you sure?" first, then calls DELETE and removes the row.
+19. While saving or deleting, the buttons are disabled so a double click cannot send the request
 twice.
-19. Clicking a row opens the same form filled with that task, loaded from GET /tasks/{id}.
-20. Search box, filtered by the server through search=, wired through your own debounce of about 300
+20. Clicking a row opens the same form filled with that task, loaded from GET /tasks/{id}.
+21. Search box, filtered by the server through search=, wired through your own debounce of about 300
 ms.
-21. Clicking a column header sorts by it;
-22. Save creates (POST) or updates (PATCH) and then refreshes the list without a full page reload.
-23. The last search text and sort are remembered in localStorage and restored after a page reload.
-24. HighLight sorted head and overDue (in mouse hover)
-25. Keyboard support: Esc closes the form,Enter submits it
-26. Added refresh button
-
-??What remaining ....
-1. package.json with ESLint + Prettier and an npm run lint script.
-2. Three or four Jest tests for your pure helpers (debounce, date formatting, the validation function).
+22. Clicking a column header sorts by it;
+23. Save creates (POST) or updates (PATCH) and then refreshes the list without a full page reload.
+24. The last search text and sort are remembered in localStorage and restored after a page reload.
+25. HighLight sorted head and overDue (in mouse hover)
+26. Keyboard support: Esc closes the form,Enter submits(create and update task handle)
+27. Added refresh button
+28. Jest tests for your pure helper date formatting.
