@@ -1,4 +1,4 @@
-import { clearSession } from "/js/utils.js";
+import { clearSession } from "./utils.js";
 
 const logoutBtn = document.getElementById("log-out");
 
