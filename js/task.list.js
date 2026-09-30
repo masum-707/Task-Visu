@@ -11,8 +11,6 @@ import { Task } from "./task.model.js";
 import { config } from "./config.js";
 import { debounce } from "./utils.js";
 
-requiredLogin();
-
 async function getExistingUsersAndPriority() {
   try {
     const response = await ExistingUser();
@@ -100,12 +98,17 @@ function renderRow(task) {
   return tr;
 }
 
-let page = 1;
-let currentSearchText = "";
-let currentSorttype = "";
-let currentSortby = "";
+export let page = 1;
+export let currentSearchText = "";
+export let currentSorttype = "";
+export let currentSortby = "";
 
-async function tasks(pageNumber, searchText = "", sorttype = "", sortby = "") {
+export async function tasks(
+  pageNumber,
+  searchText = "",
+  sorttype = "",
+  sortby = "",
+) {
   try {
     const res = await getTask(pageNumber, searchText, sorttype, sortby);
     if (!res.ok) {
@@ -120,7 +123,7 @@ async function tasks(pageNumber, searchText = "", sorttype = "", sortby = "") {
       currentSorttype: sorttype,
       currentSortby: sortby,
     });
-
+    requiredLogin();
     viewTask(taskList);
 
     const totalCount = result.total || 0;

@@ -30,13 +30,12 @@ twice.
 20. Search box, filtered by the server through search=, wired through your own debounce of about 300
 ms.
 21. Clicking a column header sorts by it;
-22. Save creates (POST) or updates (PATCH)
+22. Save creates (POST) or updates (PATCH) and then refreshes the list without a full page reload.
 23. The last search text and sort are remembered in localStorage and restored after a page reload.
 24. HighLight sorted head and overDue (in mouse hover)
-25. Keyboard support: Esc closes the form,
+25. Keyboard support: Esc closes the form,Enter submits it
 26. Added refresh button
 
 ??What remaining ....
 1. package.json with ESLint + Prettier and an npm run lint script.
 2. Three or four Jest tests for your pure helpers (debounce, date formatting, the validation function).
-3. Keyboard support:  Enter submits it.

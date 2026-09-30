@@ -8,8 +8,14 @@ import {
   newTask,
 } from "./formValidation.js";
 import { requiredLogin } from "./utils.js";
-
-requiredLogin();
+import {
+  page,
+  currentSearchText,
+  currentSortby,
+  currentSorttype,
+  tasks,
+} from "./task.list.js";
+import { formCancelHandler, formSubmitHandlerByEnter } from "./task.form.js";
 
 let updateMassage = document.getElementById("Task-create");
 const tablebody = document.getElementById("tablebody");
@@ -24,6 +30,7 @@ const tableContainer = document.getElementById("table-container");
 
 createBtn.addEventListener("click", (e) => {
   e.preventDefault();
+  requiredLogin();
   taskFormContainer.style.display = "block";
   tableContainer.classList.add("restrict");
 
@@ -44,6 +51,7 @@ async function getTaskById(id) {
 
 tablebody.addEventListener("click", async (e) => {
   e.preventDefault();
+  requiredLogin();
   // console.log(e.target);
   const deleteBtn = e.target.classList.contains("delete-btn");
 
@@ -62,6 +70,7 @@ tablebody.addEventListener("click", async (e) => {
         throw new ApiError("failed to deleted task", e.status);
       }
       row.remove();
+      await tasks(page, currentSearchText, currentSorttype, currentSortby);
       updateMassage.textContent = "Task delete successfully";
       // setTimeout(() => {
       //   updateMassage.textContent = "";
@@ -79,6 +88,7 @@ tablebody.addEventListener("click", async (e) => {
         updateMassage.textContent = "";
       }, 5000);
     }
+    return;
   }
   const taskId = e.target.closest("tr").dataset.id;
   const operationalTask = await getTaskById(taskId);
@@ -90,6 +100,9 @@ tablebody.addEventListener("click", async (e) => {
   tableContainer.classList.add("restrict");
   taskFormContainer.style.display = "block";
 
+  document.addEventListener("keydown", formCancelHandler);
+  document.addEventListener("keydown", formSubmitHandlerByEnter);
+
   // const updatedFields = updateTaskData(originalTask);
   // return updatedFields;
   // console.log(updatedFields);
@@ -98,7 +111,7 @@ tablebody.addEventListener("click", async (e) => {
 
 taskForm.addEventListener("submit", async (event) => {
   event.preventDefault();
-
+  if (!confirm("Are you sure\nyou want to submit?")) return;
   if (!verified()) {
     return;
   }
@@ -117,6 +130,7 @@ taskForm.addEventListener("submit", async (event) => {
       if (!res.ok) {
         throw new ApiError("Updating task failed", response.status);
       }
+      await tasks(page, currentSearchText, currentSorttype, currentSortby);
       updateMassage.textContent = "Successfully update the task";
       return;
     } else {
@@ -127,6 +141,7 @@ taskForm.addEventListener("submit", async (event) => {
       if (!response.ok) {
         throw new ApiError("Failed to create task", response.status);
       }
+      await tasks(page, currentSearchText, currentSorttype, currentSortby);
       updateMassage.textContent = "New task create successfully";
     }
   } catch (err) {
@@ -136,6 +151,8 @@ taskForm.addEventListener("submit", async (event) => {
     taskForm.reset();
     formContainer.style.display = "none";
     tableContainer.classList.remove("restrict");
+    document.removeEventListener("keydown", formCancelHandler);
+    document.removeEventListener("keydown", formSubmitHandlerByEnter);
     editingtaskId = null;
     originalTask = null;
     setTimeout(() => {
