@@ -1,7 +1,5 @@
 import { existingUserPriority } from "./task.list.js";
-import { requiredLogin } from "./utils.js";
-
-requiredLogin();
+import { formatDate } from "./utils.js";
 
 const errortext = document.querySelectorAll(".errorText");
 const taskName = document.getElementById("taskname");
@@ -19,12 +17,6 @@ const description_plain = document.getElementById("description_plain");
 
 const taskPriority = document.getElementById("Task-Priority");
 // console.log(existingUserPriority.users);
-
-function formatDate(date) {
-  if (!date) return "";
-  const fdate = new Date(date).toISOString();
-  return fdate.slice(0, 10);
-}
 
 const userMap = new Map();
 for (const user of existingUserPriority.users) {
@@ -57,7 +49,7 @@ export function fillUpForm(task) {
 
 // console.log(priorityMap);
 
-export async function verified() {
+export function verified() {
   setTimeout(() => {
     errortext.forEach((e) => (e.textContent = ""));
   }, 5000);
@@ -83,8 +75,8 @@ export async function verified() {
   }
 
   // const inputDate = new Date(startTime.value);
-  const currentDate = new Date();
-  currentDate.setHours(0, 0, 0, 0);
+  // const currentDate = new Date();
+  // currentDate.setHours(0, 0, 0, 0);
 
   // if (inputDate < currentDate) {
   //   const startdateError = document.getElementById("starttime-error");

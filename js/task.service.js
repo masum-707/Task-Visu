@@ -33,6 +33,8 @@ createBtn.addEventListener("click", (e) => {
   requiredLogin();
   taskFormContainer.style.display = "block";
   tableContainer.classList.add("restrict");
+  document.addEventListener("keydown", formCancelHandler);
+  document.addEventListener("keydown", formSubmitHandlerByEnter);
 
   // console.log("open task form");
 });

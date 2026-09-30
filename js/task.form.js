@@ -3,7 +3,6 @@ import { createTask } from "./api.js";
 import { ApiError } from "./error.js";
 import { requiredLogin } from "./utils.js";
 
-requiredLogin();
 const savebtn = document.getElementById("submit");
 const tableContainer = document.getElementById("table-container");
 const formContainer = document.getElementById("form-container");
