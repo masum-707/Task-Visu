@@ -35,4 +35,4 @@ ms.
 25. HighLight sorted head and overDue (in mouse hover)
 26. Keyboard support: Esc closes the form,Enter submits(create and update task handle)
 27. Added refresh button
-28. Jest tests for your pure helper date formatting.git add README.md
+28. Jest tests for your pure helper date formatting.
