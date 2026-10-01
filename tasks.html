@@ -24,22 +24,24 @@
           <button id="dsc">Sortby Descending</button>
         </div>
         <button id="refresh" class="refresh">Refresh🗘</button>
-        <table class="table">
-          <thead id="table-head">
-            <th>Active</th>
-            <th id="task-id" class="sortField">ID</th>
-            <th id="task-name" class="sortField">Task Name</th>
-            <th>Description</th>
-            <th>Responsible</th>
-            <th>Creator</th>
-            <th>Priority</th>
-            <th id="end-date" class="sortField">End Date</th>
-            <th id="completion" class="sortField">Completion</th>
-            <th>OverDue</th>
-            <th>Action</th>
-          </thead>
-          <tbody id="tablebody"></tbody>
-        </table>
+        <div class="table-container">
+          <table class="table">
+            <thead id="table-head">
+              <th>Active</th>
+              <th id="task-id" class="sortField">ID</th>
+              <th id="task-name" class="sortField">Task Name</th>
+              <th>Description</th>
+              <th>Responsible</th>
+              <th>Creator</th>
+              <th>Priority</th>
+              <th id="end-date" class="sortField">End Date</th>
+              <th id="completion" class="sortField">Completion</th>
+              <th>OverDue</th>
+              <th>Action</th>
+            </thead>
+            <tbody id="tablebody"></tbody>
+          </table>
+        </div>
         <div class="footer">
           <p>Total tasks: <span id="total-task"></span></p>
           <div>

@@ -36,13 +36,16 @@ button {
     background: green;
 }
 
-.table {
-    
+.table-container {
     width: 100%;
+    box-sizing: border-box;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+.table {
+    width: 99%;
     border-collapse: collapse;
     border: 1px solid black;
-    overflow: auto;
-    overscroll-behavior-x: contain;
 }
 
 th,
