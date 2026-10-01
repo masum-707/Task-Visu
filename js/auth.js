@@ -1,7 +1,7 @@
-import { saveSession, clearSession } from "./utils.js";
 import { login } from "./api.js";
 import { ApiError } from "./error.js";
-// console.log("login file connected");
+import { config } from "./config.js";
+
 const usernameError = document.getElementById("username-error-message");
 const passwordError = document.getElementById("password-error-message");
 const loginBtn = document.getElementById("login-button");
@@ -26,21 +26,16 @@ if (loginForm) {
     loginBtn.textContent = "Signing in....";
     try {
       const response = await login(userName, password);
-      // console.log(response);
       if (!response.ok) {
         throw new ApiError(
           "Wrong username or password\n Please try again",
           response.status,
         );
       }
-      // console.log(response);
       const result = await response.json();
       saveSession(result.token, result.user.username);
       window.location.href = "tasks.html";
     } catch (e) {
-      // console.log(e.message, e.status);
-      // console.log(e.message, typeof e.message);
-
       const warning = document.getElementById("wrong-user");
       if (!navigator.onLine) {
         warning.textContent = "No Internet Connection";
@@ -56,6 +51,32 @@ if (loginForm) {
       return;
     }
   });
+}
+
+export function saveSession(token, user, data = {}) {
+  localStorage.setItem(config.storageKey.token, JSON.stringify(token));
+  localStorage.setItem(config.storageKey.user, JSON.stringify(user));
+  localStorage.setItem(config.storageKey.latestSearch, JSON.stringify(data));
+}
+
+export function getToken() {
+  return JSON.parse(localStorage.getItem(config.storageKey.token));
+}
+export function getUser() {
+  return JSON.parse(localStorage.getItem(config.storageKey.user));
+}
+export function getLatestSearch() {
+  return JSON.parse(localStorage.getItem(config.storageKey.latestSearch));
+}
+export function clearSession() {
+  localStorage.clear();
+}
+
+export function requiredLogin() {
+  if (!getToken() && !getUser()) {
+    clearSession();
+    window.location.href = "index.html";
+  }
 }
 
 const logoutBtn = document.getElementById("log-out");

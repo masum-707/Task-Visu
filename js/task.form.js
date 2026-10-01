@@ -17,7 +17,9 @@ export function formCancelHandler(e) {
     formContainer.style.display = "none";
   }
 }
-cancel.addEventListener("click", formCancelHandler);
+if (cancel) {
+  cancel.addEventListener("click", formCancelHandler);
+}
 export function formSubmitHandlerByEnter(e) {
   if (e.key === "Enter") savebtn.click();
 }

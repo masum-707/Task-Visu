@@ -16,7 +16,6 @@ const endTime = document.getElementById("endTime");
 const description_plain = document.getElementById("description_plain");
 
 const taskPriority = document.getElementById("Task-Priority");
-// console.log(existingUserPriority.users);
 
 const userMap = new Map();
 for (const user of existingUserPriority.users) {
@@ -47,8 +46,6 @@ export function fillUpForm(task) {
   responsible.value = task.user_id_responsible;
 }
 
-// console.log(priorityMap);
-
 export function verified() {
   setTimeout(() => {
     errortext.forEach((e) => (e.textContent = ""));
@@ -73,17 +70,6 @@ export function verified() {
     responsibleError.textContent = "Select valid Responsible user";
     return false;
   }
-
-  // const inputDate = new Date(startTime.value);
-  // const currentDate = new Date();
-  // currentDate.setHours(0, 0, 0, 0);
-
-  // if (inputDate < currentDate) {
-  //   const startdateError = document.getElementById("starttime-error");
-  //   startdateError.textContent =
-  //     "Task start date can not less then current date";
-  //   return false;
-  // }
 
   if (new Date(endTime.value) < new Date(startTime.value)) {
     const enddateError = document.getElementById("endTime-error");

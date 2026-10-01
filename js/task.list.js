@@ -4,7 +4,7 @@ import {
   getUser,
   requiredLogin,
   saveSession,
-} from "./utils.js";
+} from "./auth.js";
 import { getTask, ExistingUser } from "./api.js";
 import { ApiError } from "./error.js";
 import { Task } from "./task.model.js";
@@ -18,7 +18,6 @@ async function getExistingUsersAndPriority() {
       throw new ApiError("failed to get existing users and task priority ");
     }
     const data = await response.json();
-    // console.log(data);
     return data;
   } catch (e) {
     console.log(e.message);
@@ -26,8 +25,6 @@ async function getExistingUsersAndPriority() {
 }
 const refresh = document.getElementById("refresh");
 export const existingUserPriority = await getExistingUsersAndPriority();
-// console.log(existingUserPriority.users);
-// console.log("task list connected");
 const tablebody = document.getElementById("tablebody");
 const searchbar = document.getElementById("searchbar");
 
@@ -169,43 +166,31 @@ await tasks(
   latestData?.currentSorttype ?? "",
   latestData?.currentSortby ?? "",
 );
+if (nextBtn) {
+  nextBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    page++;
+    tasks(page, currentSearchText, currentSorttype, currentSortby);
+  });
+}
 
-nextBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  page++;
-  tasks(page, currentSearchText, currentSorttype, currentSortby);
-});
-
-prevBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  page--;
-  tasks(page, currentSearchText, currentSorttype, currentSortby);
-});
-
-searchbar.addEventListener(
-  "input",
-  debounce(async (e) => {
-    currentSearchText = e.target.value.trim();
-    page = 1;
-    await tasks(page, currentSearchText, currentSorttype, currentSortby);
-  }, 300),
-);
-
-//sorting
-// async function getSortedData(sorttype, sortfield) {
-//   try {
-//     const res = await sorting(sorttype, sortfield);
-//     if (!res.ok) {
-//       throw new ApiError("failed to sorted", res.status);
-//     }
-//     const result = await res.json();
-//     const sortedtask = result.data.map((data) => new Task(data));
-//     viewTask(sortedtask);
-//   } catch (e) {
-//     console.log(e.message, e.status);
-//   }
-// }
-
+if (prevBtn) {
+  prevBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    page--;
+    tasks(page, currentSearchText, currentSorttype, currentSortby);
+  });
+}
+if (searchbar) {
+  searchbar.addEventListener(
+    "input",
+    debounce(async (e) => {
+      currentSearchText = e.target.value.trim();
+      page = 1;
+      await tasks(page, currentSearchText, currentSorttype, currentSortby);
+    }, 300),
+  );
+}
 const tableHead = document.getElementById("table-head");
 document.getElementById("task-id").dataset.id = "custom_id";
 document.getElementById("task-name").dataset.id = "name";
@@ -218,51 +203,62 @@ dscbtn.dataset.id = "dsc";
 const sortDiv = document.getElementById("sorttype");
 
 const currentSortHighLight = [];
-tableHead.addEventListener("click", async (e) => {
-  e.preventDefault();
-  currentSortby = e.target.dataset.id;
-  if (!e.target.closest(".sortField")) {
+if (tableHead) {
+  tableHead.addEventListener("click", async (e) => {
+    e.preventDefault();
+    currentSortby = e.target.dataset.id;
+    if (!e.target.closest(".sortField")) {
+      sortDiv.style.display = "none";
+      return;
+    }
+    currentSortHighLight.push(e.target);
+    const x = e.pageX;
+    const y = e.pageY;
+    sortDiv.style.left = `${x + 5}px`;
+    sortDiv.style.top = `${y - 100}px`;
+
+    sortDiv.style.display = "block";
+  });
+}
+
+if (ascbtn) {
+  ascbtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    currentSorttype = ascbtn.dataset.id;
+    tasks(page, currentSearchText, currentSorttype, currentSortby);
+
+    currentSortHighLight.forEach((Highlight) =>
+      Highlight.classList.remove("active"),
+    );
+
+    currentSortHighLight[currentSortHighLight.length - 1].classList.add(
+      "active",
+    );
+
     sortDiv.style.display = "none";
-    // console.log("return form tablehead eventlistener");
-    return;
-  }
-  // console.log("table head clicked");
-  // e.target.classList.add("active");
-  currentSortHighLight.push(e.target);
-  const x = e.pageX;
-  const y = e.pageY;
-  sortDiv.style.left = `${x + 5}px`;
-  sortDiv.style.top = `${y - 100}px`;
+  });
+}
 
-  sortDiv.style.display = "block";
-});
+if (dscbtn) {
+  dscbtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    currentSorttype = dscbtn.dataset.id;
+    tasks(page, currentSearchText, currentSorttype, currentSortby);
+    currentSortHighLight.forEach((Highlight) =>
+      Highlight.classList.remove("active"),
+    );
 
-ascbtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  currentSorttype = ascbtn.dataset.id;
-  tasks(page, currentSearchText, currentSorttype, currentSortby);
+    currentSortHighLight[currentSortHighLight.length - 1].classList.add(
+      "active",
+    );
 
-  currentSortHighLight.forEach((Highlight) =>
-    Highlight.classList.remove("active"),
-  );
+    sortDiv.style.display = "none";
+  });
+}
 
-  currentSortHighLight[currentSortHighLight.length - 1].classList.add("active");
-
-  sortDiv.style.display = "none";
-});
-dscbtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  currentSorttype = dscbtn.dataset.id;
-  tasks(page, currentSearchText, currentSorttype, currentSortby);
-  currentSortHighLight.forEach((Highlight) =>
-    Highlight.classList.remove("active"),
-  );
-
-  currentSortHighLight[currentSortHighLight.length - 1].classList.add("active");
-
-  sortDiv.style.display = "none";
-});
-refresh.addEventListener("click", async (e) => {
-  e.preventDefault();
-  await tasks(page, currentSearchText, currentSorttype, currentSortby);
-});
+if (refresh) {
+  refresh.addEventListener("click", async (e) => {
+    e.preventDefault();
+    await tasks(page, currentSearchText, currentSorttype, currentSortby);
+  });
+}

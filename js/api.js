@@ -1,5 +1,5 @@
 import { config } from "./config.js";
-import { clearSession, getToken } from "./utils.js";
+import { clearSession, getToken } from "./auth.js";
 
 export async function login(username, password) {
   const response = await fetch(`${config.baseURL}login`, {
@@ -25,11 +25,9 @@ export async function getTask(page, text = "", sorttype = "", sortby = "") {
   });
 
   if (res.status === 401) {
-    // console.log("token expire ,login again");
     clearSession();
     window.location.href = "index.html";
   }
-  //   console.log(await res.json());
   return res;
 }
 
@@ -61,18 +59,8 @@ export async function createTask(task) {
     clearSession();
     window.location.href = "index.html";
   }
-  // console.log(await response.json());
   return response;
 }
-
-// const newTask = {
-//   name: "create test new test",
-//   is_active: true,
-//   completion: 0,
-//   user_id_responsible: 7,
-// };
-// createTask(newTask);
-// deleteTask("3200");
 
 //existing user for form
 export async function ExistingUser() {
@@ -91,13 +79,9 @@ export async function ExistingUser() {
     window.location.href = "index.html";
   }
   return response;
-  // const result = await response.json();
-  // console.log(result);
 }
-// ExistingUser();
 
 //Updating task
-
 export async function existingTask(id) {
   const response = await fetch(`${config.baseURL}task-visu/tasks/${id}`, {
     method: "GET",
@@ -114,8 +98,6 @@ export async function existingTask(id) {
 }
 
 export async function updateExistingTask(updateTask, id) {
-  // console.log(updateTask);
-
   const response = await fetch(`${config.baseURL}task-visu/tasks/${id}`, {
     method: "PATCH",
     headers: {
@@ -128,23 +110,5 @@ export async function updateExistingTask(updateTask, id) {
     clearSession();
     window.location.href = "index.html";
   }
-  // console.log(response);
   return response;
 }
-
-// export async function sorting(sorttype, sortby) {
-//   let url = `task-visu/tasks?responsible_id[]=74&is_active=true&completion_lt=100&sort_order=${sorttype}&sort_by=${sortby}&top=40&skip=0&permission=TASKVISU_SUPERADMIN`;
-//   const response = await fetch(`${config.baseURL}` + url, {
-//     headers: {
-//       Accept: "application/json",
-//       Authorization: `Bearer ${getToken()}`,
-//     },
-//   });
-//   if (response.status == 401) {
-//     clearSession();
-//     window.location.href = "index.html";
-//   }
-//   // console.log(await response.json());
-//   return response;
-// }
-// sorting("asc", "name");
