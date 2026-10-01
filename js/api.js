@@ -1,5 +1,5 @@
 import { config } from "./config.js";
-import { clearSession, getToken } from "./auth.js";
+import { clearSession, getToken, getUserId } from "./auth.js";
 
 export async function login(username, password) {
   const response = await fetch(`${config.baseURL}login`, {
@@ -13,7 +13,7 @@ export async function login(username, password) {
 
 export async function getTask(page, text = "", sorttype = "", sortby = "") {
   let skip = (page - 1) * config.pageSize;
-  let url = `${config.baseURL}task-visu/tasks?responsible_id[]=74&is_active=true&completion_lt=100&top=${config.pageSize}&skip=${skip}&`;
+  let url = `${config.baseURL}task-visu/tasks?responsible_id[]=${getUserId()}&is_active=true&completion_lt=100&top=${config.pageSize}&skip=${skip}&`;
   if (text) url += `search=${text}&`;
   if (sorttype && sortby) url += `sort_order=${sorttype}&sort_by=${sortby}&`;
 

@@ -4,6 +4,7 @@ export const config = {
   storageKey: {
     token: "userToken",
     user: "userName",
+    userId: "userId",
     latestSearch: "latestData",
   },
 };

@@ -2,6 +2,7 @@ import {
   getLatestSearch,
   getToken,
   getUser,
+  getUserId,
   requiredLogin,
   saveSession,
 } from "./auth.js";
@@ -115,7 +116,7 @@ export async function tasks(
 
     const rawData = result.data || [];
     const taskList = rawData.map((data) => new Task(data));
-    saveSession(getToken(), getUser(), {
+    saveSession(getToken(), getUser(), getUserId(), {
       currentSearchText: searchText,
       currentSorttype: sorttype,
       currentSortby: sortby,
@@ -259,6 +260,11 @@ if (dscbtn) {
 if (refresh) {
   refresh.addEventListener("click", async (e) => {
     e.preventDefault();
-    await tasks(page, currentSearchText, currentSorttype, currentSortby);
+    await tasks(
+      page,
+      (currentSearchText = ""),
+      (currentSorttype = ""),
+      (currentSortby = ""),
+    );
   });
 }

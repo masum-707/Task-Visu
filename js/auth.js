@@ -33,7 +33,7 @@ if (loginForm) {
         );
       }
       const result = await response.json();
-      saveSession(result.token, result.user.username);
+      saveSession(result.token, result.user.username, result.user.id);
       window.location.href = "tasks.html";
     } catch (e) {
       const warning = document.getElementById("wrong-user");
@@ -53,9 +53,10 @@ if (loginForm) {
   });
 }
 
-export function saveSession(token, user, data = {}) {
+export function saveSession(token, user, userId, data = {}) {
   localStorage.setItem(config.storageKey.token, JSON.stringify(token));
   localStorage.setItem(config.storageKey.user, JSON.stringify(user));
+  localStorage.setItem(config.storageKey.userId, JSON.stringify(userId));
   localStorage.setItem(config.storageKey.latestSearch, JSON.stringify(data));
 }
 
@@ -65,6 +66,10 @@ export function getToken() {
 export function getUser() {
   return JSON.parse(localStorage.getItem(config.storageKey.user));
 }
+export function getUserId() {
+  return JSON.parse(localStorage.getItem(config.storageKey.userId));
+}
+
 export function getLatestSearch() {
   return JSON.parse(localStorage.getItem(config.storageKey.latestSearch));
 }
@@ -73,7 +78,7 @@ export function clearSession() {
 }
 
 export function requiredLogin() {
-  if (!getToken() && !getUser()) {
+  if (!getToken() && !getUser() && getUserId()) {
     clearSession();
     window.location.href = "index.html";
   }
