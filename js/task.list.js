@@ -253,6 +253,9 @@ if (dscbtn) {
 if (refresh) {
   refresh.addEventListener("click", async (e) => {
     e.preventDefault();
+    currentSortHighLight.forEach((Highlight) =>
+      Highlight.classList.remove("active"),
+    );
     await tasks(
       (page = 1),
       (currentSearchText = ""),
