@@ -12,6 +12,35 @@ import { Task } from "./task.model.js";
 import { config } from "./config.js";
 import { debounce } from "./utils.js";
 
+const refresh = document.getElementById("refresh");
+const tablebody = document.getElementById("tablebody");
+const searchbar = document.getElementById("searchbar");
+const taskContainer = document.getElementById("table-container");
+const nextBtn = document.getElementById("next-btn");
+const prevBtn = document.getElementById("previous-btn");
+const currentPage = document.getElementById("current-page");
+const totalTask = document.getElementById("total-task");
+const user = document.getElementById("currentUser");
+const tableHead = document.getElementById("table-head");
+const ascbtn = document.getElementById("asc");
+const dscbtn = document.getElementById("dsc");
+const sortDiv = document.getElementById("sorttype");
+const latestData = getLatestSearch();
+const currentSortHighLight = [];
+export let page = 1;
+export let currentSearchText = "";
+export let currentSorttype = "";
+export let currentSortby = "";
+
+dscbtn.dataset.id = "dsc";
+ascbtn.dataset.id = "asc";
+document.getElementById("task-id").dataset.id = "custom_id";
+document.getElementById("task-name").dataset.id = "name";
+document.getElementById("completion").dataset.id = "completion";
+document.getElementById("end-date").dataset.id = "end";
+
+user.textContent = getUser() + " Bhai";
+
 async function getExistingUsersAndPriority() {
   try {
     const response = await ExistingUser();
@@ -24,21 +53,10 @@ async function getExistingUsersAndPriority() {
     console.log(e.message);
   }
 }
-
-const refresh = document.getElementById("refresh");
 export const existingUserPriority = await getExistingUsersAndPriority();
-const tablebody = document.getElementById("tablebody");
-const searchbar = document.getElementById("searchbar");
-const taskContainer = document.getElementById("table-container");
-const user = document.getElementById("currentUser");
-user.textContent = getUser() + " Bhai";
-
-const nextBtn = document.getElementById("next-btn");
-const prevBtn = document.getElementById("previous-btn");
-const currentPage = document.getElementById("current-page");
-const totalTask = document.getElementById("total-task");
 
 function renderRow(task) {
+  const tr = document.createElement("tr");
   const active = document.createElement("td");
   const customId = document.createElement("td");
   const taskName = document.createElement("td");
@@ -56,11 +74,9 @@ function renderRow(task) {
   deletebtn.textContent = "Delete";
   action.append(deletebtn);
 
-  const tr = document.createElement("tr");
   active.textContent = task.is_active ? "✓" : "✗";
   customId.textContent = task?.custom_id ?? "-";
   taskName.textContent = task?.name ?? "-";
-
   description.textContent = task?.description_plain
     ? task.description_plain
     : "-";
@@ -89,11 +105,6 @@ function renderRow(task) {
   return tr;
 }
 
-export let page = 1;
-export let currentSearchText = "";
-export let currentSorttype = "";
-export let currentSortby = "";
-
 export async function tasks(
   pageNumber,
   searchText = "",
@@ -106,7 +117,6 @@ export async function tasks(
       throw new ApiError("Failed to get tasks", res.status);
     }
     const result = await res.json();
-
     const rawData = result.data || [];
     const taskList = rawData.map((data) => new Task(data));
     saveSession(getToken(), getUser(), getUserId(), {
@@ -153,13 +163,14 @@ export function viewTask(taskList) {
     tablebody.append(row);
   }
 }
-const latestData = getLatestSearch();
+
 await tasks(
   page,
   latestData?.currentSearchText ?? "",
   latestData?.currentSorttype ?? "",
   latestData?.currentSortby ?? "",
 );
+
 if (nextBtn) {
   nextBtn.addEventListener("click", (e) => {
     e.preventDefault();
@@ -175,6 +186,7 @@ if (prevBtn) {
     tasks(page, currentSearchText, currentSorttype, currentSortby);
   });
 }
+
 if (searchbar) {
   searchbar.addEventListener(
     "input",
@@ -185,18 +197,7 @@ if (searchbar) {
     }, 300),
   );
 }
-const tableHead = document.getElementById("table-head");
-document.getElementById("task-id").dataset.id = "custom_id";
-document.getElementById("task-name").dataset.id = "name";
-document.getElementById("completion").dataset.id = "completion";
-document.getElementById("end-date").dataset.id = "end";
-const ascbtn = document.getElementById("asc");
-ascbtn.dataset.id = "asc";
-const dscbtn = document.getElementById("dsc");
-dscbtn.dataset.id = "dsc";
-const sortDiv = document.getElementById("sorttype");
 
-const currentSortHighLight = [];
 if (tableHead) {
   tableHead.addEventListener("click", async (e) => {
     e.preventDefault();

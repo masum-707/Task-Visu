@@ -6,24 +6,30 @@ const usernameError = document.getElementById("username-error-message");
 const passwordError = document.getElementById("password-error-message");
 const loginBtn = document.getElementById("login-button");
 const loginForm = document.getElementById("login-form");
+const logoutBtn = document.getElementById("log-out");
 
 if (loginForm) {
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const userName = document.getElementById("username").value.trim();
     const password = document.getElementById("password").value.trim();
+
     if (!userName) {
       usernameError.textContent = "UserName Required";
       return;
     }
+
     usernameError.textContent = "";
+
     if (!password) {
       passwordError.textContent = "Password Required";
       return;
     }
+
     passwordError.textContent = "";
     loginBtn.disable = true;
     loginBtn.textContent = "Signing in....";
+
     try {
       const response = await login(userName, password);
       if (!response.ok) {
@@ -84,14 +90,11 @@ export function requiredLogin() {
   }
 }
 
-const logoutBtn = document.getElementById("log-out");
-
 if (logoutBtn) {
   logoutBtn.addEventListener("click", (e) => {
     e.preventDefault();
 
     if (confirm("Are sure you want to logout")) {
-      //clear local storage
       clearSession();
       window.location.href = "index.html";
     }

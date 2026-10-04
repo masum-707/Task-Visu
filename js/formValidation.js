@@ -10,8 +10,9 @@ const startTime = document.getElementById("startTime");
 const endTime = document.getElementById("endTime");
 const description_plain = document.getElementById("description_plain");
 const taskPriority = document.getElementById("Task-Priority");
-
 const userMap = new Map();
+const priorityMap = new Map();
+
 for (const user of existingUserPriority.users) {
   userMap.set(user.id, user);
   const option = document.createElement("option");
@@ -20,7 +21,6 @@ for (const user of existingUserPriority.users) {
   responsible.append(option);
 }
 
-const priorityMap = new Map();
 for (const priority of existingUserPriority.task_priorities) {
   priorityMap.set(priority.id, priority);
   const option = document.createElement("option");
@@ -44,21 +44,25 @@ export function verified() {
   setTimeout(() => {
     errortext.forEach((e) => (e.textContent = ""));
   }, 5000);
+
   if (!taskName.value.trim()) {
     const nameError = document.getElementById("tasknameError");
     nameError.textContent = "Task name required";
     return false;
   }
+
   if (!taskStatus.value.trim()) {
     const statusError = document.getElementById("statusError");
     statusError.textContent = "Active status required";
     return false;
   }
+
   if (!completion.value.trim()) {
     const completionError = document.getElementById("completionError");
     completionError.textContent = " Task completion required";
     return false;
   }
+
   if (!userMap.has(Number(responsible.value))) {
     const responsibleError = document.getElementById("responsibleError");
     responsibleError.textContent = "Select valid Responsible user";
@@ -70,6 +74,7 @@ export function verified() {
     enddateError.textContent = "Task should not be  end before start";
     return false;
   }
+
   return true;
 }
 
@@ -83,7 +88,6 @@ export function newTask() {
     is_active: Number(taskStatus.value),
     completion: Number(completion.value),
     user_id_responsible: Number(responsible.value),
-    //valid format: 2026-10-11
     start: formatDate(startTime.value) || null,
     end: formatDate(endTime.value) || null,
     description: description_plain.value,
@@ -105,29 +109,25 @@ export function updateTaskData(originalTask) {
   const description = description_plain.value;
   const priority = Number(taskPriority.value);
 
-  if (name !== originalTask.name) {
-    updatedFields.name = name;
-  }
-  if (isActive !== originalTask.is_active) {
-    updatedFields.is_active = isActive;
-  }
-  if (completionValue !== originalTask.completion) {
+  if (name !== originalTask.name) updatedFields.name = name;
+
+  if (isActive !== originalTask.is_active) updatedFields.is_active = isActive;
+
+  if (completionValue !== originalTask.completion)
     updatedFields.completion = completionValue;
-  }
-  if (responsibleId !== originalTask.user_id_responsible) {
+
+  if (responsibleId !== originalTask.user_id_responsible)
     updatedFields.user_id_responsible = responsibleId;
-  }
-  if (start !== originalTask.start) {
-    updatedFields.start = start;
-  }
-  if (end !== originalTask.end) {
-    updatedFields.end = end;
-  }
-  if (description !== originalTask.description_plain) {
+
+  if (start !== originalTask.start) updatedFields.start = start;
+
+  if (end !== originalTask.end) updatedFields.end = end;
+
+  if (description !== originalTask.description_plain)
     updatedFields.description = description;
-  }
-  if (priority !== originalTask.task_priority_id) {
+
+  if (priority !== originalTask.task_priority_id)
     updatedFields.task_priority_id = priority;
-  }
+
   return updatedFields;
 }

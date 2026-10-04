@@ -85,6 +85,7 @@ if (tablebody) {
       }
       return;
     }
+
     const taskId = e.target.closest("tr").dataset.id;
     const operationalTask = await getTaskById(taskId);
     originalTask = operationalTask;
@@ -112,7 +113,6 @@ if (taskForm) {
         if (Object.keys(updatedFields).length === 0) {
           return;
         }
-
         const res = await updateExistingTask(updatedFields, editingtaskId);
 
         if (!res.ok) {
@@ -123,7 +123,6 @@ if (taskForm) {
         return;
       } else {
         const task = newTask();
-
         const response = await createTask(task);
 
         if (!response.ok) {
