@@ -42,6 +42,7 @@ button {
     overflow-x: auto;
     overflow-y: hidden;
 }
+
 .table {
     width: 99%;
     border-collapse: collapse;
@@ -137,25 +138,28 @@ button:disabled {
     color: #fff;
     padding: 8px 12px;
     border-radius: 4px;
-    
-}
-.sorttype button{
-font-size: xx-small;
-background-color:aqua;
-color: black;
-font-weight:700;
-}
-
-.active{
-background-color: aqua;
-}
-.overDue:hover{
-background-color:coral;
-font-weight: 520;
 
 }
-.refresh{
-background-color:aqua;
-color: black;
+
+.sorttype button {
+    font-size: xx-small;
+    background-color: aqua;
+    color: black;
+    font-weight: 700;
+}
+
+.active {
+    background-color: aqua;
+}
+
+.overDue:hover {
+    background-color: coral;
+    font-weight: 520;
+
+}
+
+.refresh {
+    background-color: aqua;
+    color: black;
 
 }

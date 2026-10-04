@@ -62,7 +62,6 @@ export async function createTask(task) {
   return response;
 }
 
-//existing user for form
 export async function ExistingUser() {
   const response = await fetch(
     `${config.baseURL}task-visu/tasks/populated?expand[]=Users&expand[]=TaskPriority`,
@@ -81,7 +80,6 @@ export async function ExistingUser() {
   return response;
 }
 
-//Updating task
 export async function existingTask(id) {
   const response = await fetch(`${config.baseURL}task-visu/tasks/${id}`, {
     method: "GET",
