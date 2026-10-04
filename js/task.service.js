@@ -25,12 +25,12 @@ let updateMassage = document.getElementById("Task-create");
 const tablebody = document.getElementById("tablebody");
 const taskForm = document.getElementById("task-Form");
 const formContainer = document.getElementById("form-container");
-let originalTask = null;
-let editingtaskId = null;
-
 const createBtn = document.getElementById("create-task");
 const taskFormContainer = document.getElementById("form-container");
 const tableContainer = document.getElementById("table-container");
+let originalTask = null;
+let editingtaskId = null;
+
 if (createBtn) {
   createBtn.addEventListener("click", (e) => {
     e.preventDefault();
@@ -53,6 +53,7 @@ async function getTaskById(id) {
     console.log(e.message);
   }
 }
+
 if (tablebody) {
   tablebody.addEventListener("click", async (e) => {
     e.preventDefault();
@@ -66,9 +67,9 @@ if (tablebody) {
 
       try {
         const row = e.target.closest("tr");
-
         const id = row.dataset.id;
         const deleteResponse = await deleteTask(id);
+
         if (!deleteResponse.ok) {
           throw new ApiError("failed to deleted task", e.status);
         }
@@ -107,14 +108,12 @@ if (taskForm) {
 
     try {
       if (editingtaskId) {
-        // console.log("Updating existing task ID:", editingtaskId);
         const updatedFields = updateTaskData(originalTask);
         if (Object.keys(updatedFields).length === 0) {
           return;
         }
-        // console.log("chenge object", updatedFields);
+
         const res = await updateExistingTask(updatedFields, editingtaskId);
-        // console.log(response);
 
         if (!res.ok) {
           throw new ApiError("Updating task failed", response.status);
@@ -123,18 +122,18 @@ if (taskForm) {
         updateMassage.textContent = "Successfully update the task";
         return;
       } else {
-        // console.log("Creating a new task");
         const task = newTask();
 
         const response = await createTask(task);
+
         if (!response.ok) {
           throw new ApiError("Failed to create task", response.status);
         }
+
         await tasks(page, currentSearchText, currentSorttype, currentSortby);
         updateMassage.textContent = "New task create successfully";
       }
     } catch (err) {
-      // console.error("Task submission failed:", err, err.message, err.status);
       updateMassage.textContent = err.message;
     } finally {
       taskForm.reset();

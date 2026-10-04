@@ -8,6 +8,7 @@ export function formCancelHandler(e) {
   if (e.type === "click") {
     e.preventDefault();
   }
+
   if (e.type === "click" || e.key === "Escape") {
     if (!confirm("Are you sure you want to cancel?")) return;
     document.removeEventListener("keydown", formCancelHandler);
@@ -17,9 +18,11 @@ export function formCancelHandler(e) {
     formContainer.style.display = "none";
   }
 }
+
 if (cancel) {
   cancel.addEventListener("click", formCancelHandler);
 }
+
 export function formSubmitHandlerByEnter(e) {
   if (e.key === "Enter") savebtn.click();
 }

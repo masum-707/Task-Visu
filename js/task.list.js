@@ -24,11 +24,11 @@ async function getExistingUsersAndPriority() {
     console.log(e.message);
   }
 }
+
 const refresh = document.getElementById("refresh");
 export const existingUserPriority = await getExistingUsersAndPriority();
 const tablebody = document.getElementById("tablebody");
 const searchbar = document.getElementById("searchbar");
-
 const taskContainer = document.getElementById("table-container");
 const user = document.getElementById("currentUser");
 user.textContent = getUser() + " Bhai";
@@ -36,7 +36,6 @@ user.textContent = getUser() + " Bhai";
 const nextBtn = document.getElementById("next-btn");
 const prevBtn = document.getElementById("previous-btn");
 const currentPage = document.getElementById("current-page");
-
 const totalTask = document.getElementById("total-task");
 
 function renderRow(task) {
@@ -52,29 +51,23 @@ function renderRow(task) {
   const overDue = document.createElement("td");
   const action = document.createElement("td");
   const deletebtn = document.createElement("button");
+
   deletebtn.classList.add("delete-btn");
   deletebtn.textContent = "Delete";
   action.append(deletebtn);
+
   const tr = document.createElement("tr");
-
   active.textContent = task.is_active ? "✓" : "✗";
-
   customId.textContent = task?.custom_id ?? "-";
-
   taskName.textContent = task?.name ?? "-";
 
   description.textContent = task?.description_plain
     ? task.description_plain
     : "-";
-
   responsibleName.textContent = task?.responsible?.name ?? "-";
-
   creatorName.textContent = task?.creator?.name ?? "-";
-
   taskPriority.textContent = task?.task_priority?.custom_id ?? "-";
-
   endDate.textContent = task.displayEnd;
-
   completion.textContent = task.progressLabel ? task.progressLabel + "%" : "0%";
   overDue.textContent = task.isOverdue ? "YES" : "NO";
 
@@ -261,7 +254,7 @@ if (refresh) {
   refresh.addEventListener("click", async (e) => {
     e.preventDefault();
     await tasks(
-      page,
+      (page = 1),
       (currentSearchText = ""),
       (currentSorttype = ""),
       (currentSortby = ""),

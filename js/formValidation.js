@@ -4,17 +4,11 @@ import { formatDate } from "./utils.js";
 const errortext = document.querySelectorAll(".errorText");
 const taskName = document.getElementById("taskname");
 const taskStatus = document.getElementById("ActiveStatus");
-
 const completion = document.getElementById("completionfield");
-
 const responsible = document.getElementById("responsible");
-
 const startTime = document.getElementById("startTime");
-
 const endTime = document.getElementById("endTime");
-
 const description_plain = document.getElementById("description_plain");
-
 const taskPriority = document.getElementById("Task-Priority");
 
 const userMap = new Map();
@@ -78,10 +72,12 @@ export function verified() {
   }
   return true;
 }
+
 export function newTask() {
   if (!verified()) {
     return false;
   }
+
   const newTask = {
     name: taskName.value,
     is_active: Number(taskStatus.value),
