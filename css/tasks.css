@@ -114,7 +114,7 @@ button:disabled {
 
 }
 
-.errorText {
+.errorText ,.required{
     color: red;
     font-size: small;
     position: relative;

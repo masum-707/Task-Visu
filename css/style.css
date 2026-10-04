@@ -26,7 +26,7 @@
     color: white;
     cursor: pointer;
 }
-.errorText{
+.errorText,.required {
 color: red;
 font-size: small;
 position: relative;

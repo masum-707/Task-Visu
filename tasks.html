@@ -35,7 +35,7 @@
               <th>Creator</th>
               <th>Priority</th>
               <th id="end-date" class="sortField">End Date</th>
-              <th id="completion" class="sortField">Completion</th>
+              <th id="completion" class="sortField">Progress</th>
               <th>OverDue</th>
               <th>Action</th>
             </thead>
@@ -55,13 +55,17 @@
         <h1>Task Information</h1>
         <form id="task-Form">
           <div>
-            <label for="taskname">Task Name</label>
+            <label for="taskname"
+              >Task Name<span class="required">*</span></label
+            >
             <input type="text" id="taskname" required />
             <br />
             <span id="tasknameError" class="errorText"></span>
           </div>
           <div>
-            <label for="ActiveStatus">Active</label>
+            <label for="ActiveStatus"
+              >Active<span class="required">*</span></label
+            >
             <select id="ActiveStatus" required>
               <option value="1">TRUE</option>
               <option value="0">FALSE</option>
@@ -70,7 +74,9 @@
           </div>
 
           <div>
-            <label for="completionfield">completion</label>
+            <label for="completionfield"
+              >Progress<span class="required">*</span></label
+            >
             <input
               id="completionfield"
               type="number"
@@ -83,7 +89,9 @@
             <span id="completionError" class="errorText"></span>
           </div>
           <div>
-            <label for="responsible">Responsible</label>
+            <label for="responsible"
+              >Responsible<span class="required">*</span></label
+            >
             <select id="responsible">
               <option value="">Select user</option>
             </select>
