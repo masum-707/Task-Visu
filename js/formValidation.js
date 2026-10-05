@@ -104,9 +104,9 @@ export function updateTaskData(originalTask) {
   const isActive = Number(taskStatus.value);
   const completionValue = Number(completion.value);
   const responsibleId = Number(responsible.value);
-  const end = endTime.value;
-  const start = startTime.value;
-  const description = descriptionPlain.value;
+  const end = endTime.value.trim() || null;
+  const start = startTime.value.trim() || null;
+  const description = descriptionPlain.value.trim() || null;
   const priority = Number(taskPriority.value);
 
   if (name !== originalTask.name) updatedFields.name = name;
