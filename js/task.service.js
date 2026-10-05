@@ -22,14 +22,14 @@ import {
 import { formCancelHandler, formSubmitHandlerByEnter } from "./task.form.js";
 
 let updateMassage = document.getElementById("Task-create");
-const tablebody = document.getElementById("tablebody");
+const tableBody = document.getElementById("tablebody");
 const taskForm = document.getElementById("task-Form");
 const formContainer = document.getElementById("form-container");
 const createBtn = document.getElementById("create-task");
 const taskFormContainer = document.getElementById("form-container");
 const tableContainer = document.getElementById("table-container");
 let originalTask = null;
-let editingtaskId = null;
+let editingTaskId = null;
 
 if (createBtn) {
   createBtn.addEventListener("click", (e) => {
@@ -54,8 +54,8 @@ async function getTaskById(id) {
   }
 }
 
-if (tablebody) {
-  tablebody.addEventListener("click", async (e) => {
+if (tableBody) {
+  tableBody.addEventListener("click", async (e) => {
     e.preventDefault();
     requiredLogin();
     const deleteBtn = e.target.classList.contains("delete-btn");
@@ -89,7 +89,7 @@ if (tablebody) {
     const taskId = e.target.closest("tr").dataset.id;
     const operationalTask = await getTaskById(taskId);
     originalTask = operationalTask;
-    editingtaskId = taskId;
+    editingTaskId = taskId;
     fillUpForm(originalTask);
     tableContainer.classList.add("restrict");
     taskFormContainer.style.display = "block";
@@ -108,12 +108,12 @@ if (taskForm) {
     }
 
     try {
-      if (editingtaskId) {
+      if (editingTaskId) {
         const updatedFields = updateTaskData(originalTask);
         if (Object.keys(updatedFields).length === 0) {
           return;
         }
-        const res = await updateExistingTask(updatedFields, editingtaskId);
+        const res = await updateExistingTask(updatedFields, editingTaskId);
 
         if (!res.ok) {
           throw new ApiError("Updating task failed", response.status);
@@ -140,7 +140,7 @@ if (taskForm) {
       tableContainer.classList.remove("restrict");
       document.removeEventListener("keydown", formCancelHandler);
       document.removeEventListener("keydown", formSubmitHandlerByEnter);
-      editingtaskId = null;
+      editingTaskId = null;
       originalTask = null;
       setTimeout(() => {
         updateMassage.textContent = "";

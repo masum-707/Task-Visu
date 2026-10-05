@@ -1,4 +1,4 @@
-const savebtn = document.getElementById("submit");
+const saveBtn = document.getElementById("submit");
 const tableContainer = document.getElementById("table-container");
 const formContainer = document.getElementById("form-container");
 const taskForm = document.getElementById("task-Form");
@@ -24,5 +24,5 @@ if (cancel) {
 }
 
 export function formSubmitHandlerByEnter(e) {
-  if (e.key === "Enter") savebtn.click();
+  if (e.key === "Enter") saveBtn.click();
 }

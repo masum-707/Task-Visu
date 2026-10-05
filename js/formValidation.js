@@ -1,14 +1,14 @@
 import { existingUserPriority } from "./task.list.js";
 import { formatDate } from "./utils.js";
 
-const errortext = document.querySelectorAll(".errorText");
+const errorText = document.querySelectorAll(".errorText");
 const taskName = document.getElementById("taskname");
 const taskStatus = document.getElementById("ActiveStatus");
 const completion = document.getElementById("completionfield");
 const responsible = document.getElementById("responsible");
 const startTime = document.getElementById("startTime");
 const endTime = document.getElementById("endTime");
-const description_plain = document.getElementById("description_plain");
+const descriptionPlain = document.getElementById("description_plain");
 const taskPriority = document.getElementById("Task-Priority");
 const userMap = new Map();
 const priorityMap = new Map();
@@ -36,13 +36,13 @@ export function fillUpForm(task) {
   startTime.value = task.start;
   endTime.value = task.end;
   taskPriority.value = task.task_priority_id;
-  description_plain.value = task.description_plain;
+  descriptionPlain.value = task.description_plain;
   responsible.value = task.user_id_responsible;
 }
 
 export function verified() {
   setTimeout(() => {
-    errortext.forEach((e) => (e.textContent = ""));
+    errorText.forEach((e) => (e.textContent = ""));
   }, 5000);
 
   if (!taskName.value.trim()) {
@@ -90,7 +90,7 @@ export function newTask() {
     user_id_responsible: Number(responsible.value),
     start: formatDate(startTime.value) || null,
     end: formatDate(endTime.value) || null,
-    description: description_plain.value,
+    description: descriptionPlain.value,
     task_priority_id: Number(taskPriority.value) || null,
     task_priority: priorityMap.get(Number(taskPriority.value)) || null,
   };
@@ -106,7 +106,7 @@ export function updateTaskData(originalTask) {
   const responsibleId = Number(responsible.value);
   const end = endTime.value;
   const start = startTime.value;
-  const description = description_plain.value;
+  const description = descriptionPlain.value;
   const priority = Number(taskPriority.value);
 
   if (name !== originalTask.name) updatedFields.name = name;

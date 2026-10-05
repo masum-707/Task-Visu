@@ -6,14 +6,14 @@ import {
   requiredLogin,
   saveSession,
 } from "./auth.js";
-import { getTask, ExistingUser } from "./api.js";
+import { getTask, existingUser } from "./api.js";
 import { ApiError } from "./error.js";
 import { Task } from "./task.model.js";
 import { config } from "./config.js";
 import { debounce } from "./utils.js";
 
 const refresh = document.getElementById("refresh");
-const tablebody = document.getElementById("tablebody");
+const tableBody = document.getElementById("tablebody");
 const searchbar = document.getElementById("searchbar");
 const taskContainer = document.getElementById("table-container");
 const nextBtn = document.getElementById("next-btn");
@@ -22,8 +22,8 @@ const currentPage = document.getElementById("current-page");
 const totalTask = document.getElementById("total-task");
 const user = document.getElementById("currentUser");
 const tableHead = document.getElementById("table-head");
-const ascbtn = document.getElementById("asc");
-const dscbtn = document.getElementById("dsc");
+const ascBtn = document.getElementById("asc");
+const dscBtn = document.getElementById("dsc");
 const sortDiv = document.getElementById("sorttype");
 const latestData = getLatestSearch();
 const currentSortHighLight = [];
@@ -32,8 +32,8 @@ export let currentSearchText = "";
 export let currentSorttype = "";
 export let currentSortby = "";
 
-dscbtn.dataset.id = "dsc";
-ascbtn.dataset.id = "asc";
+dscBtn.dataset.id = "dsc";
+ascBtn.dataset.id = "asc";
 document.getElementById("task-id").dataset.id = "custom_id";
 document.getElementById("task-name").dataset.id = "name";
 document.getElementById("completion").dataset.id = "completion";
@@ -43,7 +43,7 @@ user.textContent = getUser() + " Bhai";
 
 async function getExistingUsersAndPriority() {
   try {
-    const response = await ExistingUser();
+    const response = await existingUser();
     if (!response.ok) {
       throw new ApiError("failed to get existing users and task priority ");
     }
@@ -68,11 +68,11 @@ function renderRow(task) {
   const completion = document.createElement("td");
   const overDue = document.createElement("td");
   const action = document.createElement("td");
-  const deletebtn = document.createElement("button");
+  const deleteBtn = document.createElement("button");
 
-  deletebtn.classList.add("delete-btn");
-  deletebtn.textContent = "Delete";
-  action.append(deletebtn);
+  deleteBtn.classList.add("delete-btn");
+  deleteBtn.textContent = "Delete";
+  action.append(deleteBtn);
 
   active.textContent = task.is_active ? "✓" : "✗";
   customId.textContent = task?.custom_id ?? "-";
@@ -154,13 +154,13 @@ export async function tasks(
 
 export function viewTask(taskList) {
   taskContainer.style.display = "block";
-  tablebody.innerHTML = "";
+  tableBody.innerHTML = "";
   for (const task of taskList) {
     const row = renderRow(task);
     if (task.isOverdue) {
       row.classList.add("overDue");
     }
-    tablebody.append(row);
+    tableBody.append(row);
   }
 }
 
@@ -216,10 +216,10 @@ if (tableHead) {
   });
 }
 
-if (ascbtn) {
-  ascbtn.addEventListener("click", (e) => {
+if (ascBtn) {
+  ascBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    currentSorttype = ascbtn.dataset.id;
+    currentSorttype = ascBtn.dataset.id;
     tasks(page, currentSearchText, currentSorttype, currentSortby);
 
     currentSortHighLight.forEach((Highlight) =>
@@ -234,10 +234,10 @@ if (ascbtn) {
   });
 }
 
-if (dscbtn) {
-  dscbtn.addEventListener("click", (e) => {
+if (dscBtn) {
+  dscBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    currentSorttype = dscbtn.dataset.id;
+    currentSorttype = dscBtn.dataset.id;
     tasks(page, currentSearchText, currentSorttype, currentSortby);
     currentSortHighLight.forEach((Highlight) =>
       Highlight.classList.remove("active"),
