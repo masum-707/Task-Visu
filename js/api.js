@@ -62,7 +62,7 @@ export async function createTask(task) {
   return response;
 }
 
-export async function ExistingUser() {
+export async function existingUser() {
   const response = await fetch(
     `${config.baseURL}task-visu/tasks/populated?expand[]=Users&expand[]=TaskPriority`,
     {
