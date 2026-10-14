@@ -79,10 +79,6 @@ export function verified() {
 }
 
 export function newTask() {
-  if (!verified()) {
-    return false;
-  }
-
   const newTask = {
     name: taskName.value,
     is_active: Number(taskStatus.value),
