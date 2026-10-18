@@ -20,6 +20,7 @@ import {
   tasks,
 } from "./task.list.js";
 import { formCancelHandler, formSubmitHandlerByEnter } from "./task.form.js";
+import { type task as taskType } from "./task.model.js";
 
 let updateMassage = document.getElementById("Task-create");
 const tableBody = document.getElementById("tablebody");
@@ -28,34 +29,34 @@ const formContainer = document.getElementById("form-container");
 const createBtn = document.getElementById("create-task");
 const taskFormContainer = document.getElementById("form-container");
 const tableContainer = document.getElementById("table-container");
-let originalTask = null;
-let editingTaskId = null;
+let originalTask: taskType | null = null;
+let editingTaskId: number | null = null;
 
 if (createBtn) {
   createBtn.addEventListener("click", (e) => {
     e.preventDefault();
     requiredLogin();
-    taskFormContainer.style.display = "block";
-    tableContainer.classList.add("restrict");
+    (taskFormContainer as HTMLElement).style.display = "block";
+    (tableContainer as HTMLElement).classList.add("restrict");
     document.addEventListener("keydown", formCancelHandler);
     document.addEventListener("keydown", formSubmitHandlerByEnter);
   });
 }
 
-async function getTaskById(id) {
+async function getTaskById(id: number) {
   try {
     const res = await existingTask(id);
     if (!res.ok) {
-      throw new ApiError("Failed to get existing task");
+      throw new ApiError("Failed to get existing task", res.status);
     }
     return res.json();
-  } catch (e) {
-    console.log(e.message);
+  } catch (e: unknown) {
+    if (e instanceof ApiError) console.log(e.message);
   }
 }
 
 if (tableBody) {
-  tableBody.addEventListener("click", async (e) => {
+  tableBody.addEventListener("click", async (e: any) => {
     e.preventDefault();
     requiredLogin();
     const deleteBtn = e.target.classList.contains("delete-btn");
@@ -75,12 +76,13 @@ if (tableBody) {
         }
         row.remove();
         await tasks(page, currentSearchText, currentSorttype, currentSortby);
-        updateMassage.textContent = "Task delete successfully";
-      } catch (e) {
-        updateMassage.textContent = e.message;
+        (updateMassage as HTMLElement).textContent = "Task delete successfully";
+      } catch (e: unknown) {
+        if (e instanceof ApiError)
+          (updateMassage as HTMLElement).textContent = e.message;
       } finally {
         setTimeout(() => {
-          updateMassage.textContent = "";
+          (updateMassage as HTMLElement).textContent = "";
         }, 5000);
       }
       return;
@@ -90,9 +92,11 @@ if (tableBody) {
     const operationalTask = await getTaskById(taskId);
     originalTask = operationalTask;
     editingTaskId = taskId;
-    fillUpForm(originalTask);
-    tableContainer.classList.add("restrict");
-    taskFormContainer.style.display = "block";
+    if (originalTask) {
+      fillUpForm(originalTask);
+    }
+    (tableContainer as HTMLElement).classList.add("restrict");
+    (taskFormContainer as HTMLElement).style.display = "block";
 
     document.addEventListener("keydown", formCancelHandler);
     document.addEventListener("keydown", formSubmitHandlerByEnter);
@@ -108,7 +112,7 @@ if (taskForm) {
     }
 
     try {
-      if (editingTaskId) {
+      if (editingTaskId && originalTask) {
         const updatedFields = updateTaskData(originalTask);
         if (Object.keys(updatedFields).length === 0) {
           return;
@@ -116,34 +120,36 @@ if (taskForm) {
         const res = await updateExistingTask(updatedFields, editingTaskId);
 
         if (!res.ok) {
-          throw new ApiError("Updating task failed", response.status);
+          throw new ApiError("Updating task failed", res.status);
         }
         await tasks(page, currentSearchText, currentSorttype, currentSortby);
-        updateMassage.textContent = "Successfully update the task";
+        (updateMassage as HTMLElement).textContent =
+          "Successfully update the task";
         return;
       } else {
         const task = newTask();
         const response = await createTask(task);
-
         if (!response.ok) {
           throw new ApiError("Failed to create task", response.status);
         }
 
         await tasks(page, currentSearchText, currentSorttype, currentSortby);
-        updateMassage.textContent = "New task create successfully";
+        (updateMassage as HTMLElement).textContent =
+          "New task create successfully";
       }
-    } catch (err) {
-      updateMassage.textContent = err.message;
+    } catch (err: unknown) {
+      if (err instanceof ApiError)
+        (updateMassage as HTMLElement).textContent = err.message;
     } finally {
-      taskForm.reset();
-      formContainer.style.display = "none";
-      tableContainer.classList.remove("restrict");
+      (taskForm as HTMLFormElement).reset();
+      (formContainer as HTMLElement).style.display = "none";
+      (tableContainer as HTMLElement).classList.remove("restrict");
       document.removeEventListener("keydown", formCancelHandler);
       document.removeEventListener("keydown", formSubmitHandlerByEnter);
       editingTaskId = null;
       originalTask = null;
       setTimeout(() => {
-        updateMassage.textContent = "";
+        (updateMassage as HTMLElement).textContent = "";
       }, 5000);
     }
   });

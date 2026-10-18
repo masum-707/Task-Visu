@@ -1,6 +1,6 @@
-export function debounce(fn, delay) {
-  let timer;
-  return function (...args) {
+export function debounce(fn: Function, delay: number) {
+  let timer: number;
+  return function (...args: any) {
     clearTimeout(timer);
     timer = setTimeout(() => {
       fn(...args);
@@ -8,7 +8,7 @@ export function debounce(fn, delay) {
   };
 }
 
-export function formatDate(date) {
+export function formatDate(date: string): string {
   if (!date || date.length < 6) return "";
   const formatDate = new Date(date);
   if (isNaN(formatDate.getTime())) return "";

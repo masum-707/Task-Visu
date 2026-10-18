@@ -1,0 +1,1 @@
+*{font-family:sans-serif}.container{justify-content:center;align-items:center;min-height:100vh;display:flex}.card{text-align:center;border-radius:2px;width:400px;margin:auto;padding:10px;box-shadow:0 4px 8px #0003}.card button{text-align:center;color:#fff;cursor:pointer;background-color:#00f;padding:5px}.errorText,.required{color:red;font-size:small;position:relative}

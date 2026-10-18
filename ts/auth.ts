@@ -1,9 +1,13 @@
 import { login } from "./api.js";
 import { ApiError } from "./error.js";
-import { config } from "./config.js";
+import { config } from "@/config/config.js";
 
-const usernameError = document.getElementById("username-error-message");
-const passwordError = document.getElementById("password-error-message");
+const usernameError: HTMLElement | null = document.getElementById(
+  "username-error-message",
+);
+const passwordError: HTMLElement | null = document.getElementById(
+  "password-error-message",
+);
 const loginBtn = document.getElementById("login-button");
 const loginForm = document.getElementById("login-form");
 const logoutBtn = document.getElementById("log-out");
@@ -11,24 +15,28 @@ const logoutBtn = document.getElementById("log-out");
 if (loginForm) {
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const userName = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value.trim();
+    const userName = (
+      document.getElementById("username") as HTMLInputElement
+    ).value.trim();
+    const password = (
+      document.getElementById("password") as HTMLInputElement
+    ).value.trim();
 
     if (!userName) {
-      usernameError.textContent = "UserName Required";
+      (usernameError as HTMLElement).textContent = "UserName Required";
       return;
     }
 
-    usernameError.textContent = "";
+    (usernameError as HTMLElement).textContent = "";
 
     if (!password) {
-      passwordError.textContent = "Password Required";
+      (passwordError as HTMLElement).textContent = "Password Required";
       return;
     }
 
-    passwordError.textContent = "";
-    loginBtn.disable = true;
-    loginBtn.textContent = "Signing in....";
+    (passwordError as HTMLElement).textContent = "";
+    (loginBtn as HTMLButtonElement).disabled = true;
+    (loginBtn as HTMLElement).textContent = "Signing in....";
 
     try {
       const response = await login(userName, password);
@@ -41,44 +49,53 @@ if (loginForm) {
       const result = await response.json();
       saveSession(result.token, result.user.username, result.user.id);
       window.location.href = "tasks.html";
-    } catch (e) {
+    } catch (e: unknown) {
       const warning = document.getElementById("wrong-user");
       if (!navigator.onLine) {
-        warning.textContent = "No Internet Connection";
+        (warning as HTMLElement).textContent = "No Internet Connection";
       } else {
-        warning.textContent = e.message;
+        if (e instanceof ApiError)
+          (warning as HTMLElement).textContent = e.message;
       }
 
       setTimeout(() => {
-        warning.textContent = "";
+        (warning as HTMLElement).textContent = "";
       }, 5000);
-      loginBtn.textContent = "Log in";
-      loginBtn.disable = false;
+      (loginBtn as HTMLElement).textContent = "Log in";
+      (loginBtn as HTMLButtonElement).disabled = false;
       return;
     }
   });
 }
 
-export function saveSession(token, user, userId, data = {}) {
+export function saveSession(
+  token: string | null,
+  user: string | null,
+  userId: number | null,
+  data = {},
+) {
   localStorage.setItem(config.storageKey.token, JSON.stringify(token));
   localStorage.setItem(config.storageKey.user, JSON.stringify(user));
   localStorage.setItem(config.storageKey.userId, JSON.stringify(userId));
   localStorage.setItem(config.storageKey.latestSearch, JSON.stringify(data));
 }
 
-export function getToken() {
-  return JSON.parse(localStorage.getItem(config.storageKey.token));
+export function getToken(): string | null {
+  return localStorage.getItem(config.storageKey.token);
 }
-export function getUser() {
-  return JSON.parse(localStorage.getItem(config.storageKey.user));
+export function getUser(): string | null {
+  return localStorage.getItem(config.storageKey.user);
 }
-export function getUserId() {
-  return JSON.parse(localStorage.getItem(config.storageKey.userId));
+export function getUserId(): number | null {
+  return JSON.parse(localStorage.getItem(config.storageKey.userId) ?? "null");
 }
 
 export function getLatestSearch() {
-  return JSON.parse(localStorage.getItem(config.storageKey.latestSearch));
+  return JSON.parse(
+    localStorage.getItem(config.storageKey.latestSearch) ?? "null",
+  );
 }
+
 export function clearSession() {
   localStorage.clear();
 }

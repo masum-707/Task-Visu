@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "rootDir": "ts",
+    "outDir": "./dist",
+    "noEmitOnError": false,
+    "paths": {
+    "@/*": ["./ts/*"]
+    }
+  },
+  "include": ["ts/**/*.ts"],
+  "exclude": ["node_modules"],
+}

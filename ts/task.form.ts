@@ -4,7 +4,7 @@ const formContainer = document.getElementById("form-container");
 const taskForm = document.getElementById("task-Form");
 const cancel = document.getElementById("cancel");
 
-export function formCancelHandler(e) {
+export function formCancelHandler(e: any): void {
   if (e.type === "click") {
     e.preventDefault();
   }
@@ -13,9 +13,11 @@ export function formCancelHandler(e) {
     if (!confirm("Are you sure you want to cancel?")) return;
     document.removeEventListener("keydown", formCancelHandler);
     document.removeEventListener("keydown", formSubmitHandlerByEnter);
-    taskForm.reset();
-    tableContainer.classList.remove("restrict");
-    formContainer.style.display = "none";
+    if (taskForm && tableContainer && formContainer) {
+      (taskForm as HTMLFormElement).reset();
+      (tableContainer as HTMLElement).classList.remove("restrict");
+      (formContainer as HTMLElement).style.display = "none";
+    }
   }
 }
 
@@ -23,6 +25,6 @@ if (cancel) {
   cancel.addEventListener("click", formCancelHandler);
 }
 
-export function formSubmitHandlerByEnter(e) {
-  if (e.key === "Enter") saveBtn.click();
+export function formSubmitHandlerByEnter(e: KeyboardEvent) {
+  if (e.key === "Enter" && saveBtn) saveBtn.click();
 }

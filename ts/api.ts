@@ -1,7 +1,11 @@
-import { config } from "./config.js";
+import { config } from "@/config/config.js";
 import { clearSession, getToken, getUserId } from "./auth.js";
+import { type task as taskType } from "./task.model.js";
 
-export async function login(username, password) {
+export async function login(
+  username: string,
+  password: string,
+): Promise<Response> {
   const response = await fetch(`${config.baseURL}login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -11,7 +15,12 @@ export async function login(username, password) {
   return response;
 }
 
-export async function getTask(page, text = "", sorttype = "", sortby = "") {
+export async function getTask(
+  page: number,
+  text = "",
+  sorttype = "",
+  sortby = "",
+): Promise<Response> {
   let skip = (page - 1) * config.pageSize;
   let url = `${config.baseURL}task-visu/tasks?responsible_id[]=${getUserId()}&is_active=true&completion_lt=100&top=${config.pageSize}&skip=${skip}&`;
   if (text) url += `search=${text}&`;
@@ -31,7 +40,7 @@ export async function getTask(page, text = "", sorttype = "", sortby = "") {
   return res;
 }
 
-export async function deleteTask(id) {
+export async function deleteTask(id: number): Promise<Response> {
   const response = await fetch(`${config.baseURL}task-visu/tasks/${id}`, {
     method: "DELETE",
     headers: {
@@ -46,7 +55,7 @@ export async function deleteTask(id) {
   return response;
 }
 
-export async function createTask(task) {
+export async function createTask(task: Partial<taskType>): Promise<Response> {
   const response = await fetch(`${config.baseURL}task-visu/tasks`, {
     method: "POST",
     headers: {
@@ -62,7 +71,7 @@ export async function createTask(task) {
   return response;
 }
 
-export async function existingUser() {
+export async function existingUser(): Promise<Response> {
   const response = await fetch(
     `${config.baseURL}task-visu/tasks/populated?expand[]=Users&expand[]=TaskPriority`,
     {
@@ -80,7 +89,7 @@ export async function existingUser() {
   return response;
 }
 
-export async function existingTask(id) {
+export async function existingTask(id: number): Promise<Response> {
   const response = await fetch(`${config.baseURL}task-visu/tasks/${id}`, {
     method: "GET",
     headers: {
@@ -95,7 +104,10 @@ export async function existingTask(id) {
   return response;
 }
 
-export async function updateExistingTask(updateTask, id) {
+export async function updateExistingTask(
+  updateTask: Partial<taskType>,
+  id: number,
+): Promise<Response> {
   const response = await fetch(`${config.baseURL}task-visu/tasks/${id}`, {
     method: "PATCH",
     headers: {
