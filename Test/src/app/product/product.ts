@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { Stock } from '../stock/stock';
 
 @Component({
   selector: 'app-product',
-  imports: [],
+  imports: [Stock],
   templateUrl: './product.html',
   styleUrl: './product.css',
 })

@@ -9,10 +9,9 @@ import { Component } from '@angular/core';
 export class Test {
   id: string = '101M';
   name: string = 'Masum';
-  isChecked: boolean = true;
-  toggle(): void {
-    if (this.name === 'Masum') {
-      this.isChecked = false;
-    }
+  isChecked: boolean = false;
+  popup(): void {
+    alert(`My Info\nName:${this.name}\nId:${this.id}`);
+    console.log('check btn clicked');
   }
 }

@@ -1,5 +1,9 @@
-.alignCentre{
-display: flex;
-align-items: center;
-justify-content: center;
+.alignCentre {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+* {
+    margin: 10px;
 }
