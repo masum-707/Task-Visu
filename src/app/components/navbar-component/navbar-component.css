@@ -1,0 +1,10 @@
+.navbar{
+display: flex;
+justify-content: space-between;
+padding: 10px;
+margin:0;
+background-color: rgb(34, 34, 70);
+font-weight: 700;
+color: white;
+}
+

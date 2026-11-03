@@ -1,0 +1,46 @@
+@if (!loginStatus) {
+  <body>
+    <main class="container">
+      <div class="card">
+        <h1>Schertech</h1>
+        <h1>TaskVisu Lite</h1>
+        <br />
+        <form [formGroup]="login" (ngSubmit)="onSubmit()" #loginForm="ngForm">
+          <label>Username<span style="color: red">* </span> </label>
+          <input
+            type="text"
+            formControlName="username"
+            placeholder="Enter your username"
+            autocomplete="username"
+            required
+          />
+          <br />
+          @if (login.get('username')?.touched && login.get('username')?.hasError('required')) {
+            <span class="errorText">user name required</span>
+          }
+          <br />
+          <label>Password<span style="color: red">* </span></label>
+          <input
+            autocomplete="current-password"
+            type="password"
+            formControlName="password"
+            required
+            placeholder="Enter your password"
+          />
+          <br />
+          @if (login.get('password')?.touched && login.get('password')?.hasError('required')) {
+            <span class="errorText">Password required</span>
+          }
+          <br />
+          <button type="submit" [disabled]="login.invalid || authenticate">Log in</button>
+          <br />
+          @if (loginForm.submitted && !authenticate) {
+            <span class="errorText" style="justify-self: center"
+              >Incorrect username or password</span
+            >
+          }
+        </form>
+      </div>
+    </main>
+  </body>
+}
