@@ -26,15 +26,20 @@ export class LoginComponent {
       this.authenticate = false;
       return;
     }
-    const data = await this.loginApi.loginService(this.login.value);
-    console.log(data);
-    if (!data.token) {
-      this.authenticate = false;
-      return;
+
+    try {
+      const data = await this.loginApi.loginService(this.login.value);
+      console.log(data);
+      if (!data.token) {
+        this.authenticate = false;
+        return;
+      }
+      this.authenticate = true;
+      this.localStorage.setInfoToLocalStorage(data.user, data.token);
+      this.loginStatus = true;
+      this.login.reset();
+    } catch (e) {
+      console.log(`login error`);
     }
-    this.authenticate = true;
-    this.localStorage.setInfoToLocalStorage(data.user, data.token);
-    this.loginStatus = true;
-    this.login.reset();
   }
 }

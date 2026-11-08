@@ -1,0 +1,29 @@
+import { Injectable } from '@angular/core';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class TaskVerification {
+  dateValidityCheck(controlName1: string, controlName2: string): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const date1Value = control.get(controlName1)?.value;
+      const date2Value = control.get(controlName2)?.value;
+      if (date2Value && !date1Value) {
+        return { dateValidityCheck: true };
+      }
+      if (!date1Value || !date2Value) {
+        return null;
+      }
+
+      const date1 = new Date(date1Value);
+      const date2 = new Date(date2Value);
+
+      if (date1 > date2) {
+        return { dateValidityCheck: true };
+      }
+
+      return null;
+    };
+  }
+}

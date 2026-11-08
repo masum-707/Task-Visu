@@ -1,0 +1,96 @@
+<p>task-form works!</p>
+<div class="form-container">
+  <h1 style="justify-self: center">Task Form</h1>
+  <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>Task name</label>
+      <div class="field-wrapper">
+        <input type="text" formControlName="name" placeholder="Task name" required />
+        @if (taskForm.get('name')?.hasError('required') && taskForm.get('name')?.touched) {
+          <p class="error-msg">Task name required</p>
+        }
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Active Status</label>
+      <div class="field-wrapper">
+        <select formControlName="is_active" required>
+          <option value="" selected disabled>Select a value</option>
+          <option value="1">TRUE</option>
+          <option value="0">FALSE</option>
+        </select>
+        @if (
+          taskForm.get('is_active')?.hasError('required') && taskForm.get('is_active')?.touched
+        ) {
+          <p class="error-msg">Active status is required</p>
+        }
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Progress</label>
+      <div class="field-wrapper">
+        <input
+          type="number"
+          max="100"
+          min="0"
+          step="1"
+          formControlName="completion"
+          placeholder="Task completion"
+        />
+        @if (
+          taskForm.get('completion')?.hasError('required') && taskForm.get('completion')?.touched
+        ) {
+          <p class="error-msg">Responsible name is required</p>
+        }
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Responsible</label>
+      <div class="field-wrapper">
+        <select formControlName="responsible">
+          <option value="null" disabled selected hidden>Select responsible name</option>
+          <option value="7">Name</option>
+        </select>
+        @if (
+          taskForm.get('responsible')?.hasError('required') && taskForm.get('responsible')?.touched
+        ) {
+          <p class="error-msg">Responsible name is required</p>
+        }
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Start Date</label>
+      <div class="field-wrapper">
+        <input type="date" formControlName="start" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>End Date</label>
+      <div class="field-wrapper">
+        <input type="date" formControlName="end" />
+        @if (taskForm.get('end')?.touched && taskForm.hasError('dateValidityCheck')) {
+          <p class="error-msg">End date can not be less than start date</p>
+        }
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Task Priority</label>
+      <div class="field-wrapper">
+        <select formControlName="task-priority">
+          <option value="" disabled selected>Select task Priority</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button type="submit">Submit</button>
+      <button type="reset">Cancel</button>
+    </div>
+  </form>
+</div>
