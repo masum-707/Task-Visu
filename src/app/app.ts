@@ -4,10 +4,18 @@ import { LoginComponent } from './components/login-component/login-component';
 import { NavbarComponent } from './components/navbar-component/navbar-component';
 import { TaskComponent } from './components/task-component/task-component';
 import { TaskForm } from './components/task-form/task-form';
+import { SidebarComponent } from './components/sidebar-component/sidebar-component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, LoginComponent, NavbarComponent, TaskComponent, TaskForm],
+  imports: [
+    RouterOutlet,
+    LoginComponent,
+    NavbarComponent,
+    TaskComponent,
+    TaskForm,
+    SidebarComponent,
+  ],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

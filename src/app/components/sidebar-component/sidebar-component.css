@@ -1,0 +1,42 @@
+.sidebar {
+    position: fixed;
+    min-height: calc(100dvh - 72px);
+    margin-top: 5px;
+    padding-left: 15px;
+    width: 200px;
+    background-color: rgb(12, 15, 36);
+    color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-sizing: border-box;
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+.sidebar.hidden {
+    transform: translateX(-250px);
+}
+
+.navigation {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 15px;
+}
+
+ul>li {
+    padding: 5px;
+    font-size: large;
+    font-weight: 780;
+}
+
+
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-250px);
+    }
+
+    .sidebar:not(.hidden) {
+        transform: translateX(0);
+    }
+}
