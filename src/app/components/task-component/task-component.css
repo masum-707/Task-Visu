@@ -1,0 +1,41 @@
+.task-container{
+margin: 100px 50px 0 250px;
+transition: margin-left 0.3s ease;
+}
+.task-container.sidebar-hidden {
+  margin-left: 50px; 
+}
+.table-container {
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+th,
+td {
+    position: static;
+    border: 1px solid black;
+    padding: 5px;
+    text-align: center;
+
+}
+
+tr {
+    cursor: pointer;
+    font-weight: 500;
+}
+
+tr:hover {
+    background-color: bisque;
+    color: black;
+}
+body.sidebar-hidden .task-container {
+  margin-left: 50px;
+}

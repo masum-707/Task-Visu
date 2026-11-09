@@ -1,1 +1,38 @@
-<p>task-component works!</p>
+@if (Task.totalTasks && apiService.loginStatus) {
+  <div class="task-container" [class.sidebar-hidden]="sidebarService.isSidebarHidden()">
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <th>Active</th>
+          <th>Task Id</th>
+          <th>Task name</th>
+          <th>Description</th>
+          <th>Responsible</th>
+          <th>Creator</th>
+          <th>Priority</th>
+          <th>End Date</th>
+          <th>Progress</th>
+          <th>OverDue</th>
+          <th>Action</th>
+        </thead>
+        @for (task of Task.taskList; track $index) {
+          <tr>
+            <td>task.is_active ? "✓" : "✗"</td>
+            <td>task?.custom_id ?? "-"</td>
+            <td>task?.name ?? "-"</td>
+            <td>task?.description_plain ?? "-"</td>
+            <td>task?.responsible?.name ?? "-"</td>
+            <td>task?.creator?.name ?? "-"</td>
+            <td>task?.task_priority?.custom_id ?? "-"</td>
+            <td>task.displayEnd;</td>
+            <td>task.progressLabel ? task.progressLabel + "%" : "0%"</td>
+            <td>task.isOverdue ? "YES" : "NO";</td>
+            <td><button class="deleteBtn">Delete</button></td>
+          </tr>
+        }
+      </table>
+      <br />
+      <app-pagination-component></app-pagination-component>
+    </div>
+  </div>
+}

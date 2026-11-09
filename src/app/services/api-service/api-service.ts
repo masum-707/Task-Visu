@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { config } from '../../config/config';
 import { firstValueFrom } from 'rxjs';
 import { LocalStorage } from '../localStorage-service/local-storage';
+import { task, Task } from '../../models/task.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class ApiService {
   localStorageService = inject(LocalStorage);
   token = this.localStorageService.getInfoFromLocalStorage(`${config.storageKey.token}`);
   userId = this.localStorageService.getInfoFromLocalStorage(`${config.storageKey.user}`).id;
-
+  loginStatus: boolean = true;
   headers = new HttpHeaders({
     Authorization: `Bearer ${this.token}`,
   });
@@ -20,32 +21,28 @@ export class ApiService {
   async loginService(data: any): Promise<any> {
     try {
       const response = await firstValueFrom(this.apiService.post(`${config.baseURL}login`, data));
-      // console.log(response);
       return response;
     } catch (error) {
       console.error('Login error:', error);
-      throw error;
+      return;
     }
   }
 
-  async getTaskService(id?: string): Promise<any> {
+  async getTaskService(page: number, text = '', sortType = '', sortBy = ''): Promise<any> {
     try {
-      const url = `${config.baseURL}task-visu/tasks`;
-      if (id) {
-        const task = await firstValueFrom(
-          this.apiService.get(url + `/${id}`, {
-            headers: this.headers,
-          }),
-        );
-        return task;
-      } else {
-        const tasks = await firstValueFrom(
-          this.apiService.get(url, {
-            headers: this.headers,
-          }),
-        );
-        return tasks;
-      }
-    } catch (e) {}
+      let skip = (page - 1) * config.pageSize;
+      let url = `${config.baseURL}task-visu/tasks?responsible_id[]="${this.userId}"&is_active=true&completion_lt=100&top=${config.pageSize}&skip=${skip}&`;
+      if (text) url += `search=${text}&`;
+      if (sortType && sortBy) url += `sort_order=${sortType}&sort_by=${sortBy}&`;
+      const response = await firstValueFrom(
+        this.apiService.get<any>(`${url}permission=TASKVISU_SUPERADMIN`, {
+          headers: this.headers,
+        }),
+      );
+      return response;
+    } catch (e) {
+      console.log(e);
+      return [];
+    }
   }
 }

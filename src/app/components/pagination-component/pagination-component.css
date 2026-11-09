@@ -1,0 +1,15 @@
+.pagination{
+display: flex;
+ margin-top:10px ;
+ margin-right:50px;
+ justify-content: space-between;
+}
+.paginationBtn>button{
+width: 80px;
+padding: 8px;
+margin-right: 10px;
+border-radius: 8px;
+background-color:rgb(34, 34, 70);
+color: white;
+font-weight: 700;
+}

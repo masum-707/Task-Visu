@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TaskVerification } from '../../services/task-verification';
+import { TaskVerification } from '../../services/task-verification-service/task-verification';
 
 @Component({
   selector: 'app-task-form',

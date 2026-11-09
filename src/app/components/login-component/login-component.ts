@@ -11,8 +11,6 @@ import { LocalStorage } from '../../services/localStorage-service/local-storage'
   styleUrl: './login-component.css',
 })
 export class LoginComponent {
-  loginStatus: boolean = false;
-  authenticate: boolean = false;
   loginApi = inject(ApiService);
   localStorage = inject(LocalStorage);
 
@@ -20,10 +18,10 @@ export class LoginComponent {
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
   });
+
   async onSubmit() {
     if (this.login.invalid) {
       this.login.markAllAsTouched();
-      this.authenticate = false;
       return;
     }
 
@@ -31,15 +29,14 @@ export class LoginComponent {
       const data = await this.loginApi.loginService(this.login.value);
       console.log(data);
       if (!data.token) {
-        this.authenticate = false;
-        return;
+        throw new Error('Login failed');
       }
-      this.authenticate = true;
       this.localStorage.setInfoToLocalStorage(data.user, data.token);
-      this.loginStatus = true;
+      this.loginApi.loginStatus = true;
       this.login.reset();
-    } catch (e) {
-      console.log(`login error`);
+    } catch (e: any) {
+      this.loginApi.loginStatus = false;
+      console.log(e.massage);
     }
   }
 }

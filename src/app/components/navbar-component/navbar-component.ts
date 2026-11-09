@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Sidebar } from '../../services/sidebar-service/sidebar';
 
 @Component({
   selector: 'app-navbar-component',
@@ -6,4 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './navbar-component.html',
   styleUrl: './navbar-component.css',
 })
-export class NavbarComponent {}
+export class NavbarComponent {
+  sidebarService = inject(Sidebar);
+}
