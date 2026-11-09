@@ -1,4 +1,3 @@
-<p>task-form works!</p>
 <div class="form-container">
   <h1 style="justify-self: center">Task Form</h1>
   <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
@@ -16,7 +15,7 @@
       <label>Active Status</label>
       <div class="field-wrapper">
         <select formControlName="is_active" required>
-          <option value="" selected disabled>Select a value</option>
+          <option value="" disabled selected>Select a value</option>
           <option value="1">TRUE</option>
           <option value="0">FALSE</option>
         </select>
@@ -40,9 +39,12 @@
           placeholder="Task completion"
         />
         @if (
-          taskForm.get('completion')?.hasError('required') && taskForm.get('completion')?.touched
+          (taskForm.get('completion')?.hasError('required') ||
+            taskForm.get('completion')?.hasError('min') ||
+            taskForm.get('completion')?.hasError('max')) &&
+          taskForm.get('completion')?.touched
         ) {
-          <p class="error-msg">Responsible name is required</p>
+          <p class="error-msg">Progress is required within(0-100)</p>
         }
       </div>
     </div>

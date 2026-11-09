@@ -14,8 +14,12 @@ export class TaskForm {
   taskForm = new FormGroup(
     {
       name: new FormControl(null, [Validators.required]),
-      is_active: new FormControl(null, [Validators.required]),
-      completion: new FormControl(null, [Validators.required]),
+      is_active: new FormControl('', [Validators.required]),
+      completion: new FormControl(null, [
+        Validators.required,
+        Validators.min(0),
+        Validators.max(100),
+      ]),
       responsible: new FormControl(null, [Validators.required]),
       start: new FormControl(''),
       end: new FormControl(''),
