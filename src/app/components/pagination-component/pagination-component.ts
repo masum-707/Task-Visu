@@ -16,7 +16,8 @@ export class PaginationComponent {
     this.task.getTask(this.task.page);
   }
   next() {
-    this.task.page;
+    if (this.task.page >= this.maxPage()) return;
+    this.task.page++;
     this.task.getTask(this.task.page);
   }
   maxPage = computed(() => {

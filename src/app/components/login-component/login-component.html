@@ -2,6 +2,7 @@
   <body>
     <main class="container">
       <div class="card">
+        <p style="justify-self: start; font-weight: 700">Shopfloor Suite</p>
         <h1>Schertech</h1>
         <h1>TaskVisu Lite</h1>
         <br />
@@ -34,9 +35,9 @@
           <br />
           <button type="submit" [disabled]="login.invalid">Log in</button>
           <br />
-          @if (loginForm.submitted && !authService.loginStatus) {
+          @if (errorMessage && !authService.loginStatus) {
             <span class="errorText" style="justify-self: center"
-              >Incorrect username or password</span
+              >{{ errorMessage }}</span
             >
           }
         </form>

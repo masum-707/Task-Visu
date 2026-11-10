@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TaskVerification } from './task-verification';
+import { FormService } from './form';
 
 describe('TaskVerification', () => {
-  let service: TaskVerification;
+  let service: FormService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(TaskVerification);
+    service = TestBed.inject(FormService);
   });
 
   it('should be created', () => {

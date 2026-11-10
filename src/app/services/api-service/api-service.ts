@@ -16,21 +16,31 @@ export class ApiService {
   });
 
   async loginService(data: any): Promise<any> {
-    const response = await firstValueFrom(this.apiService.post(`${config.baseURL}login`, data));
-    return response;
+    try {
+      const response = await firstValueFrom(this.apiService.post(`${config.baseURL}login`, data));
+      return response;
+    } catch (e) {
+      console.log(`login failed`);
+      throw new Error(`Failed to login`);
+    }
   }
 
   async getTaskService(page: number, text = '', sortType = '', sortBy = ''): Promise<any> {
-    let skip = (page - 1) * config.pageSize;
-    let url = `${config.baseURL}task-visu/tasks?responsible_id[]="${this.authService.userInfo.id}"&is_active=true&completion_lt=100&top=${config.pageSize}&skip=${skip}&`;
-    if (text) url += `search=${text}&`;
-    if (sortType && sortBy) url += `sort_order=${sortType}&sort_by=${sortBy}&`;
-    const response = await firstValueFrom(
-      this.apiService.get<any>(`${url}permission=TASKVISU_SUPERADMIN`, {
-        headers: this.headers,
-      }),
-    );
-    return response;
+    try {
+      let skip = (page - 1) * config.pageSize;
+      let url = `${config.baseURL}task-visu/tasks?responsible_id[]="${this.authService.userInfo.id}"&is_active=true&completion_lt=100&top=${config.pageSize}&skip=${skip}&`;
+      if (text) url += `search=${text}&`;
+      if (sortType && sortBy) url += `sort_order=${sortType}&sort_by=${sortBy}&`;
+      const response = await firstValueFrom(
+        this.apiService.get<any>(`${url}permission=TASKVISU_SUPERADMIN`, {
+          headers: this.headers,
+        }),
+      );
+      return response;
+    } catch (e) {
+      console.log(`Failed to get task`);
+      throw new Error('Failed ,task not avaiable');
+    }
   }
 
   async deleteTask(id: number): Promise<any> {

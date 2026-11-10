@@ -25,4 +25,11 @@ export class TaskComponent {
   //     this.taskList = result.data.map((task: task) => new Task(task));
   //   }
   // }
+
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+
+    this.Task.getTask(this.Task.page, this.Task.text, this.Task.sortType, this.Task.sortBy);
+  }
 }

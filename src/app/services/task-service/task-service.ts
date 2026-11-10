@@ -1,13 +1,16 @@
 import { inject, Injectable } from '@angular/core';
 import { task, Task } from '../../models/task.model';
 import { ApiService } from '../api-service/api-service';
+import { FormService } from '../form-service/form';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskService {
-  totalTasks = 100;
-  taskList: task[] = [];
+  formService = inject(FormService);
+
+  totalTasks = 0;
+  taskList: Task<task>[] = [];
   Task = inject(ApiService);
   page: number = 1;
   text = '';
@@ -25,6 +28,9 @@ export class TaskService {
   }
 
   openTaskForm(event: any) {
-    console.log(`taskForm open`, event);
+    const deleteBtn = event.target.classList.contains('delete-btn');
+    if (deleteBtn) return;
+    console.log(`taskForm open`, event.target);
+    this.formService.formStatus = true;
   }
 }

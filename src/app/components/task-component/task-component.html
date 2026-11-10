@@ -1,9 +1,9 @@
-@if (Task.totalTasks && authService.loginStatus) {
+@if (authService.loginStatus) {
   <div class="task-container" [class.sidebar-hidden]="sidebarService.isSidebarHidden()">
     <app-searchbar-component></app-searchbar-component>
     <div class="table-container">
       <table class="table">
-        <thead>
+        <thead (dblclick)="Task.openTaskForm($event)">
           <th>Active</th>
           <th>Task Id</th>
           <th>Task name</th>
@@ -19,17 +19,17 @@
         <tbody (dblclick)="Task.openTaskForm($event)">
           @for (task of Task.taskList; track $index) {
             <tr>
-              <td>task.is_active ? "✓" : "✗"</td>
-              <td>task?.custom_id ?? "-"</td>
-              <td>task?.name ?? "-"</td>
-              <td>task?.description_plain ?? "-"</td>
-              <td>task?.responsible?.name ?? "-"</td>
-              <td>task?.creator?.name ?? "-"</td>
-              <td>task?.task_priority?.custom_id ?? "-"</td>
-              <td>task.displayEnd;</td>
-              <td>task.progressLabel ? task.progressLabel + "%" : "0%"</td>
-              <td>task.isOverdue ? "YES" : "NO";</td>
-              <td><button class="deleteBtn">Delete</button></td>
+              <td>{{ task.is_active ? '✓' : '✗' }}</td>
+              <td>{{ task.custom_id ?? '-' }}</td>
+              <td>{{ task.name }}</td>
+              <td>{{ task.description_plain ?? '-' }}</td>
+              <td>{{ task.responsible.name ?? '-' }}</td>
+              <td>{{ task.creator.name ?? '-' }}</td>
+              <td>{{ task.task_priority.custom_id ?? '-' }}</td>
+              <td>{{ task.displayEnd }}</td>
+              <td>{{ task.progressLabel }}%</td>
+              <td>{{ task.isOverdue ? 'YES' : 'NO' }}</td>
+              <td><button class="delete-btn">Delete</button></td>
             </tr>
           }
         </tbody>

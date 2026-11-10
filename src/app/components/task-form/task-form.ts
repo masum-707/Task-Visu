@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TaskVerification } from '../../services/task-verification-service/task-verification';
+import { FormService } from '../../services/form-service/form';
 
 @Component({
   selector: 'app-task-form',
@@ -9,8 +9,7 @@ import { TaskVerification } from '../../services/task-verification-service/task-
   styleUrl: './task-form.css',
 })
 export class TaskForm implements OnInit {
-  customValidity = inject(TaskVerification);
-
+  formService = inject(FormService);
   taskForm = new FormGroup(
     {
       name: new FormControl(null, [Validators.required]),
@@ -26,27 +25,38 @@ export class TaskForm implements OnInit {
       'task-priority': new FormControl(''),
     },
     {
-      validators: this.customValidity.dateValidityCheck('start', 'end'),
+      validators: this.formService.dateValidityCheck('start', 'end'),
     },
   );
 
   onSubmit() {
     this.taskForm.markAllAsTouched();
     if (this.taskForm.valid) {
+      this.formService.formStatus = false;
+      this.taskForm.reset();
       console.log(this.taskForm.value);
     } else {
       console.log('validity failed');
+      return;
     }
   }
 
+  onCancel() {
+    this.formService.formStatus = false;
+    this.taskForm.reset();
+  }
+
   async ngOnInit() {
+    if (!this.formService.apiService.authService.loginStatus) {
+      return;
+    }
     try {
-      const data = await this.customValidity.apiService.existingUserAndTaskPriority();
+      const data = await this.formService.apiService.existingUserAndTaskPriority();
       data.users.map((user: any) => {
-        this.customValidity.userMap.set(user.id, user);
+        this.formService.userMap.set(user.id, user);
       });
       data.task_priorities.map((priority: any) => {
-        this.customValidity.userMap.set(priority.id, priority);
+        this.formService.taskPriorityMap.set(priority.id, priority);
       });
       console.log(data);
     } catch (e) {

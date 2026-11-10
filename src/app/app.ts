@@ -4,8 +4,6 @@ import { LoginComponent } from './components/login-component/login-component';
 import { NavbarComponent } from './components/navbar-component/navbar-component';
 import { TaskComponent } from './components/task-component/task-component';
 import { TaskForm } from './components/task-form/task-form';
-import { SidebarComponent } from './components/sidebar-component/sidebar-component';
-import { PaginationComponent } from './components/pagination-component/pagination-component';
 
 @Component({
   selector: 'app-root',
@@ -15,8 +13,6 @@ import { PaginationComponent } from './components/pagination-component/paginatio
     NavbarComponent,
     TaskComponent,
     TaskForm,
-    SidebarComponent,
-    PaginationComponent,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',

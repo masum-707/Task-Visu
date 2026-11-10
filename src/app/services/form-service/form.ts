@@ -5,8 +5,11 @@ import { ApiService } from '../api-service/api-service';
 @Injectable({
   providedIn: 'root',
 })
-export class TaskVerification {
+export class FormService {
   apiService = inject(ApiService);
+  formStatus: boolean = false;
+  userMap = new Map();
+  taskPriorityMap = new Map();
 
   dateValidityCheck(controlName1: string, controlName2: string): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -29,7 +32,4 @@ export class TaskVerification {
       return null;
     };
   }
-
-  userMap = new Map();
-  taskPriorityMap = new Map();
 }
