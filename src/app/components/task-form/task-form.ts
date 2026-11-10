@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TaskVerification } from '../../services/task-verification-service/task-verification';
 
@@ -8,7 +8,7 @@ import { TaskVerification } from '../../services/task-verification-service/task-
   templateUrl: './task-form.html',
   styleUrl: './task-form.css',
 })
-export class TaskForm {
+export class TaskForm implements OnInit {
   customValidity = inject(TaskVerification);
 
   taskForm = new FormGroup(
@@ -36,6 +36,21 @@ export class TaskForm {
       console.log(this.taskForm.value);
     } else {
       console.log('validity failed');
+    }
+  }
+
+  async ngOnInit() {
+    try {
+      const data = await this.customValidity.apiService.existingUserAndTaskPriority();
+      data.users.map((user: any) => {
+        this.customValidity.userMap.set(user.id, user);
+      });
+      data.task_priorities.map((priority: any) => {
+        this.customValidity.userMap.set(priority.id, priority);
+      });
+      console.log(data);
+    } catch (e) {
+      console.log(`no user or priority`, e);
     }
   }
 }

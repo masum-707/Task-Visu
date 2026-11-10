@@ -1,10 +1,13 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { ApiService } from '../api-service/api-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskVerification {
+  apiService = inject(ApiService);
+
   dateValidityCheck(controlName1: string, controlName2: string): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const date1Value = control.get(controlName1)?.value;
@@ -26,4 +29,7 @@ export class TaskVerification {
       return null;
     };
   }
+
+  userMap = new Map();
+  taskPriorityMap = new Map();
 }

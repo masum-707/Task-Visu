@@ -11,3 +11,11 @@ color: white;
 border-radius: 8px;
 }
 
+.navbar button{
+padding: 5px;
+background-color: red;
+color: white;
+font-weight: 700;
+border-radius: 5px;
+
+}

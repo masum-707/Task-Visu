@@ -6,13 +6,14 @@ import { ApiService } from '../api-service/api-service';
   providedIn: 'root',
 })
 export class TaskService {
-  totalTasks = 1;
+  totalTasks = 100;
   taskList: task[] = [];
   Task = inject(ApiService);
   page: number = 1;
   text = '';
   sortType = '';
   sortBy = '';
+
   async getTask(page: number, text = '', sortType = '', sortBy = '') {
     try {
       const result = await this.Task.getTaskService(page, text, sortType, sortBy);
@@ -21,5 +22,9 @@ export class TaskService {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  openTaskForm(event: any) {
+    console.log(`taskForm open`, event);
   }
 }
