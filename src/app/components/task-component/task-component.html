@@ -1,5 +1,6 @@
-@if (Task.totalTasks && apiService.loginStatus) {
+@if (Task.totalTasks && authService.loginStatus) {
   <div class="task-container" [class.sidebar-hidden]="sidebarService.isSidebarHidden()">
+    <app-searchbar-component></app-searchbar-component>
     <div class="table-container">
       <table class="table">
         <thead>

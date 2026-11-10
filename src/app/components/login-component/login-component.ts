@@ -1,8 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { config } from '../../config/config';
 import { ApiService } from '../../services/api-service/api-service';
-import { LocalStorage } from '../../services/localStorage-service/local-storage';
+import { AuthService } from '../../services/auth-service/auth-service';
 
 @Component({
   selector: 'app-login-component',
@@ -12,7 +11,7 @@ import { LocalStorage } from '../../services/localStorage-service/local-storage'
 })
 export class LoginComponent {
   loginApi = inject(ApiService);
-  localStorage = inject(LocalStorage);
+  authService = inject(AuthService);
 
   login = new FormGroup({
     username: new FormControl('', [Validators.required]),
@@ -31,11 +30,11 @@ export class LoginComponent {
       if (!data.token) {
         throw new Error('Login failed');
       }
-      this.localStorage.setInfoToLocalStorage(data.user, data.token);
-      this.loginApi.loginStatus = true;
+      this.authService.localStorage.setInfoToLocalStorage(data.user, data.token);
+      this.authService.loginStatus = true;
       this.login.reset();
     } catch (e: any) {
-      this.loginApi.loginStatus = false;
+      this.authService.loginStatus = false;
       console.log(e.massage);
     }
   }

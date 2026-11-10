@@ -1,4 +1,4 @@
-@if (!loginApi.loginStatus) {
+@if (!authService.loginStatus) {
   <body>
     <main class="container">
       <div class="card">
@@ -34,7 +34,7 @@
           <br />
           <button type="submit" [disabled]="login.invalid">Log in</button>
           <br />
-          @if (loginForm.submitted && !loginApi.loginStatus) {
+          @if (loginForm.submitted && !authService.loginStatus) {
             <span class="errorText" style="justify-self: center"
               >Incorrect username or password</span
             >

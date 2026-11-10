@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Sidebar } from '../../services/sidebar-service/sidebar';
+import { AuthService } from '../../services/auth-service/auth-service';
 
 @Component({
   selector: 'app-navbar-component',
@@ -9,4 +10,5 @@ import { Sidebar } from '../../services/sidebar-service/sidebar';
 })
 export class NavbarComponent {
   sidebarService = inject(Sidebar);
+  authService = inject(AuthService);
 }
