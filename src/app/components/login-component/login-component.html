@@ -1,4 +1,4 @@
-@if (!authService.loginStatus) {
+@if (!authService.loginStatus()) {
   <body>
     <main class="container">
       <div class="card">
@@ -35,10 +35,8 @@
           <br />
           <button type="submit" [disabled]="login.invalid">Log in</button>
           <br />
-          @if (errorMessage && !authService.loginStatus) {
-            <span class="errorText" style="justify-self: center"
-              >{{ errorMessage }}</span
-            >
+          @if (errorMessage() && !authService.loginStatus()) {
+            <span class="errorText" style="justify-self: center">{{ errorMessage() }}</span>
           }
         </form>
       </div>

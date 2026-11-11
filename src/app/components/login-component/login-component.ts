@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api-service/api-service';
 import { AuthService } from '../../services/auth-service/auth-service';
 import { TaskService } from '../../services/task-service/task-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-component',
@@ -11,10 +12,11 @@ import { TaskService } from '../../services/task-service/task-service';
   styleUrl: './login-component.css',
 })
 export class LoginComponent {
+  router = inject(Router);
   loginApi = inject(ApiService);
   authService = inject(AuthService);
   taskService = inject(TaskService);
-  errorMessage = '';
+  errorMessage = signal('');
 
   login = new FormGroup({
     username: new FormControl('', [Validators.required]),
@@ -30,18 +32,16 @@ export class LoginComponent {
     try {
       const data = await this.loginApi.loginService(this.login.value);
       if (!data.token) {
-        throw new Error('Login failed');
+        throw new Error('Incorrect username or password');
       }
-      const user = data.user ?? data.userInfo ?? {
-        username: this.login.controls.username.value,
-      };
-      this.authService.setSession(user, data.token);
-      this.errorMessage = '';
       this.login.reset();
-      await this.taskService.getTask(1);
+      this.authService.localStorage.setInfoToLocalStorage(data.user, data.token);
+      this.authService.loginStatus.set(true);
+      this.errorMessage.set('');
+      // this.router.navigate(['/tasks']);
     } catch (e: any) {
-      this.authService.loginStatus = false;
-      this.errorMessage = e instanceof Error ? e.message : 'Incorrect username or password';
+      this.errorMessage.set(e?.message || 'An unknown error occurred');
+      console.log(this.errorMessage);
     }
   }
 }

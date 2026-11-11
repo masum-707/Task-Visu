@@ -1,4 +1,4 @@
-@if (authService.loginStatus) {
+@if (authService.loginStatus()) {
   <nav class="navbar">
     <div (click)="sidebarService.toggle()" style="cursor: pointer">☰ SideBar</div>
     <div>Task Visu</div>

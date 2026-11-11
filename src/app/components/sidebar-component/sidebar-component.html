@@ -1,9 +1,14 @@
 <aside class="sidebar" [hidden]="sidebarService.isSidebarHidden()">
   <ul class="navigation">
     <li>Dashboard</li>
-    <li>All Task</li>
+    <li>
+      <a routerLink="/tasks" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+        >All task</a
+      >
+    </li>
     <li>My Task</li>
     <li>Responsible</li>
     <li>Create task</li>
   </ul>
 </aside>
+<router-outlet></router-outlet>

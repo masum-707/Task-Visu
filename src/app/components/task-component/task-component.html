@@ -1,4 +1,4 @@
-@if (authService.loginStatus) {
+@if (authService.loginStatus()) {
   <div class="task-container" [class.sidebar-hidden]="sidebarService.isSidebarHidden()">
     <app-searchbar-component></app-searchbar-component>
     <div class="table-container">

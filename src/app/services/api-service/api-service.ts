@@ -20,8 +20,7 @@ export class ApiService {
       const response = await firstValueFrom(this.apiService.post(`${config.baseURL}login`, data));
       return response;
     } catch (e) {
-      console.log(`login failed`);
-      throw new Error(`Failed to login`);
+      throw new Error(`Wrong username or password`);
     }
   }
 
