@@ -38,7 +38,7 @@ export class LoginComponent {
       this.authService.localStorage.setInfoToLocalStorage(data.user, data.token);
       this.authService.loginStatus.set(true);
       this.errorMessage.set('');
-      // this.router.navigate(['/tasks']);
+      this.router.navigate(['/dashboard']);
     } catch (e: any) {
       this.errorMessage.set(e?.message || 'An unknown error occurred');
       console.log(this.errorMessage);

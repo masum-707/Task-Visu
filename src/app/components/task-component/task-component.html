@@ -3,7 +3,7 @@
     <app-searchbar-component></app-searchbar-component>
     <div class="table-container">
       <table class="table">
-        <thead (dblclick)="Task.openTaskForm($event)">
+        <thead>
           <th>Active</th>
           <th>Task Id</th>
           <th>Task name</th>
@@ -16,9 +16,9 @@
           <th>OverDue</th>
           <th>Action</th>
         </thead>
-        <tbody (dblclick)="Task.openTaskForm($event)">
+        <tbody>
           @for (task of Task.taskList; track $index) {
-            <tr>
+            <tr (click)="Task.openTaskForm($event)">
               <td>{{ task.is_active ? '✓' : '✗' }}</td>
               <td>{{ task.custom_id ?? '-' }}</td>
               <td>{{ task.name }}</td>

@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ApiService } from '../api-service/api-service';
 
@@ -7,7 +7,7 @@ import { ApiService } from '../api-service/api-service';
 })
 export class FormService {
   apiService = inject(ApiService);
-  formStatus: boolean = false;
+  formStatus = signal(false);
   userMap = new Map();
   taskPriorityMap = new Map();
 

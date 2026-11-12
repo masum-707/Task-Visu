@@ -1,12 +1,25 @@
 <aside class="sidebar" [hidden]="sidebarService.isSidebarHidden()">
   <ul class="navigation">
-    <li>Dashboard</li>
+    <li>
+      <a
+        routerLink="/dashboard"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Dashboard
+      </a>
+    </li>
     <li>
       <a routerLink="/tasks" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
         >All task</a
       >
     </li>
-    <li>My Task</li>
+    <li>
+      <a routerLink="/myTask" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        My Task
+      </a>
+      <!-- not setup yet -->
+    </li>
     <li>Responsible</li>
     <li>Create task</li>
   </ul>

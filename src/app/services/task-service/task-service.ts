@@ -31,6 +31,6 @@ export class TaskService {
     const deleteBtn = event.target.classList.contains('delete-btn');
     if (deleteBtn) return;
     console.log(`taskForm open`, event.target);
-    this.formService.formStatus = true;
+    this.formService.formStatus.set(true);
   }
 }

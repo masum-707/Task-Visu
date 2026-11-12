@@ -27,7 +27,7 @@ export class ApiService {
   async getTaskService(page: number, text = '', sortType = '', sortBy = ''): Promise<any> {
     try {
       let skip = (page - 1) * config.pageSize;
-      let url = `${config.baseURL}task-visu/tasks?responsible_id[]="${this.authService.userInfo.id}"&is_active=true&completion_lt=100&top=${config.pageSize}&skip=${skip}&`;
+      let url = `${config.baseURL}task-visu/tasks?&is_active=true&completion_lt=100&top=${config.pageSize}&skip=${skip}&`;
       if (text) url += `search=${text}&`;
       if (sortType && sortBy) url += `sort_order=${sortType}&sort_by=${sortBy}&`;
       const response = await firstValueFrom(

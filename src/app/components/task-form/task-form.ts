@@ -32,7 +32,7 @@ export class TaskForm implements OnInit {
   onSubmit() {
     this.taskForm.markAllAsTouched();
     if (this.taskForm.valid) {
-      this.formService.formStatus = false;
+      this.formService.formStatus.set(false);
       this.taskForm.reset();
       console.log(this.taskForm.value);
     } else {
@@ -42,12 +42,12 @@ export class TaskForm implements OnInit {
   }
 
   onCancel() {
-    this.formService.formStatus = false;
+    this.formService.formStatus.set(false);
     this.taskForm.reset();
   }
 
   async ngOnInit() {
-    if (!this.formService.apiService.authService.loginStatus) {
+    if (!this.formService.apiService.authService.loginStatus()) {
       return;
     }
     try {

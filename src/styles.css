@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+.active {
+color: rgb(1, 250, 97);
+text-decoration: none;
+}
+
+a[routerLink]:not(.active) {
+  color: #ffffff;
+  text-decoration: none;
+}

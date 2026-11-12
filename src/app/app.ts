@@ -7,13 +7,7 @@ import { TaskForm } from './components/task-form/task-form';
 
 @Component({
   selector: 'app-root',
-  imports: [
-    RouterOutlet,
-    LoginComponent,
-    NavbarComponent,
-    TaskComponent,
-    TaskForm,
-  ],
+  imports: [RouterOutlet, LoginComponent, NavbarComponent, TaskComponent, TaskForm],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
