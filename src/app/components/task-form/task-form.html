@@ -1,4 +1,5 @@
 @if (formService.formStatus()) {
+  <div class="form-backdrop"></div>
   <div class="form-container">
     <h1 style="justify-self: center">Task Form</h1>
     <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">

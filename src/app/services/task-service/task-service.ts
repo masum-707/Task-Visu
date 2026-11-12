@@ -2,12 +2,14 @@ import { inject, Injectable } from '@angular/core';
 import { task, Task } from '../../models/task.model';
 import { ApiService } from '../api-service/api-service';
 import { FormService } from '../form-service/form';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskService {
   formService = inject(FormService);
+  router = inject(Router);
 
   totalTasks = 0;
   taskList: Task<task>[] = [];
@@ -30,6 +32,7 @@ export class TaskService {
   openTaskForm(event: any) {
     const deleteBtn = event.target.classList.contains('delete-btn');
     if (deleteBtn) return;
+    this.router.navigate(['/taskForm']);
     console.log(`taskForm open`, event.target);
     this.formService.formStatus.set(true);
   }

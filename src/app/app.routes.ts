@@ -1,11 +1,19 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './components/login-component/login-component';
 import { authGuard } from './services/auth-service/auth.guard';
+import { TaskForm } from './components/task-form/task-form';
 
 export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+  },
+
+  {
+    path: 'navbar',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import(`./components/navbar-component/navbar-component`).then((m) => m.NavbarComponent),
   },
   {
     path: 'tasks',
@@ -21,6 +29,12 @@ export const routes: Routes = [
       import('./components/dashboard-component/dashboard-component').then(
         (m) => m.DashboardComponent,
       ),
+  },
+
+  {
+    path: 'taskForm',
+    canActivate: [authGuard],
+    component: TaskForm,
   },
 
   {

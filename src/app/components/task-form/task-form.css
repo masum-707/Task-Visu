@@ -1,3 +1,11 @@
+.form-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(4px);
+  z-index: 8;
+}
+
 .form-container { 
   margin: 8% auto; 
   height: 550px; 
@@ -13,7 +21,7 @@
   left: 15px; 
   top: 50px; 
   border: 3px solid #f1f1f1; 
-  z-index: 9; 
+  z-index: 9;
   overflow-y: auto; 
 }
 
