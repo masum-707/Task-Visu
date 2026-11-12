@@ -16,9 +16,9 @@
           <th>OverDue</th>
           <th>Action</th>
         </thead>
-        <tbody>
+        <tbody (click)="Task.openTaskForm($event)">
           @for (task of Task.taskList; track $index) {
-            <tr (click)="Task.openTaskForm($event)">
+            <tr>
               <td>{{ task.is_active ? '✓' : '✗' }}</td>
               <td>{{ task.custom_id ?? '-' }}</td>
               <td>{{ task.name }}</td>

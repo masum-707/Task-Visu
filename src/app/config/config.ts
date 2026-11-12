@@ -1,6 +1,6 @@
 export const config = {
   baseURL: 'http://crm.test.local/api/',
-  pageSize: 8,
+  pageSize: 10,
   storageKey: {
     token: 'userToken',
     user: 'userInfo',

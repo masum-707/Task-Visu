@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormService } from '../../services/form-service/form';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-task-form',
@@ -10,6 +11,8 @@ import { FormService } from '../../services/form-service/form';
 })
 export class TaskForm implements OnInit {
   formService = inject(FormService);
+  router = inject(Router);
+
   taskForm = new FormGroup(
     {
       name: new FormControl(null, [Validators.required]),
@@ -35,6 +38,7 @@ export class TaskForm implements OnInit {
       this.formService.formStatus.set(false);
       this.taskForm.reset();
       console.log(this.taskForm.value);
+      this.router.navigate(['/tasks']);
     } else {
       console.log('validity failed');
       return;
@@ -44,6 +48,7 @@ export class TaskForm implements OnInit {
   onCancel() {
     this.formService.formStatus.set(false);
     this.taskForm.reset();
+    this.router.navigate(['/tasks']);
   }
 
   async ngOnInit() {
