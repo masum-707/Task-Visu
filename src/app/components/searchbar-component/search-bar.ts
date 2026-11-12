@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Debounce } from '../../utilities/debounce';
+import { TaskService } from '../../services/task-service/task-service';
 
 @Component({
   selector: 'app-searchbar-component',
@@ -8,13 +9,13 @@ import { Debounce } from '../../utilities/debounce';
   styleUrl: './search-bar.css',
 })
 export class SearchBar {
+  taskService = inject(TaskService);
   debounceSearch = new Debounce();
 
-  text = '';
   search = this.debounceSearch.debounce((value: string) => {
-    this.text = value;
-    console.log(this.text);
-  }, 300);
+    this.taskService.text.set(value);
+    console.log(this.taskService.text());
+  }, 500);
 
   onTyping(event: Event) {
     const target = event.target as HTMLInputElement;

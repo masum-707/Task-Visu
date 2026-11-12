@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Sidebar } from '../../services/sidebar-service/sidebar';
 import { TaskService } from '../../services/task-service/task-service';
 import { ApiService } from '../../services/api-service/api-service';
@@ -12,7 +12,7 @@ import { SearchBar } from '../searchbar-component/search-bar';
   templateUrl: './task-component.html',
   styleUrl: './task-component.css',
 })
-export class TaskComponent {
+export class TaskComponent implements OnInit {
   apiService = inject(ApiService);
   Task = inject(TaskService);
   sidebarService = inject(Sidebar);
@@ -27,9 +27,6 @@ export class TaskComponent {
   // }
 
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-
-    this.Task.getTask(this.Task.page, this.Task.text, this.Task.sortType, this.Task.sortBy);
+    this.Task.getTask(this.Task.page(), this.Task.text(), this.Task.sortType(), this.Task.sortBy());
   }
 }

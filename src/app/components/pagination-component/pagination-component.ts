@@ -12,15 +12,16 @@ export class PaginationComponent {
   task = inject(TaskService);
 
   previous() {
-    this.task.page--;
-    this.task.getTask(this.task.page);
+    this.task.page.update((page) => (page -= 1));
+    this.task.getTask(this.task.page(), this.task.text(), this.task.sortType(), this.task.sortBy());
   }
   next() {
-    if (this.task.page >= this.maxPage()) return;
-    this.task.page++;
-    this.task.getTask(this.task.page);
+    if (this.task.page() >= this.maxPage()) return;
+    this.task.page.update((page) => (page += 1));
+    this.task.getTask(this.task.page(), this.task.text(), this.task.sortType(), this.task.sortBy());
+    // console.log(this.task.page());
   }
   maxPage = computed(() => {
-    return Math.ceil(this.task.totalTasks / config.pageSize);
+    return Math.ceil(this.task.totalTasks() / config.pageSize);
   });
 }

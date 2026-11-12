@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { task, Task } from '../../models/task.model';
 import { ApiService } from '../api-service/api-service';
 import { FormService } from '../form-service/form';
@@ -11,18 +11,19 @@ export class TaskService {
   formService = inject(FormService);
   router = inject(Router);
 
-  totalTasks = 0;
+  totalTasks = signal(0);
   taskList: Task<task>[] = [];
-  Task = inject(ApiService);
-  page: number = 1;
-  text = '';
-  sortType = '';
-  sortBy = '';
 
-  async getTask(page: number, text = '', sortType = '', sortBy = '') {
+  Task = inject(ApiService);
+  page = signal<number>(1);
+  text = signal<string>('');
+  sortType = signal<string>('');
+  sortBy = signal<string>('');
+
+  async getTask(page: number, text: string, sortType = '', sortBy = '') {
     try {
       const result = await this.Task.getTaskService(page, text, sortType, sortBy);
-      this.totalTasks = result.total ?? 0;
+      this.totalTasks.set(result.total ?? 0);
       this.taskList = result.data.map((task: task) => new Task(task)) ?? [];
     } catch (error) {
       console.log(error);

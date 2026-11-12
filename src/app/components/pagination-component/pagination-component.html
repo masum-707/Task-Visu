@@ -1,9 +1,11 @@
 <div class="pagination">
   <div>
-    <span style="font-weight: 700">Total tasks: {{ task.totalTasks }}</span>
+    <span style="font-weight: 700">Total tasks: {{ task.totalTasks() }}</span>
   </div>
   <div class="paginationBtn">
-    <button (click)="previous()" [disabled]="task.page <= 1">Prev</button>
-    <button (click)="next()" [disabled]="maxPage() < this.task.page || maxPage() <= 1">Next</button>
+    <button (click)="previous()" [disabled]="task.page() <= 1">Prev</button>
+    <button (click)="next()" [disabled]="maxPage() < this.task.page() || maxPage() <= 1">
+      Next
+    </button>
   </div>
 </div>
