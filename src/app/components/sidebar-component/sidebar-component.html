@@ -21,7 +21,14 @@
       <!-- not setup yet -->
     </li>
     <li>Responsible</li>
-    <li>Create task</li>
+    <li>
+      <a
+        routerLink="/createtask"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Create task</a
+      >
+    </li>
   </ul>
 </aside>
 <router-outlet></router-outlet>

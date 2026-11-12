@@ -8,8 +8,8 @@ import { ApiService } from '../api-service/api-service';
 export class FormService {
   apiService = inject(ApiService);
   formStatus = signal(false);
-  userMap = new Map();
-  taskPriorityMap = new Map();
+  userMap: any = new Map();
+  taskPriorityMap: any = new Map();
 
   dateValidityCheck(controlName1: string, controlName2: string): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {

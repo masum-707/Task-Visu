@@ -57,13 +57,14 @@ export class TaskForm implements OnInit {
     }
     try {
       const data = await this.formService.apiService.existingUserAndTaskPriority();
-      data.users.map((user: any) => {
+      data.users.forEach((user: any) => {
         this.formService.userMap.set(user.id, user);
       });
-      data.task_priorities.map((priority: any) => {
+      data.task_priorities.forEach((priority: any) => {
         this.formService.taskPriorityMap.set(priority.id, priority);
       });
-      console.log(data);
+      // console.log(data);
+      console.log(this.formService.taskPriorityMap);
     } catch (e) {
       console.log(`no user or priority`, e);
     }

@@ -56,7 +56,11 @@
         <div class="field-wrapper">
           <select formControlName="responsible">
             <option value="null" disabled selected hidden>Select responsible name</option>
-            <option value="7">Name</option>
+            <!-- <option value="7">Name</option> -->
+            @for (key of formService.userMap.keys(); track key) {
+              <option [value]="key">{{ formService.userMap.get(key)?.name }}</option>
+            }
+            <!-- not solved yet -->
           </select>
           @if (
             taskForm.get('responsible')?.hasError('required') &&
@@ -89,6 +93,9 @@
         <div class="field-wrapper">
           <select formControlName="task-priority">
             <option value="" disabled selected>Select task Priority</option>
+            @for (key of formService.taskPriorityMap.key(); track key) {
+              <option [value]="key">{{ formService.taskPriorityMap.get(key)?.custom_id }}</option>
+            }
           </select>
         </div>
       </div>

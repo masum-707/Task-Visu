@@ -17,7 +17,7 @@
           <th>Action</th>
         </thead>
         <tbody (click)="Task.openTaskForm($event)">
-          @for (task of Task.taskList; track $index) {
+          @for (task of Task.taskList(); track $index) {
             <tr>
               <td>{{ task.is_active ? '✓' : '✗' }}</td>
               <td>{{ task.custom_id ?? '-' }}</td>

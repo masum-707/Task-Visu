@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './components/login-component/login-component';
 import { authGuard } from './services/auth-service/auth.guard';
 import { TaskForm } from './components/task-form/task-form';
+import { CreateTask } from './components/task-create/create-task';
 
 export const routes: Routes = [
   {
@@ -35,6 +36,12 @@ export const routes: Routes = [
     path: 'taskForm',
     canActivate: [authGuard],
     component: TaskForm,
+  },
+
+  {
+    path: 'createtask',
+    canActivate: [authGuard],
+    component: CreateTask,
   },
 
   {

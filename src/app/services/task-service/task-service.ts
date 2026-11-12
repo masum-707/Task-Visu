@@ -12,7 +12,7 @@ export class TaskService {
   router = inject(Router);
 
   totalTasks = signal(0);
-  taskList: Task<task>[] = [];
+  taskList = signal<Task<task>[]>([]);
 
   Task = inject(ApiService);
   page = signal<number>(1);
@@ -24,7 +24,7 @@ export class TaskService {
     try {
       const result = await this.Task.getTaskService(page, text, sortType, sortBy);
       this.totalTasks.set(result.total ?? 0);
-      this.taskList = result.data.map((task: task) => new Task(task)) ?? [];
+      this.taskList.set(result.data.map((task: task) => new Task(task)) ?? []);
     } catch (error) {
       console.log(error);
     }
