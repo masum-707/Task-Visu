@@ -10,11 +10,13 @@ import { FormService } from '../../services/form-service/form';
 })
 export class CreateTask {
   taskForm = inject(FormService);
+
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     this.taskForm.formStatus.set(true);
   }
+
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.

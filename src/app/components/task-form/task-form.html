@@ -10,6 +10,9 @@
           @if (taskForm.get('name')?.hasError('required') && taskForm.get('name')?.touched) {
             <p class="error-msg">Task name required</p>
           }
+          @if (taskForm.get('name')?.hasError('serverError')) {
+            <p class="error-msg">{{ taskForm.get('name')?.getError('serverError') }}</p>
+          }
         </div>
       </div>
 
@@ -25,6 +28,9 @@
             taskForm.get('is_active')?.hasError('required') && taskForm.get('is_active')?.touched
           ) {
             <p class="error-msg">Active status is required</p>
+          }
+          @if (taskForm.get('is_active')?.hasError('serverError')) {
+            <p class="error-msg">{{ taskForm.get('is_active')?.getError('serverError') }}</p>
           }
         </div>
       </div>
@@ -48,25 +54,31 @@
           ) {
             <p class="error-msg">Progress is required within(0-100)</p>
           }
+          @if (taskForm.get('completion')?.hasError('serverError')) {
+            <p class="error-msg">{{ taskForm.get('completion')?.getError('serverError') }}</p>
+          }
         </div>
       </div>
 
       <div class="form-group">
         <label>Responsible</label>
         <div class="field-wrapper">
-          <select formControlName="responsible">
-            <option value="null" disabled selected hidden>Select responsible name</option>
-            <!-- <option value="7">Name</option> -->
-            @for (key of formService.userMap.keys(); track key) {
-              <option [value]="key">{{ formService.userMap.get(key)?.name }}</option>
+          <select formControlName="user_id_responsible">
+            <option [ngValue]="null" disabled selected hidden>Select responsible name</option>
+            @for (user of formService.userMap.values(); track user.id) {
+              <option [value]="user.id">{{ user.name }}</option>
             }
-            <!-- not solved yet -->
           </select>
           @if (
-            taskForm.get('responsible')?.hasError('required') &&
-            taskForm.get('responsible')?.touched
+            taskForm.get('user_id_responsible')?.hasError('required') &&
+            taskForm.get('user_id_responsible')?.touched
           ) {
             <p class="error-msg">Responsible name is required</p>
+          }
+          @if (taskForm.get('user_id_responsible')?.hasError('serverError')) {
+            <p class="error-msg">
+              {{ taskForm.get('user_id_responsible')?.getError('serverError') }}
+            </p>
           }
         </div>
       </div>
@@ -75,6 +87,9 @@
         <label>Start Date</label>
         <div class="field-wrapper">
           <input type="date" formControlName="start" />
+          @if (taskForm.get('start')?.hasError('serverError')) {
+            <p class="error-msg">{{ taskForm.get('start')?.getError('serverError') }}</p>
+          }
         </div>
       </div>
 
@@ -85,6 +100,9 @@
           @if (taskForm.get('end')?.touched && taskForm.hasError('dateValidityCheck')) {
             <p class="error-msg">End date can not be less than start date</p>
           }
+          @if (taskForm.get('end')?.hasError('serverError')) {
+            <p class="error-msg">{{ taskForm.get('end')?.getError('serverError') }}</p>
+          }
         </div>
       </div>
 
@@ -93,10 +111,13 @@
         <div class="field-wrapper">
           <select formControlName="task-priority">
             <option value="" disabled selected>Select task Priority</option>
-            @for (key of formService.taskPriorityMap.key(); track key) {
-              <option [value]="key">{{ formService.taskPriorityMap.get(key)?.custom_id }}</option>
+            @for (priority of formService.taskPriorityMap.values(); track priority.id) {
+              <option [value]="priority.id">{{ priority.custom_id }}</option>
             }
           </select>
+          @if (taskForm.get('task-priority')?.hasError('serverError')) {
+            <p class="error-msg">{{ taskForm.get('task-priority')?.getError('serverError') }}</p>
+          }
         </div>
       </div>
 

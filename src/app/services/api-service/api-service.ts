@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { config } from '../../config/config';
-import { firstValueFrom } from 'rxjs';
+import { first, firstValueFrom } from 'rxjs';
 import { task } from '../../models/task.model';
 import { AuthService } from '../auth-service/auth-service';
 
@@ -39,6 +39,19 @@ export class ApiService {
     } catch (e) {
       console.log(`Failed to get task`);
       throw new Error('Failed ,task not avaiable');
+    }
+  }
+
+  async createTask(task: any): Promise<any> {
+    try {
+      const response = await firstValueFrom(
+        this.apiService.post<task>(`${config.baseURL}task-visu/tasks`, task, {
+          headers: this.headers,
+        }),
+      );
+      return response;
+    } catch (e) {
+      console.log(`failed to create new task`, e);
     }
   }
 
