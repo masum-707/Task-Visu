@@ -14,7 +14,7 @@ export class TaskService {
   totalTasks = signal(0);
   taskList = signal<Task<task>[]>([]);
 
-  Task = inject(ApiService);
+  taskApiService = inject(ApiService);
   page = signal<number>(1);
   text = signal<string>('');
   sortType = signal<string>('');
@@ -22,7 +22,7 @@ export class TaskService {
 
   async getTask(page: number, text: string, sortType = '', sortBy = '') {
     try {
-      const result = await this.Task.getTaskService(page, text, sortType, sortBy);
+      const result = await this.taskApiService.getTaskService(page, text, sortType, sortBy);
       this.totalTasks.set(result.total ?? 0);
       this.taskList.set(result.data.map((task: task) => new Task(task)) ?? []);
     } catch (error) {
@@ -30,11 +30,36 @@ export class TaskService {
     }
   }
 
-  openTaskForm(event: any) {
-    const deleteBtn = event.target.classList.contains('delete-btn');
-    if (deleteBtn) return;
-    this.router.navigate(['/taskForm']);
-    console.log(`taskForm open`, event.target);
+  handleTaskAction(event: any) {
+    event.preventDefault();
+    const row: any = (event.target as HTMLElement).closest(`tr`);
+    const index = row.sectionRowIndex;
+    const taskId = this.taskList()[index].id;
+    if (!row) {
+      return;
+    }
+
+    const deleteBtn = (event.target as HTMLElement).closest('.delete-btn');
+    if (deleteBtn) {
+      if (confirm('Are you sure you want\nto Delete this task')) {
+        const row = deleteBtn.closest('tr');
+        this.deleteTask(taskId);
+      }
+      return;
+    }
+    this.updateTask(taskId);
+  }
+
+  deleteTask(taskId: any) {
+    try {
+      // this.taskApiService.deleteTask(taskId);
+      console.log(`successfully delete task ,Task Id`, taskId);
+    } catch (e) {
+      console.log(`failed to delete task`, e);
+    }
+  }
+  updateTask(taskId: any) {
     this.formService.formStatus.set(true);
+    console.log(`need to update task,task Id`, taskId);
   }
 }
