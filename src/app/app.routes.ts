@@ -35,7 +35,7 @@ export const routes: Routes = [
   {
     path: 'taskForm',
     canActivate: [authGuard],
-    component: TaskForm,
+    loadComponent: () => import('./components/task-form/task-form').then((m) => m.TaskForm),
   },
 
   {

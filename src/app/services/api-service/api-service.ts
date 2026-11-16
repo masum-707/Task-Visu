@@ -38,7 +38,8 @@ export class ApiService {
       return response;
     } catch (e) {
       console.log(`Failed to get task`);
-      throw new Error('Failed ,task not avaiable');
+      // throw new Error('Failed ,task not avaiable');
+      return [];
     }
   }
 

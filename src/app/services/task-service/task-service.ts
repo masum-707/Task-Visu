@@ -20,6 +20,16 @@ export class TaskService {
   sortType = signal<string>('');
   sortBy = signal<string>('');
 
+  task = signal<Partial<task>>({
+    name: null,
+    is_active: null,
+    completion: null,
+    user_id_responsible: null,
+    start: null,
+    end: null,
+    'task-priority': null,
+  });
+
   async getTask(page: number, text: string, sortType = '', sortBy = '') {
     try {
       const result = await this.taskApiService.getTaskService(page, text, sortType, sortBy);
@@ -58,8 +68,11 @@ export class TaskService {
       console.log(`failed to delete task`, e);
     }
   }
-  updateTask(taskId: any) {
+  async updateTask(taskId: any) {
+    const existingTaskById = await this.taskApiService.existingTask(taskId);
+    this.task.update((task) => (task = { ...this.task(), ...existingTaskById }));
     this.formService.formStatus.set(true);
-    console.log(`need to update task,task Id`, taskId);
+    console.log(this.task());
+    // console.log(`need to update task,task Id`, taskId);
   }
 }

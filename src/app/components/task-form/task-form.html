@@ -64,9 +64,11 @@
         <label>Responsible</label>
         <div class="field-wrapper">
           <select formControlName="user_id_responsible">
-            <option [ngValue]="null" disabled selected hidden>Select responsible name</option>
-            @for (user of formService.userMap.values(); track user.id) {
-              <option [value]="user.id">{{ user.name }}</option>
+            <option [ngValue]="null" disabled selected hidden>responsible name</option>
+            @for (user of formService.userMap().values(); track user.id) {
+              <option [value]="user.id">
+                {{ user.name }}
+              </option>
             }
           </select>
           @if (
@@ -109,9 +111,9 @@
       <div class="form-group">
         <label>Task Priority</label>
         <div class="field-wrapper">
-          <select formControlName="task-priority">
-            <option value="" disabled selected>Select task Priority</option>
-            @for (priority of formService.taskPriorityMap.values(); track priority.id) {
+          <select formControlName="task_priority_id">
+            <option [ngValue]="null" disabled selected>Select task Priority</option>
+            @for (priority of formService.taskPriorityMap().values(); track priority.id) {
               <option [value]="priority.id">{{ priority.custom_id }}</option>
             }
           </select>

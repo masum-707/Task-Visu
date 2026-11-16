@@ -8,8 +8,9 @@ import { ApiService } from '../api-service/api-service';
 export class FormService {
   apiService = inject(ApiService);
   formStatus = signal(false);
-  userMap: any = new Map();
-  taskPriorityMap: any = new Map();
+  userMap = signal<Map<number, any>>(new Map());
+  taskPriorityMap = signal<Map<number, any>>(new Map());
+  createtask = signal<boolean>(false);
 
   dateValidityCheck(controlName1: string, controlName2: string): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {

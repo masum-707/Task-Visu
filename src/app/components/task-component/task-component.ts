@@ -14,7 +14,7 @@ import { SearchBar } from '../searchbar-component/search-bar';
 })
 export class TaskComponent implements OnInit {
   apiService = inject(ApiService);
-  Task = inject(TaskService);
+  taskService = inject(TaskService);
   sidebarService = inject(Sidebar);
   authService = inject(AuthService);
 
@@ -27,6 +27,16 @@ export class TaskComponent implements OnInit {
   // }
 
   ngOnInit(): void {
-    this.Task.getTask(this.Task.page(), this.Task.text(), this.Task.sortType(), this.Task.sortBy());
+    this.taskService.getTask(
+      this.taskService.page(),
+      this.taskService.text(),
+      this.taskService.sortType(),
+      this.taskService.sortBy(),
+    );
   }
+  // ngAfterViewChecked(): void {
+  //   //Called after every check of the component's view. Applies to components only.
+  //   //Add 'implements AfterViewChecked' to the class.
+  //   console.log(this.taskService.taskList());
+  // }
 }

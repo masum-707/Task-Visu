@@ -5,28 +5,29 @@ interface K {
 
 export interface task {
   id: number;
-  is_active: number;
+  is_active: number | null;
   custom_id?: string | null;
-  name: string;
+  name: string | null;
   responsible: { name: string };
   creator: K;
   task_priority: K;
+  start: string | null;
   end?: string | null;
-  completion: number;
+  completion: number | null;
   description_plain?: string | null;
   [key: string]: any;
 }
 
 export class Task<T extends task> {
   id: number;
-  is_active: number;
+  is_active: number | null;
   custom_id: string | null;
-  name: string;
+  name: string | null;
   responsible: K;
   creator: K;
   task_priority: K;
   end: string | null;
-  completion: number;
+  completion: number | null;
   description_plain: string | null;
 
   constructor(data: T) {
@@ -44,7 +45,11 @@ export class Task<T extends task> {
 
   get isOverdue(): boolean {
     if (!this.end) return false;
-    if (new Date(this.end).getTime() < Date.now() && this.completion < 100) {
+    if (
+      new Date(this.end).getTime() < Date.now() &&
+      this.completion !== null &&
+      this.completion < 100
+    ) {
       return true;
     }
     return false;
