@@ -24,6 +24,7 @@
               <td>{{ task.name ?? '-' }}</td>
               <td>{{ task.description_plain ?? '-' }}</td>
               <td>{{ task.responsible.name ?? '-' }}</td>
+              <!-- need to handle user name who are unavaible in current existing userlist -->
               <td>{{ task.creator.name ?? '-' }}</td>
               <td>{{ task.task_priority?.custom_id ?? '-' }}</td>
               <td>{{ task.displayEnd }}</td>
