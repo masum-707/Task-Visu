@@ -13,12 +13,24 @@ export class PaginationComponent {
 
   previous() {
     this.task.page.update((page) => (page -= 1));
-    this.task.getTask(this.task.page(), this.task.text(), this.task.sortType(), this.task.sortBy());
+    this.task.getTask(
+      this.task.page(),
+      this.task.userid(),
+      this.task.text(),
+      this.task.sortType(),
+      this.task.sortBy(),
+    );
   }
   next() {
     if (this.task.page() >= this.maxPage()) return;
     this.task.page.update((page) => (page += 1));
-    this.task.getTask(this.task.page(), this.task.text(), this.task.sortType(), this.task.sortBy());
+    this.task.getTask(
+      this.task.page(),
+      this.task.userid(),
+      this.task.text(),
+      this.task.sortType(),
+      this.task.sortBy(),
+    );
     // console.log(this.task.page());
   }
   maxPage = computed(() => {

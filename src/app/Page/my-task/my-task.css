@@ -1,0 +1,8 @@
+h1{
+display: flex;
+justify-self: center;
+}
+.myTask{
+margin: 0;
+padding-top: 0;
+}

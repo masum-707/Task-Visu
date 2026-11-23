@@ -16,6 +16,7 @@ export class TaskService {
 
   taskApiService = inject(ApiService);
   page = signal<number>(1);
+  userid = signal('');
   text = signal<string>('');
   sortType = signal<string>('');
   sortBy = signal<string>('');
@@ -30,11 +31,18 @@ export class TaskService {
     'task-priority': null,
   });
 
-  async getTask(page: number, text: string, sortType = '', sortBy = '') {
+  async getTask(page: number, id = '', text: string, sortType = '', sortBy = '') {
     try {
-      const result = await this.taskApiService.getTaskService(page, text, sortType, sortBy);
-      this.totalTasks.set(result.total ?? 0);
-      this.taskList.set(result.data.map((task: task) => new Task(task)) ?? []);
+      const result$ = await this.taskApiService.getTaskService(page, id, text, sortType, sortBy);
+      result$.subscribe({
+        next: (data: any) => {
+          this.totalTasks.set(data.total ?? 0);
+          this.taskList.set(data.data.map((task: task) => new Task(task)) ?? []);
+        },
+      });
+
+      // this.totalTasks.set(result.total ?? 0);
+      // this.taskList.set(result.data.map((task: task) => new Task(task)) ?? []);
     } catch (error) {
       console.log(error);
     }

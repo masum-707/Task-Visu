@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { config } from '../../config/config';
-import { first, firstValueFrom } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { task } from '../../models/task.model';
 import { AuthService } from '../auth-service/auth-service';
 
@@ -24,22 +24,30 @@ export class ApiService {
     }
   }
 
-  async getTaskService(page: number, text = '', sortType = '', sortBy = ''): Promise<any> {
+  async getTaskService(
+    page: number,
+    id = '',
+    text = '',
+    sortType = '',
+    sortBy = '',
+  ): Promise<Observable<any>> {
     try {
       let skip = (page - 1) * config.pageSize;
       let url = `${config.baseURL}task-visu/tasks?&is_active=true&completion_lt=100&top=${config.pageSize}&skip=${skip}&`;
+      if (id && this.authService.subResponsible())
+        url += `sub_responsible_id[]=${id}&exclude_responsible_id[]=${id}&`;
+      if (id && this.authService.myTask()) url += `responsible_id[]=${id}&`;
       if (text) url += `search=${text}&`;
       if (sortType && sortBy) url += `sort_order=${sortType}&sort_by=${sortBy}&`;
-      const response = await firstValueFrom(
-        this.apiService.get<any>(`${url}permission=TASKVISU_SUPERADMIN`, {
-          headers: this.headers,
-        }),
-      );
+      const response = this.apiService.get<any>(`${url}permission=TASKVISU_SUPERADMIN`, {
+        headers: this.headers,
+      });
+
       return response;
     } catch (e) {
       console.log(`Failed to get task`);
       // throw new Error('Failed ,task not avaiable');
-      return [];
+      return of([]);
     }
   }
 

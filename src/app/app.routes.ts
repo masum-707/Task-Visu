@@ -19,17 +19,24 @@ export const routes: Routes = [
   {
     path: 'tasks',
     canActivate: [authGuard],
-    loadComponent: () =>
-      import('./components/task-component/task-component').then((m) => m.TaskComponent),
+    loadComponent: () => import('./Page/all-task/all-task').then((m) => m.AllTask),
   },
 
   {
     path: 'dashboard',
     canActivate: [authGuard],
+    loadComponent: () => import('./Page/dashboard/dashboard').then((m) => m.Dashboard),
+  },
+  {
+    path: 'sub-responsible-task',
+    canActivate: [authGuard],
     loadComponent: () =>
-      import('./components/dashboard-component/dashboard-component').then(
-        (m) => m.DashboardComponent,
-      ),
+      import('./Page/sub-responsible-task/sub-responsible-task').then((m) => m.SubResponsibleTask),
+  },
+  {
+    path: 'myTask',
+    canActivate: [authGuard],
+    loadComponent: () => import('./Page/my-task/my-task').then((m) => m.MyTask),
   },
 
   {

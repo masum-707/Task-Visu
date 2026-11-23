@@ -27,12 +27,12 @@ export class TaskComponent implements OnInit {
   // }
 
   ngOnInit(): void {
-    this.taskService.getTask(
-      this.taskService.page(),
-      this.taskService.text(),
-      this.taskService.sortType(),
-      this.taskService.sortBy(),
-    );
+    // this.taskService.getTask(
+    //   this.taskService.page(),
+    //   this.taskService.text(),
+    //   this.taskService.sortType(),
+    //   this.taskService.sortBy(),
+    // );
   }
   // ngAfterViewChecked(): void {
   //   //Called after every check of the component's view. Applies to components only.

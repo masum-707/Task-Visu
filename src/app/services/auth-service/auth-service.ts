@@ -10,6 +10,8 @@ export class AuthService {
   token = this.localStorage.getInfoFromLocalStorage(config.storageKey.token);
   userInfo = this.localStorage.getInfoFromLocalStorage(config.storageKey.user);
   loginStatus = signal<boolean>(false);
+  myTask = signal(false);
+  subResponsible = signal(false);
 
   logOut(): void {
     this.loginStatus.set(false);
