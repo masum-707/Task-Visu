@@ -24,7 +24,6 @@
               <td>{{ task.name ?? '-' }}</td>
               <td>{{ task.description_plain ?? '-' }}</td>
               <td>{{ task.responsible.name ?? '-' }}</td>
-              <!-- need to handle user name who are unavailable in current existing userlist -->
               <td>{{ task.creator.name ?? '-' }}</td>
               <td>{{ task.task_priority?.custom_id ?? '-' }}</td>
               <td>{{ task.displayEnd }}</td>
@@ -33,7 +32,7 @@
               <td><button class="delete-btn">Delete</button></td>
             </tr>
           } @empty {
-            <h1 style="align-items: center;">No Task</h1>
+            <h1 style="justify-self: center;">No Task</h1>
           }
         </tbody>
       </table>

@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { TaskForm } from '../task-form/task-form';
 import { FormService } from '../../services/form-service/form';
+import { TaskService } from '../../services/task-service/task-service';
 
 @Component({
   selector: 'app-create-task',
@@ -10,10 +11,17 @@ import { FormService } from '../../services/form-service/form';
 })
 export class CreateTask {
   taskForm = inject(FormService);
+  taskService = inject(TaskService);
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
+    this.taskService.existingTaskById.set({});
+    this.taskForm.createtask.set(true);
+    this.taskForm.formStatus.set(true);
+  }
+  openForm() {
+    this.taskService.existingTaskById.set({});
     this.taskForm.createtask.set(true);
     this.taskForm.formStatus.set(true);
   }

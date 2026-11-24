@@ -4,7 +4,7 @@
     <div>Task Visu</div>
     <div>
       <span style="margin-right: 10px"
-        >User: {{ authService.userInfo?.username ? authService.userInfo.username : 'guest ' }}
+        >User: {{ authService.userInfo?.username ? authService.userInfo.username + ` Bhai`: 'guest ' }}
       </span>
       <button (click)="authService.logOut()">LogOut</button>
     </div>

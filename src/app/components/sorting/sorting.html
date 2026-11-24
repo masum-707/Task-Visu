@@ -1,0 +1,13 @@
+<div class="card" (click)="$event.stopPropagation()">
+  <strong>{{ headName() }}</strong>
+  <label for="search">
+    <input type="text" id="search" placeholder="type here to search...." />
+  </label>
+
+  <label for="sort">
+    <div>
+      <button type="button">Ascending</button> 
+      <button type="button">Descending</button>
+    </div>
+  </label>
+</div>
