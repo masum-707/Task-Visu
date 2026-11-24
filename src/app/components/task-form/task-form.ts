@@ -56,7 +56,7 @@ export class TaskForm {
         await this.apiService.updateExistingTask(this.taskService.task().id as number, updateTask);
         this.formService.formStatus.set(false);
         this.taskForm.reset();
-        this.taskService.existingTaskById = {};
+        this.taskService.existingTaskById.set({});
         console.log(this.taskService.task());
       } else {
         await this.apiService.createTask(this.taskForm.value);
@@ -104,7 +104,7 @@ export class TaskForm {
     effect(() => {
       const currentTask = this.taskService.task();
       if (currentTask && !this.formService.createtask()) {
-        // console.log(currentTask);
+        console.log(currentTask);
         this.taskForm.patchValue(currentTask);
       } else {
         this.taskForm.reset();

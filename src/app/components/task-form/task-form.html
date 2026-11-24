@@ -64,7 +64,13 @@
         <label>Responsible</label>
         <div class="field-wrapper">
           <select formControlName="user_id_responsible">
-            <option [ngValue]="null" disabled selected hidden>responsible name</option>
+            @if (taskService.existingTaskById()?.responsible; as responsible) {
+              <option [ngValue]="responsible.id" disabled selected hidden>
+                {{ responsible.name }}
+              </option>
+            } @else {
+              <option [ngValue]="null" disabled selected hidden>responsible name</option>
+            }
             @for (user of formService.userMap().values(); track user.id) {
               <option [value]="user.id">
                 {{ user.name }}
