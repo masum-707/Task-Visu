@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class TaskService {
   formService = inject(FormService);
   router = inject(Router);
+  existingTaskById = {};
 
   totalTasks = signal(0);
   taskList = signal<Task<task>[]>([]);
@@ -77,10 +78,11 @@ export class TaskService {
     }
   }
   async updateTask(taskId: any) {
-    const existingTaskById = await this.taskApiService.existingTask(taskId);
-    this.task.update((task) => (task = { ...this.task(), ...existingTaskById }));
+    this.existingTaskById = await this.taskApiService.existingTask(taskId);
+    this.formService.createtask.set(false);
+    this.task.update((task) => (task = { ...this.task(), ...this.existingTaskById }));
     this.formService.formStatus.set(true);
-    console.log(this.task());
-    // console.log(`need to update task,task Id`, taskId);
+    // console.log(this.task());
+    // console.log(`need to update task,task Id`, taskId, this.task());
   }
 }

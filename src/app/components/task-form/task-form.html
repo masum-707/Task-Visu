@@ -20,7 +20,7 @@
         <label>Active Status</label>
         <div class="field-wrapper">
           <select formControlName="is_active" required>
-            <option value="" disabled selected>Select a value</option>
+            <option [ngValue]="null" disabled selected>Select a value</option>
             <option value="1">TRUE</option>
             <option value="0">FALSE</option>
           </select>

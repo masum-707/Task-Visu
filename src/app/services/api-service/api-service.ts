@@ -61,6 +61,7 @@ export class ApiService {
       return response;
     } catch (e) {
       console.log(`failed to create new task`, e);
+      throw e;
     }
   }
 

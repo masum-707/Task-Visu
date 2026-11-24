@@ -47,10 +47,24 @@ export class TaskForm {
     }
 
     try {
-      await this.apiService.createTask(this.taskForm.value);
-      this.formService.formStatus.set(false);
-      this.taskForm.reset();
-      this.router.navigate(['/tasks']);
+      if ((this.taskService.task().id ?? false) && !this.formService.createtask) {
+        const updateTask = Object.fromEntries(
+          Object.entries(this.taskForm.value).filter(
+            ([key, value]) => (this.taskService.existingTaskById as any)[key] !== value,
+          ),
+        );
+        await this.apiService.updateExistingTask(this.taskService.task().id as number, updateTask);
+        this.formService.formStatus.set(false);
+        this.taskForm.reset();
+        this.taskService.existingTaskById = {};
+        console.log(this.taskService.task());
+      } else {
+        await this.apiService.createTask(this.taskForm.value);
+        console.log(this.taskForm.value);
+        this.formService.formStatus.set(false);
+        this.taskForm.reset();
+        this.router.navigate(['/tasks']);
+      }
     } catch (err) {
       const httpError = err as HttpErrorResponse;
       if (httpError.status === 422 && httpError.error?.errors) {
@@ -73,7 +87,7 @@ export class TaskForm {
   onCancel() {
     this.formService.formStatus.set(false);
     this.taskForm.reset();
-    this.router.navigate(['/tasks']);
+    // this.router.navigate(['/tasks']);
   }
 
   constructor() {
@@ -90,6 +104,7 @@ export class TaskForm {
     effect(() => {
       const currentTask = this.taskService.task();
       if (currentTask && !this.formService.createtask()) {
+        // console.log(currentTask);
         this.taskForm.patchValue(currentTask);
       } else {
         this.taskForm.reset();
