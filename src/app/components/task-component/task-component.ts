@@ -5,10 +5,12 @@ import { ApiService } from '../../services/api-service/api-service';
 import { PaginationComponent } from '../pagination-component/pagination-component';
 import { AuthService } from '../../services/auth-service/auth-service';
 import { SearchBar } from '../searchbar-component/search-bar';
+import { SortingService } from '../../services/sorting-service/sorting-service';
+import { Sorting } from '../sorting/sorting';
 
 @Component({
   selector: 'app-task-component',
-  imports: [PaginationComponent, SearchBar],
+  imports: [PaginationComponent, SearchBar, Sorting],
   templateUrl: './task-component.html',
   styleUrl: './task-component.css',
 })
@@ -17,6 +19,18 @@ export class TaskComponent implements OnInit {
   taskService = inject(TaskService);
   sidebarService = inject(Sidebar);
   authService = inject(AuthService);
+  sortingService = inject(SortingService);
+
+  handleHeaderClick(event: MouseEvent): void {
+    const target = event.target;
+    if (!(target instanceof Element)) {
+      return;
+    }
+    const datasetId = target.closest<HTMLTableCellElement>('th[data-id]')?.dataset['id'];
+    if (datasetId) {
+      this.sortingService.openSortingDialog(datasetId);
+    }
+  }
 
   // async ngOnInit() {
   //   const result = await this.taskService.getTaskService();

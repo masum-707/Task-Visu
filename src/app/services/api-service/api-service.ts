@@ -38,7 +38,8 @@ export class ApiService {
         url += `sub_responsible_id[]=${id}&exclude_responsible_id[]=${id}&`;
       if (id && this.authService.myTask()) url += `responsible_id[]=${id}&`;
       if (text) url += `search=${text}&`;
-      if (sortType && sortBy) url += `sort_order=${sortType}&sort_by=${sortBy}&`;
+      if (sortType) url += `sort_order=${sortType}&`;
+      if (sortBy) url += `sort_by=${sortBy}&`;
       const response = this.apiService.get<any>(`${url}permission=TASKVISU_SUPERADMIN`, {
         headers: this.headers,
       });

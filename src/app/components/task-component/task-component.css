@@ -61,3 +61,19 @@ tr:hover {
 body.sidebar-hidden .task-container {
     margin-left: 50px;
 }
+.search-actions{
+display: flex;  
+/* justify-content:space-between; */
+gap: 12px;
+margin-bottom: 10px;
+}
+.search-actions button{
+width: 80px;
+padding: 8px;
+margin-right: 10px;
+border-radius: 8px;
+background-color:rgb(34, 34, 70);
+color: white;
+font-weight: 700;
+cursor: pointer;
+}

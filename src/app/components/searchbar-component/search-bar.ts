@@ -14,7 +14,13 @@ export class SearchBar {
 
   search = this.debounceSearch.debounce((value: string) => {
     this.taskService.text.set(value);
-    console.log(this.taskService.text());
+     this.taskService.getTask(
+       this.taskService.page(),
+       this.taskService.userid(),
+       this.taskService.text(),
+       this.taskService.sortType(),
+       this.taskService.sortBy(),
+     );
   }, 500);
 
   onTyping(event: Event) {

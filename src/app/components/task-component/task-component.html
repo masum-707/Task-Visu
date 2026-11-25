@@ -1,18 +1,23 @@
 @if (authService.loginStatus()) {
   <div class="task-container" [class.sidebar-hidden]="sidebarService.isSidebarHidden()">
-    <app-searchbar-component></app-searchbar-component>
     <div class="table-container">
+      <div class="search-actions">
+        <app-searchbar-component></app-searchbar-component>
+        <button (click)="taskService.refresh()">Refresh</button>
+      </div>
+      <app-sorting></app-sorting>
+
       <table class="table">
-        <thead>
+        <thead (click)="handleHeaderClick($event)">
           <th>Active</th>
-          <th>Task Id</th>
-          <th>Task name</th>
-          <th>Description</th>
-          <th>Responsible</th>
-          <th>Creator</th>
-          <th>Priority</th>
-          <th>End Date</th>
-          <th>Progress</th>
+          <th data-id="custom_id">Task Id</th>
+          <th data-id="name">Task name</th>
+          <th data-id="description_plain">Description</th>
+          <th data-id="responsible.name">Responsible</th>
+          <th data-id="creator.name">Creator</th>
+          <th data-id="task_priority">Priority</th>
+          <th data-id="end">End Date</th>
+          <th data-id="completion">Progress</th>
           <th>OverDue</th>
           <th>Action</th>
         </thead>
@@ -32,7 +37,7 @@
               <td><button class="delete-btn">Delete</button></td>
             </tr>
           } @empty {
-            <h1 style="justify-self: center;">No Task</h1>
+            <h1 style="justify-self: center">No Task</h1>
           }
         </tbody>
       </table>

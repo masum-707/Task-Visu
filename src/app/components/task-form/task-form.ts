@@ -104,7 +104,7 @@ export class TaskForm {
     effect(() => {
       const currentTask = this.taskService.task();
       if (currentTask && !this.formService.createtask()) {
-        console.log(currentTask);
+        // console.log(currentTask);
         this.taskForm.patchValue(currentTask);
       } else {
         this.taskForm.reset();

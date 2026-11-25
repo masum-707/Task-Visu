@@ -32,6 +32,17 @@ export class TaskService {
     'task-priority': null,
   });
 
+  refresh() {
+    if (this.page() !== 1 || this.text() !== '' || this.sortBy() !== '' || this.sortType() !== '') {
+      this.page.set(1);
+      this.text.set('');
+      this.sortBy.set('');
+      this.sortType.set('');
+      this.getTask(this.page(), this.userid(), this.sortType(), this.sortBy());
+    }
+    return;
+  }
+
   async getTask(page: number, id = '', text: string, sortType = '', sortBy = '') {
     try {
       const result$ = await this.taskApiService.getTaskService(page, id, text, sortType, sortBy);

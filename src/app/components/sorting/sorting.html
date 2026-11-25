@@ -1,13 +1,14 @@
-<div class="card" (click)="$event.stopPropagation()">
-  <strong>{{ headName() }}</strong>
+@if(sortingService.isSortingActive())
+{<div class="card" style="position: relative;">
   <label for="search">
-    <input type="text" id="search" placeholder="type here to search...." />
-  </label>
-
-  <label for="sort">
-    <div>
-      <button type="button">Ascending</button> 
-      <button type="button">Descending</button>
+    <div style="width: 10px;">
+      <app-searchbar-component></app-searchbar-component>
     </div>
   </label>
-</div>
+  <label for="sort">
+    <div>
+      <button data-id="asc" type="button" (click)="sortingService.sortBy($event)">Ascending</button>
+      <button data-id="dsc" type="button" (click)="sortingService.sortBy($event)">Descending</button>
+    </div>
+  </label>
+</div>}
