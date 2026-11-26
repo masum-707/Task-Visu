@@ -17,6 +17,7 @@ export class LoginComponent {
   authService = inject(AuthService);
   taskService = inject(TaskService);
   errorMessage = signal('');
+  passwordVisible = signal(false);
 
   login = new FormGroup({
     username: new FormControl('', [Validators.required]),

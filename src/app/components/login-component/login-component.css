@@ -22,6 +22,33 @@ label{
 width: 90px;
 margin-bottom: 15px;
 }
+.password-field {
+    display: inline-flex;
+    position: relative;
+    align-items: center;
+}
+.password-field input {
+    width: 180px;
+    box-sizing: border-box;
+    padding-right: 34px;
+}
+.card .password-toggle {
+    position: absolute;
+    right: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 4px;
+    border: 0;
+    background: transparent;
+    color: #333;
+}
+.password-toggle svg {
+    width: 18px;
+    height: 18px;
+}
 .card button {
     text-align: center;
     padding: 5px;
