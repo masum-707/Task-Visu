@@ -1,11 +1,12 @@
-<div>
+<div class="task-create-container"  [class.sidebar-hidden]="sidebarService.isSidebarHidden()">
+  <h1 style="justify-self: center;margin-bottom: 50px;" >Create new Task</h1>
   <div>
-    <ul>
+    <ul style="font-weight: 700;">
       <li>Complete all mandatory fields marked with an asterisk (*) in the form</li>
       <li>Verify that all inputs and selections are accurate</li>
       <li>Click submit to save, or review the detailed error messages shown if any fields need correction</li>
     </ul>
-    <button (click)="openForm()">Open task form</button>
+    <button (click)="openForm()" class="create-btn">Create Task</button>
   </div>
   <app-task-form></app-task-form>
 </div>

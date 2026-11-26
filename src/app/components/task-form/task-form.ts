@@ -21,6 +21,7 @@ export class TaskForm {
   taskForm = new FormGroup(
     {
       name: new FormControl(this.taskService.task().name, [Validators.required]),
+      description_plain: new FormControl(this.taskService.task().description_plain),
       is_active: new FormControl(this.taskService.task().is_active, [Validators.required]),
       completion: new FormControl(this.taskService.task().completion, [
         Validators.required,
@@ -42,12 +43,12 @@ export class TaskForm {
   async onSubmit() {
     this.taskForm.markAllAsTouched();
     if (this.taskForm.invalid) {
-      console.log('validity failed');
+      // console.log('validity failed');
       return;
     }
 
     try {
-      if ((this.taskService.task().id ?? false) && !this.formService.createtask) {
+      if (this.taskService.task().id ?? false) {
         const updateTask = Object.fromEntries(
           Object.entries(this.taskForm.value).filter(
             ([key, value]) => (this.taskService.existingTaskById as any)[key] !== value,

@@ -1,0 +1,17 @@
+.task-create-container {
+    margin: 100px 50px 0 250px;
+    transition: margin-left 0.3s ease;
+}
+
+.task-create-container.sidebar-hidden {
+    margin-left: 50px;
+}
+
+.create-btn{
+padding: 8px;
+border-radius: 8px;
+color: white;
+background-color:rgb(34, 34, 70);
+font-weight: 700;
+margin-left:30px ;
+}

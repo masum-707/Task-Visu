@@ -24,6 +24,7 @@ export class TaskService {
 
   task = signal<Partial<task>>({
     name: null,
+    description_plain: null,
     is_active: null,
     completion: null,
     user_id_responsible: null,
@@ -74,6 +75,7 @@ export class TaskService {
       if (confirm('Are you sure you want\nto Delete this task')) {
         const row = deleteBtn.closest('tr');
         this.deleteTask(taskId);
+        row?.remove();
       }
       return;
     }
@@ -82,18 +84,18 @@ export class TaskService {
 
   deleteTask(taskId: any) {
     try {
-      // this.taskApiService.deleteTask(taskId);
-      console.log(`successfully delete task ,Task Id`, taskId);
+      this.taskApiService.deleteTask(taskId);
+      // console.log(`successfully delete task ,Task Id`, taskId);
     } catch (e) {
       console.log(`failed to delete task`, e);
     }
   }
   async updateTask(taskId: any) {
-    this.existingTaskById.set(await this.taskApiService.existingTask(taskId));
+    const existingTask = await this.taskApiService.existingTask(taskId);
+    this.existingTaskById.set(existingTask);
     this.formService.createtask.set(false);
     this.task.update((task) => (task = { ...this.task(), ...this.existingTaskById() }));
     this.formService.formStatus.set(true);
-    // console.log(this.task());
-    // console.log(`need to update task,task Id`, taskId, this.task());
+    // this.taskApiService.updateExistingTask(taskId, this.task());
   }
 }
